@@ -9,6 +9,11 @@ An mod for Among Us
 
 ## known bug
 
-Cannot show github button on Main menu
-
 This project cannot compile :(
+
+----------------------------
+
+## used:
+
+BepInEx
+tukasa001's TownOfHost

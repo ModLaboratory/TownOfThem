@@ -1,6 +1,0 @@
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\TownOfThem.csproj.AssemblyReference.cache
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\PluginInfo.cs
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\TownOfThem.GeneratedMSBuildEditorConfig.editorconfig
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\TownOfThem.AssemblyInfoInputs.cache
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\TownOfThem.AssemblyInfo.cs
-G:\Among Us Mod\自制模组\TownOfThem\obj\Debug\netstandard2.1\TownOfThem.csproj.CoreCompileInputs.cache

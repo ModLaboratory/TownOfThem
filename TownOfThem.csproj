@@ -11,25 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="AmongUs.GameLibs.Steam" Version="2022.12.14" />
-    <PackageReference Include="BepInEx.IL2CPP" Version="6.0.0-*" IncludeAssets="compile" />
-    <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>H:\amgus\AmongUs\BepInEx\unhollowed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2Cppmscorlib">
-      <HintPath>H:\amgus\AmongUs\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>H:\amgus\AmongUs\BepInEx\unhollowed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>H:\amgus\AmongUs\BepInEx\unhollowed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>H:\amgus\AmongUs\BepInEx\unhollowed\UnityEngine.UI.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Bepinex.IL2CPP" Version="6.0.0-be.577"/>
+    <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.1.1"/>
   </ItemGroup>
 </Project>

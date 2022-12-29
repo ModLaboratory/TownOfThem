@@ -1,0 +1,77 @@
+{
+  "format": 1,
+  "restore": {
+    "e:\\Code\\TownOfThem\\TownOfThem.csproj": {}
+  },
+  "projects": {
+    "e:\\Code\\TownOfThem\\TownOfThem.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "e:\\Code\\TownOfThem\\TownOfThem.csproj",
+        "projectName": "TownOfThem",
+        "projectPath": "e:\\Code\\TownOfThem\\TownOfThem.csproj",
+        "packagesPath": "C:\\Users\\罗也啊\\.nuget\\packages\\",
+        "outputPath": "e:\\Code\\TownOfThem\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "e:\\Code\\TownOfThem\\NuGet.Config",
+          "C:\\Users\\罗也啊\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.bepinex.dev/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "AmongUs.GameLibs.Steam": {
+              "target": "Package",
+              "version": "[2022.12.14, )"
+            },
+            "BepInEx.IL2CPP.MSBuild": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "Bepinex.IL2CPP": {
+              "target": "Package",
+              "version": "[6.0.0-be.577, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.404\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

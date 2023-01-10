@@ -1,5 +1,5 @@
 # TownOfThem
-An mod for Among Us
+A mod for Among Us
 
 ----------------------------
 
@@ -18,6 +18,11 @@ x
 ## to-do:
 
 Add roles
+
+Add RPCs
+
+Add Game Settings
+
 
 ----------------------------
 

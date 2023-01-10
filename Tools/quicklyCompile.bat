@@ -5,7 +5,7 @@ set startGamePath=
 set gamePath=
 ::Your game path here↑
 set sourcePath=
-::Your compile path file(an .sln file is in it)
+::Your compile path file(a .sln file is in it)
 cd /d %sourcePath%
 dotnet build
 pause

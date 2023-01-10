@@ -2,6 +2,7 @@ using System;
 using BepInEx;
 using HarmonyLib;
 
-namespace TownOfThem.CustomGameOptions{
-    //...
+namespace TownOfThem.CustomGameOptions
+{
+    
 }

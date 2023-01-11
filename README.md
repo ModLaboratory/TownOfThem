@@ -1,6 +1,6 @@
 ![ModLogo](Resources/totLogo.png)
 
-# TownOfThem
+# Town Of Them
 A mod for Among Us and it is planning!
 
 ----------------------------

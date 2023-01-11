@@ -19,17 +19,18 @@ x
 
 ## to-do:
 
-Add roles
+* Add roles
 
-Add RPCs
+* Add RPCs
 
-Add Game Settings
+* Add Game Settings
 
 
 ----------------------------
 
 ## used:
 
-BepInEx
+* [BepInEx](https://github.com/BepInEx/BepInEx)
 
-tukasa001's TownOfHost
+* [tukasa001](https://github.com/tukasa001)'s 
+[TownOfHost](https://github.com/tukasa001/TownOfHost)

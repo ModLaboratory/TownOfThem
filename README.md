@@ -13,18 +13,17 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## known bug
 
-x
+* Roles have so many bugs
 
 ----------------------------
 
 ## to-do:
 
-* Add roles
+* Fix role bugs
 
-* Add RPCs
+* Add more fun things
 
-* Add Game Settings
-
+* Can play roles with other players
 
 ----------------------------
 
@@ -34,3 +33,6 @@ x
 
 * [tukasa001](https://github.com/tukasa001)'s 
 [TownOfHost](https://github.com/tukasa001/TownOfHost)
+
+* [TheOtherRolesAU](https://github.com/TheOtherRolesAU)'s 
+[TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)

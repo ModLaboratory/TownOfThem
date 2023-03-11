@@ -1,12 +1,22 @@
-﻿using System;
+﻿using HarmonyLib;
+using Hazel;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using TownOfThem.Utilities;
 using UnityEngine;
+using TownOfThem.CustomRPCs;
+using Unity.Services.Core.Telemetry.Internal;
 
 namespace TownOfThem.ModHelpers
 {
+    public enum MurderAttemptResult
+    {
+        PerformKill,
+        SuppressKill,
+        BlankKill,
+    }
     class ModHelpers
     {
         public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
@@ -24,5 +34,21 @@ namespace TownOfThem.ModHelpers
         {
             return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", Convert.ToByte(c.r), Convert.ToByte(c.g), Convert.ToByte(c.b), Convert.ToByte(c.a), s);
         }
+        public static void ShareVersion()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPCs.CustomRPC.ShareModVersion, Hazel.SendOption.Reliable, -1);
+            writer.Write((byte)AmongUsClient.Instance.ClientId);
+            writer.Write((byte)Main.IntModVer);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            RPCProcedure.ShareModVersion(AmongUsClient.Instance.ClientId, Main.IntModVer);
+        }
+        public static PlayerControl playerById(byte id)
+        {
+            foreach (PlayerControl player in CachedPlayer.AllPlayers)
+                if (player.PlayerId == id)
+                    return player;
+            return null;
+        }
+        
     }
 }

@@ -1,17 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>TownOfThem</AssemblyName>
-    <Description>My first plugin</Description>
+    <Description>A Mod for Among Us</Description>
     <Version>1.0.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2022.12.14" />
-    <PackageReference Include="Bepinex.IL2CPP" Version="6.0.0-be.577"/>
-    <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="1.1.1"/>
+    	<EmbeddedResource Include="Resources\**" />
   </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.02.28" />
+	  <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" />
+	  <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.664" Private="false" ExcludeAssets="runtime;native" />
+	  <PackageReference Include="Reactor" Version="2.1.0" />
+  </ItemGroup>
+
+  
+
+  
+
 </Project>

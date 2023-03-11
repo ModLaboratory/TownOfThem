@@ -10,7 +10,7 @@ namespace TownOfThem.DebugModePatches
     {
         public static void Prefix(GameStartManager __instance)
         {
-            if (TownOfThem.CreateGameOptions.CustomGameOptions.DebugMode.getBool())
+            if (TownOfThem.CreateCustomObjects.CustomGameOptions.DebugMode.getBool())
             {
                 __instance.MinPlayers = 0;
                 __instance.countDownTimer = 0;

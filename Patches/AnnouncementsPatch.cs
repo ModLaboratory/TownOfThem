@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
+using Il2CppSystem.Runtime.ExceptionServices;
 
 namespace TownOfThem.AnnouncementsPatch
-{
-    [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.UpdateAnnounceText))]
+{    [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.UpdateAnnouncementText))]
     class AnnouncementsPatch
     {
-        public static string AnnouncementText = "I am an idiot";
-        public static bool Prefix(AnnouncementPopUp __instance)
+        
+        public static string AnnouncementText = "test";
+        /*public static bool Prefix(AnnouncementPopUp __instance)
         {
-            __instance.AnnounceTextMeshPro.text = AnnouncementText;
             return false;
-        }
+        }*/
     }
 }

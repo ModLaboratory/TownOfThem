@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using static PlayerControl;
+using static TownOfThem.Language.Translation;
 
 namespace TownOfThem.ChatCommandPatches
 {
@@ -17,7 +18,7 @@ namespace TownOfThem.ChatCommandPatches
             switch (command[0].ToLower())
             {
                 case "/help":
-                    LocalPlayer.RpcSendChat(TownOfThem.Language.Language.LoadTranslation("cmdHelp"));
+                    LocalPlayer.RpcSendChat(LoadTranslation("cmdHelp"));
                     break;
                 case "/name":
                     LocalPlayer.RpcSetName(command[1]);
@@ -46,11 +47,11 @@ namespace TownOfThem.ChatCommandPatches
                     LocalPlayer.RpcCompleteTask(Convert.ToUInt32(command[1]));
                     break;
                 case "/language":
-                    TownOfThem.Language.Language.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
-                    if (TownOfThem.Language.Language.Translation["ModLanguage"] == "0" && command[1] != "0")
+                    TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
+                    if (TownOfThem.Language.Translation.Translations["ModLanguage"] == "0" && command[1] != "0")
                     {
                         LocalPlayer.RpcSendChat($"Your Language:{(SupportedLangs)Convert.ToInt32(command[1])} Load Error!\nLanguage Not Support.\nBack To Old Language:{(SupportedLangs)Main.LanguageID.Value}");
-                        TownOfThem.Language.Language.LoadLanguage((SupportedLangs)Main.LanguageID.Value);
+                        TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)Main.LanguageID.Value);
                     }
                     else
                     {
@@ -67,13 +68,19 @@ namespace TownOfThem.ChatCommandPatches
                             case "0":
                                 break;
                             case "1":
-                                LocalPlayer.RpcSetName($"{playerName}\n{TownOfThem.Main.ModName} v{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Language.LoadTranslation("CantPlayWithoutMod")}");
+                                LocalPlayer.RpcSetName($"{playerName}\n{TownOfThem.Main.ModName} v{TownOfThem.Main.ModVer}\n{LoadTranslation("CantPlayWithoutMod")}");
                                 break;
                             case "2":
                                 LocalPlayer.RpcSetName($"{playerName}\n{TownOfThem.Main.HostCustomName.Value}");
                                 break;
                         }
                     }
+                    break;
+                case "/startminplayer":
+                    GameStartManager.Instance.MinPlayers = Convert.ToInt32(command[1]);
+                    break;
+                case "/pet":
+                    LocalPlayer.RpcSetPet(command[1]);
                     break;
             }
             

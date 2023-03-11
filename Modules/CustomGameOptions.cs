@@ -6,11 +6,12 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TownOfThem.Utilities;
-using static TownOfThem.CustomGameOptions.CustomOption;
+using static TownOfThem.CustomObjects.CustomOption;
 using TownOfThem.GetGameOptionsText;
+using static TownOfThem.Language.Translation;
 
 //used TheOtherRoles' code
-namespace TownOfThem.CustomGameOptions
+namespace TownOfThem.CustomObjects
 {
     public class CustomOption
     {
@@ -81,7 +82,7 @@ namespace TownOfThem.CustomGameOptions
         public static CustomOption Create(int id, CustomOptionType type, string name, bool defaultValue, CustomOption parent = null, bool isHeader = false)
         {
             Main.Log.LogInfo("Custom Option Added:" + id + "," + type + "," + name + "," + defaultValue + "," + parent + "," + isHeader);
-            return new CustomOption(id, type, name, new string[] { TownOfThem.Language.Language.LoadTranslation("Off"), TownOfThem.Language.Language.LoadTranslation("On") }, defaultValue ? TownOfThem.Language.Language.LoadTranslation("On") : TownOfThem.Language.Language.LoadTranslation("Off"), parent, isHeader);
+            return new CustomOption(id, type, name, new string[] { LoadTranslation("Off"), LoadTranslation("On") }, defaultValue ? LoadTranslation("On") : LoadTranslation("Off"), parent, isHeader);
         }
 
         // Static behaviour
@@ -220,11 +221,11 @@ namespace TownOfThem.CustomGameOptions
             bool isReturn = setNames(
                 new Dictionary<string, string>()
                 {
-                    ["totSettings"] = TownOfThem.Language.Language.LoadTranslation("totSettings"),
-                    ["ImpostorSettings"] = TownOfThem.Language.Language.LoadTranslation("ImpostorSettings"),
-                    ["NeutralSettings"] = TownOfThem.Language.Language.LoadTranslation("NeutralSettings"),
-                    ["CrewmateSettings"] = TownOfThem.Language.Language.LoadTranslation("CrewmateSettings"),
-                    ["ModifierSettings"] = TownOfThem.Language.Language.LoadTranslation("ModifierSettings")
+                    ["totSettings"] = LoadTranslation("totSettings"),
+                    ["ImpostorSettings"] = LoadTranslation("ImpostorSettings"),
+                    ["NeutralSettings"] = LoadTranslation("NeutralSettings"),
+                    ["CrewmateSettings"] = LoadTranslation("CrewmateSettings"),
+                    ["ModifierSettings"] = LoadTranslation("ModifierSettings")
                 });
 
             if (isReturn) return;
@@ -553,27 +554,27 @@ namespace TownOfThem.CustomGameOptions
                 switch (counter)
                 {
                     case 0:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage1")} \n\n" + __result;
+                        hudString += $"{LoadTranslation("ckptPage1")} \n\n" + __result;
                         break;
                     case 1:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage2")} \n" + Cockpit_GetGameOptionText.GetModSettingGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage2")} \n" + Cockpit_GetGameOptionText.GetModSettingGameOptions();
                         break;
                     case 2:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage3")} \n" + Cockpit_GetGameOptionText.GetImpostorGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage3")} \n" + Cockpit_GetGameOptionText.GetImpostorGameOptions();
                         break;
                     case 3:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage4")} \n" + Cockpit_GetGameOptionText.GetNeutralGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage4")} \n" + Cockpit_GetGameOptionText.GetNeutralGameOptions();
                         break;
                     case 4:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage5")} \n" + Cockpit_GetGameOptionText.GetCrewmateGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage5")} \n" + Cockpit_GetGameOptionText.GetCrewmateGameOptions();
                         break;
                     case 5:
-                        hudString += $"{TownOfThem.Language.Language.LoadTranslation("ckptPage6")} \n" + Cockpit_GetGameOptionText.GetModifierGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage6")} \n" + Cockpit_GetGameOptionText.GetModifierGameOptions();
                         break;
                 }
             
 
-            hudString += $"\n {TownOfThem.Language.Language.LoadTranslation("ckptToOtherPages")} ({counter + 1}/{maxPage})";
+            hudString += $"\n {LoadTranslation("ckptToOtherPages")} ({counter + 1}/{maxPage})";
             __result = hudString;
         }
     }

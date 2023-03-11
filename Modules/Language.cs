@@ -1,32 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using HarmonyLib;
+using System.Collections.Generic;
 using static TownOfThem.Main;
 
 namespace TownOfThem.Language
 {
-    class Language
+    class Translation
     {
-        public static Dictionary<string, string> Translation =new Dictionary<string,string>();
+        public static Dictionary<string, string> Translations =new Dictionary<string,string>();
+        /// <summary>
+        /// Load language and check it
+        /// </summary>
+        /// <param name="lang">Language</param>
         public static void LoadLanguage(SupportedLangs lang)
         {
-            Translation.Clear();
-            Translation = AddLanguageText(lang);
+            Translations.Clear();
+            Translations = AddLanguageText(lang);
             Log.LogInfo("Language Text Added!");
-            if (Translation.ContainsKey("Error"))
+            if (Translations.ContainsKey("Error"))
             {
                 Log.LogError("Unknown Language Load Error!");
             }
-            if (Translation.Count == 0)
+            if (Translations.Count == 0)
             {
                 Log.LogError("Language Pack:" + lang + " Is Empty!");
-                Translation.Clear();
-                Translation = AddLanguageText(SupportedLangs.English);
-                if (Translation.Count == 0)
+                Translations.Clear();
+                Translations = AddLanguageText(SupportedLangs.English);
+                if (Translations.Count == 0)
                 {
                     Log.LogError("Hard Error:Language Pack" + SupportedLangs.English + " is Missing!");
                     ModDamaged = true;
                 }
             }
         }
+        /// <summary>
+        /// Add Language Text
+        /// </summary>
+        /// <param name="id">Language ID</param>
+        /// <returns>A Dictionary contains LanguageText</returns>
         public static Dictionary<string,string> AddLanguageText(SupportedLangs id)
         {
             bool ContainsLang = id == SupportedLangs.English || id == SupportedLangs.SChinese;//Add Your Languages Here
@@ -118,9 +128,10 @@ namespace TownOfThem.Language
                     };
                 //template
                 /*
-                case SupportLangs.YourLanguage:
+                case SupportedLangs.YourLanguage:
                     return new Dictionary<string, string>()
                     {
+                        ["ModLanguage"]="YourLanguageID",
                         ["Key1"]="TranslatedText1",
                         ["Key2"]="TranslatedText2",
                     };
@@ -130,19 +141,24 @@ namespace TownOfThem.Language
                     return new Dictionary<string, string>() { ["Error"]="Error" };
             }
         }
+        /// <summary>
+        /// Load language from a Dictionary
+        /// </summary>
+        /// <param name="key">Key word</param>
+        /// <returns>Return your key when there is a exception / Return translation text</returns>
         public static string LoadTranslation(string key)
         {
             try
             {
-                string returnValue = Translation[key];
+                string returnValue = Translations[key];
             }
             catch(KeyNotFoundException Error)
             {
                 Log.LogError("Can not find translation key: " + key + " More Infomation: " + Error);
                 return key;
             }
-            Log.LogInfo("Translation Loaded:" + key + "," + Translation[key]);
-            return Translation[key];
+            Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);
+            return Translations[key];
         }
         
     }

@@ -13,8 +13,6 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 ## known bug
 
-* Roles have so many bugs
-
 ----------------------------
 
 ## to-do:
@@ -23,7 +21,9 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 * Add more fun things
 
-* Can play roles with other players
+* Add Roles
+
+* ......
 
 ----------------------------
 

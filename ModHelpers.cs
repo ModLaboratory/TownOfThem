@@ -8,6 +8,8 @@ using TownOfThem.Utilities;
 using UnityEngine;
 using TownOfThem.CustomRPCs;
 using Unity.Services.Core.Telemetry.Internal;
+using Reactor;
+using Reactor.Networking.Attributes;
 
 namespace TownOfThem.ModHelpers
 {
@@ -34,14 +36,7 @@ namespace TownOfThem.ModHelpers
         {
             return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", Convert.ToByte(c.r), Convert.ToByte(c.g), Convert.ToByte(c.b), Convert.ToByte(c.a), s);
         }
-        public static void ShareVersion()
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPCs.CustomRPC.ShareModVersion, Hazel.SendOption.Reliable, -1);
-            writer.Write((byte)AmongUsClient.Instance.ClientId);
-            writer.Write((byte)Main.IntModVer);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.ShareModVersion(AmongUsClient.Instance.ClientId, Main.IntModVer);
-        }
+        
         public static PlayerControl playerById(byte id)
         {
             foreach (PlayerControl player in CachedPlayer.AllPlayers)

@@ -73,7 +73,7 @@ namespace TownOfThem.CustomRPCs
                     byte target = reader.ReadByte();
                     byte showAnimation = reader.ReadByte();
                     RPCProcedure.uncheckedMurderPlayer(source, target, showAnimation);
-                    break;
+                    break; 
             }
         }
     }

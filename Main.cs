@@ -32,7 +32,6 @@ namespace TownOfThem
         public const string ModGUID = "cn.JieGe.TownOfThem";
         public const string ModName = "<color=#FF8C00>Town Of Them</color>";
         public const string ModVer = "0.0.0.1";
-        public static int IntModVer = 0;
         public static readonly string GithubLink = "https://github.com/JieGeLovesDengDuaLang/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
         public static ConfigEntry<int> LanguageID;

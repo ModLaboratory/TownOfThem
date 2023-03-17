@@ -5,6 +5,8 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 # Town Of Them
 A mod for Among Us and it is planning!
 
+*~~I am so tired...~~*
+
 * 中文版README：[点这里](README_SChinese.md)
 ----------------------------
 
@@ -13,12 +15,6 @@ A mod for Among Us and it is planning!
 ----------------------------
 
 ## to-do:
-
-* Fix role bugs
-
-* Add more fun things
-
-* Add Roles
 
 * ......
 
@@ -33,3 +29,6 @@ A mod for Among Us and it is planning!
 
 * [TheOtherRolesAU](https://github.com/TheOtherRolesAU)'s 
 [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)
+
+* [NuclearPowered](https://github.com/NuclearPowered)'s
+[Reactor](https://github.com/NuclearPowered/Reactor)

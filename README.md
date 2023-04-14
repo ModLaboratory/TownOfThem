@@ -20,7 +20,7 @@ A mod for Among Us and it is planning!
 
 ----------------------------
 
-## used:
+## Special Thanks:
 
 * [BepInEx](https://github.com/BepInEx/BepInEx)
 
@@ -29,4 +29,3 @@ A mod for Among Us and it is planning!
 
 * [TheOtherRolesAU](https://github.com/TheOtherRolesAU)'s 
 [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)
-

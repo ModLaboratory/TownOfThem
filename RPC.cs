@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using TownOfThem.CustomObjects;
 using TownOfThem.Utilities;
-using TownOfThem.PlayersPatch;
+using TownOfThem.Patch;
 
 namespace TownOfThem.CustomRPCs
 {

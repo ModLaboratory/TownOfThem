@@ -1,11 +1,8 @@
-﻿using HarmonyLib;
+﻿using Cpp2IL.Core.Analysis.Actions.x86.Important;
+using HarmonyLib;
 using TownOfThem.CreateCustomObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Sentry;
 
-namespace TownOfThem.IntroPatch
+namespace TownOfThem.Patch
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.BeginImpostor))]
     class ImpostorIntroPatch
@@ -47,7 +44,7 @@ namespace TownOfThem.IntroPatch
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class ShowRolePatch
     {
-        public static void Prefix(IntroCutscene __instance)
+        public static void Postfix(IntroCutscene __instance)
         {
             switch (CustomGameOptions.gameModes.selection)
             {
@@ -58,8 +55,7 @@ namespace TownOfThem.IntroPatch
                     __instance.RoleBlurbText.text = "成为最后一个站着的男人！";
                     __instance.RoleText.text = "roletext";
                     break;
-            };
-            ;
+            }
         }
     }
 

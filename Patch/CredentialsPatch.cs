@@ -4,7 +4,7 @@ using UnityEngine;
 using static TownOfThem.Language.Translation;
 
 //used TownOfHost's code
-namespace TownOfThem.CredentialsPatch
+namespace TownOfThem.Patch
 {
     [HarmonyPatch]
     public class MainMenuButtonPatch

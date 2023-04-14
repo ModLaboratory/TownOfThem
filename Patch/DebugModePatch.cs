@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TownOfThem.DebugModePatch
+namespace TownOfThem.Patch
 {
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.Update))]
     class StartGamePatch

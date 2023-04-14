@@ -28,7 +28,11 @@ namespace TownOfThem
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
         public static ConfigEntry<int> LanguageID;
         public static ConfigEntry<string> HostCustomName;
-        
+
+
+        public static bool IsMeeting = false;
+
+
         public Harmony Harmony { get; } = new Harmony(ModGUID);
         public override void Load()
         {

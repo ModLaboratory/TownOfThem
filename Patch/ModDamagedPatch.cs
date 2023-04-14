@@ -3,7 +3,7 @@ using HarmonyLib;
 using UnityEngine;
 using static TownOfThem.Main;
 
-namespace TownOfThem.ModDamagedPatch
+namespace TownOfThem.Patch
 {
     [HarmonyPatch]
     class DeleteAllMainMenuButton

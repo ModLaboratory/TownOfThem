@@ -7,10 +7,6 @@ namespace TownOfThem.Language
     class Translation
     {
         public static Dictionary<string, string> Translations =new Dictionary<string,string>();
-        /// <summary>
-        /// Load language and check it
-        /// </summary>
-        /// <param name="lang">Language</param>
         public static void LoadLanguage(SupportedLangs lang)
         {
             Translations.Clear();
@@ -39,11 +35,6 @@ namespace TownOfThem.Language
         //       LoadLanguage(TranslationController.Instance.currentLanguage.languageID)
         //    }
         //}
-        /// <summary>
-        /// Add Language Text
-        /// </summary>
-        /// <param name="id">Language ID</param>
-        /// <returns>A Dictionary contains LanguageText</returns>
         public static Dictionary<string,string> AddLanguageText(SupportedLangs id)
         {
             bool ContainsLang = id == SupportedLangs.English || id == SupportedLangs.SChinese;//Add Your Languages Here
@@ -165,12 +156,12 @@ namespace TownOfThem.Language
             {
                 string returnValue = Translations[key];
             }
-            catch(KeyNotFoundException Error)
+            catch (KeyNotFoundException Error)
             {
                 Log.LogError("Can not find translation key: " + key + " More Infomation: " + Error);
                 return key;
             }
-            Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);
+            //Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);
             return Translations[key];
         }
         

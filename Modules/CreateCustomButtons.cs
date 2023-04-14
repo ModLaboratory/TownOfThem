@@ -9,7 +9,7 @@ using TownOfThem.CustomRPCs;
 using TownOfThem.Roles;
 using TownOfThem.Utilities;
 using UnityEngine;
-using TownOfThem.PlayersPatch;
+using TownOfThem.Patch;
 using TownOfThem.ModHelpers;
 
 namespace TownOfThem.CreateCustomObjects

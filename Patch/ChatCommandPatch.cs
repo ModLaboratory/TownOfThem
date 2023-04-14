@@ -6,7 +6,7 @@ using UnityEngine;
 using static PlayerControl;
 using static TownOfThem.Language.Translation;
 
-namespace TownOfThem.ChatCommandPatch
+namespace TownOfThem.Patch
 {
     [HarmonyPatch(typeof(ChatController),nameof(ChatController.SendChat))]
     class ChatCommandPatch

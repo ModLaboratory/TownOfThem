@@ -95,7 +95,7 @@ namespace TownOfThem.Language
                         ["CantPlayWithoutMod"] = "Can't Play With Players Who Don't Have Mod",
                         ["CustomGamemodes"] = "Gamemodes",
                         ["Gamemode_Classic"] = "Classic",
-                        ["GameMode_BattleRoyale"] = "Battle Royale",
+                        ["Gamemode_BattleRoyale"] = "Battle Royale",
                     };
                 case SupportedLangs.SChinese:
                     return new Dictionary<string, string>()
@@ -137,7 +137,7 @@ namespace TownOfThem.Language
                         ["CantPlayWithoutMod"] = "无法和原版玩家玩",
                         ["CustomGamemodes"] = "游戏模式",
                         ["Gamemode_Classic"] = "原版玩法",
-                        ["GameMode_BattleRoyale"] = "太空决斗",
+                        ["Gamemode_BattleRoyale"] = "太空决斗",
                     };
                 //template
                 /*

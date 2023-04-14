@@ -30,5 +30,3 @@ A mod for Among Us and it is planning!
 * [TheOtherRolesAU](https://github.com/TheOtherRolesAU)'s 
 [TheOtherRoles](https://github.com/TheOtherRolesAU/TheOtherRoles)
 
-* [NuclearPowered](https://github.com/NuclearPowered)'s
-[Reactor](https://github.com/NuclearPowered/Reactor)

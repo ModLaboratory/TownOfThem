@@ -6,8 +6,6 @@ using BepInEx.Configuration;
 using System;
 using System.Runtime;
 using BepInEx.Unity.IL2CPP;
-using Reactor.Networking.Attributes;
-using Reactor.Networking;
 
 namespace TownOfThem
 {
@@ -16,13 +14,7 @@ namespace TownOfThem
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-
-        public static int TBY = 0;
-        public static int TBMon = 0;
-        public static int TBD = 0;
-        public static int TBH = 0;
-        public static int TBMin = 0;
-        public static int TBS = 0;
+        public static DateTime tbdt = new DateTime(2022, 12, 21);
         public static bool TB = false;
         public static bool versionSent = false;
         internal static new ManualLogSource Log;
@@ -47,14 +39,7 @@ namespace TownOfThem
             //TownOfThem.Language.Translation.LoadLanguage(TranslationController.Instance.currentLanguage.languageID);
             if (TB)
             {
-                if(
-                    DateTime.Now.Year>=TBY &&
-                    DateTime.Now.Month>=TBMon&&
-                    DateTime.Now.Day>=TBD&&
-                    DateTime.Now.Hour>=TBH&&
-                    DateTime.Now.Minute>=TBMin&&
-                    DateTime.Now.Second>=TBS
-                  )
+                if(DateTime.Now == tbdt)
                 {
                     Main.Log.LogError("Mod Error!");
                     return;

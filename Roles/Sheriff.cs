@@ -15,7 +15,7 @@
 //    {
 //        //public static void Postfix()
 //        //{
-//        //    if (TownOfThem.IntroPatches.IntroPatches.MyRoleID != 100) return;
+//        //    if (TownOfThem.IntroPatch.IntroPatch.MyRoleID != 100) return;
 //        //    if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
 //        //    {
 //        //        string PlayerName = PlayerControl.LocalPlayer.name;
@@ -36,7 +36,7 @@
 //        //{
 //        //    if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
 //        //    {
-//        //        if (TownOfThem.IntroPatches.IntroPatches.MyRoleID == 100)
+//        //        if (TownOfThem.IntroPatch.IntroPatch.MyRoleID == 100)
 //        //        {
 //        //            if (__instance.currentTarget.Data.RoleType != RoleTypes.Impostor)
 //        //            {

@@ -53,7 +53,7 @@ namespace TownOfThem.CustomRPCs
     }
 
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.HandleRpc))]
-    class RPCHandlerPatches
+    class RPCHandlerPatch
     {
         static void Postfix([HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {

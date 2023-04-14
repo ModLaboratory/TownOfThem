@@ -8,8 +8,7 @@ using TownOfThem.Utilities;
 using UnityEngine;
 using TownOfThem.CustomRPCs;
 using Unity.Services.Core.Telemetry.Internal;
-using Reactor;
-using Reactor.Networking.Attributes;
+using JetBrains.Annotations;
 
 namespace TownOfThem.ModHelpers
 {
@@ -36,14 +35,26 @@ namespace TownOfThem.ModHelpers
         {
             return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", Convert.ToByte(c.r), Convert.ToByte(c.g), Convert.ToByte(c.b), Convert.ToByte(c.a), s);
         }
-        
+
         public static PlayerControl playerById(byte id)
         {
-            foreach (PlayerControl player in CachedPlayer.AllPlayers)
+            foreach (PlayerControl player in PlayerControl.AllPlayerControls)
                 if (player.PlayerId == id)
                     return player;
             return null;
         }
-        
-    }
+
+        public static Il2CppSystem.Collections.Generic.List<PlayerControl> GetAlivePlayerList()
+        {
+            Il2CppSystem.Collections.Generic.List<PlayerControl> pcAliveList = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+            foreach(PlayerControl pc in PlayerControl.AllPlayerControls)
+            {
+                if (!pc.Data.IsDead)
+                {
+                    pcAliveList.Add(pc);
+                }
+            }
+            return pcAliveList;
+        }
+    } 
 }

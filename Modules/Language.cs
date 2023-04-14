@@ -32,6 +32,13 @@ namespace TownOfThem.Language
                 }
             }
         }
+        //public static void LoadLanguage()
+        //{
+        //    if (TranslationController.Instance.currentLanguage == null)
+        //    {
+        //       LoadLanguage(TranslationController.Instance.currentLanguage.languageID)
+        //    }
+        //}
         /// <summary>
         /// Add Language Text
         /// </summary>
@@ -85,7 +92,10 @@ namespace TownOfThem.Language
                         ["HostSuggestName"] = "Host Suggest Name(You Can Add Custom Text In Config File)",
                         ["HostSuggestName2"] = "Mod Name+Ver",
                         ["HostSuggestName3"] = "Custom",
-                        ["CantPlayWithoutMod"]="Can't Play With Players Who Don't Have Mod",
+                        ["CantPlayWithoutMod"] = "Can't Play With Players Who Don't Have Mod",
+                        ["CustomGamemodes"] = "Gamemodes",
+                        ["Gamemode_Classic"] = "Classic",
+                        ["GameMode_BattleRoyale"] = "Battle Royale",
                     };
                 case SupportedLangs.SChinese:
                     return new Dictionary<string, string>()
@@ -125,6 +135,9 @@ namespace TownOfThem.Language
                         ["HostSuggestName2"] = "模组名称+版本",
                         ["HostSuggestName3"] = "自定义",
                         ["CantPlayWithoutMod"] = "无法和原版玩家玩",
+                        ["CustomGamemodes"] = "游戏模式",
+                        ["Gamemode_Classic"] = "原版玩法",
+                        ["GameMode_BattleRoyale"] = "太空决斗",
                     };
                 //template
                 /*
@@ -162,5 +175,12 @@ namespace TownOfThem.Language
         }
         
     }
-
+    /*[HarmonyPatch(typeof(TranslationController),nameof(TranslationController.Awake))]
+    class Test
+    {
+        public static void Postfix(TranslationController __instance)
+        {
+            System.Console.WriteLine("awake");
+        }
+    }*/
 }

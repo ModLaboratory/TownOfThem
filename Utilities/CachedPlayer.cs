@@ -34,7 +34,7 @@ namespace TownOfThem.Utilities
     }
 
     [HarmonyPatch]
-    public static class CachedPlayerPatches
+    public static class CachedPlayerPatch
     {
         [HarmonyPatch]
         private class CacheLocalPlayerPatch

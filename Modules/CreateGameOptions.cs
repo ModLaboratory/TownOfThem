@@ -9,6 +9,7 @@ namespace TownOfThem.CreateCustomObjects
         public static string[] ratesModifier = new string[] { "1", "2", "3" };
         public static string[] presets = new string[] { LoadTranslation("Preset1"), LoadTranslation("Preset2"), LoadTranslation("Preset3"), LoadTranslation("Preset4"), LoadTranslation("Preset5") };
         public static string[] hostName = new string[] { LoadTranslation("Off"), LoadTranslation("HostSuggestName2"), LoadTranslation("HostSuggestName3") };
+        public static string[] gamemodes = new string[] { LoadTranslation("Gamemode_Classic"), LoadTranslation("Gamemode_BattleRoyale") };
         //host
         public static CustomOption HostName;
         //debug
@@ -22,6 +23,8 @@ namespace TownOfThem.CreateCustomObjects
         public static CustomOption impostorRolesCountMax;
         public static CustomOption modifiersCountMin;
         public static CustomOption modifiersCountMax;*/
+        //gamemodes
+        public static CustomOption gameModes;
         //sheriff
         public static CustomOption Sheriff;
         public static CustomOption SheriffMaxPlayer;
@@ -36,9 +39,10 @@ namespace TownOfThem.CreateCustomObjects
         public static void Load()
         {
             //host
-            HostName = CustomOption.Create(60, CustomOption.CustomOptionType.General, LoadTranslation("HostSuggestName"), hostName, null, true);
+            //HostName = CustomOption.Create(60, CustomOption.CustomOptionType.General, LoadTranslation("HostSuggestName"), hostName, null, true);
             //debug
             DebugMode = CustomOption.Create(50, CustomOption.CustomOptionType.General, "Debug Mode", false, null, true);
+            
             //sheriff
             Sheriff = CustomOption.Create(100, CustomOption.CustomOptionType.Crewmate, LoadTranslation("Sheriff"), rates, null, true);
             SheriffMaxPlayer = CustomOption.Create(101, CustomOption.CustomOptionType.Crewmate, LoadTranslation("MaxPlayer"), 1, 1, 15, 1, Sheriff, false);
@@ -50,6 +54,12 @@ namespace TownOfThem.CreateCustomObjects
             //handicapped
             Handicapped = CustomOption.Create(120, CustomOption.CustomOptionType.Modifier, LoadTranslation("Handicapped"), rates, null, true);
             HandicappedMaxPlayer = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, LoadTranslation("MaxPlayer"), 1, 1, 15, 1, Handicapped, false);
+            //gamemodes
+            gameModes = CustomOption.Create(130, CustomOption.CustomOptionType.General, LoadTranslation("CustomGamemodes"), gamemodes, null, true);
+        }
+        public static void ReloadString()
+        {
+
         }
     }
     

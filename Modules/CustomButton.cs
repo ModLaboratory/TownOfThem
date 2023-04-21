@@ -154,16 +154,8 @@ namespace TownOfThem.CustomObjects
 
         public void setActive(bool isActive)
         {
-            if (isActive)
-            {
-                actionButtonGameObject.SetActive(true);
-                actionButtonRenderer.enabled = true;
-            }
-            else
-            {
-                actionButtonGameObject.SetActive(false);
-                actionButtonRenderer.enabled = false;
-            }
+            actionButtonGameObject.SetActive(isActive);
+            actionButtonRenderer.enabled = isActive;
         }
 
         public void Update()

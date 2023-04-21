@@ -11,6 +11,7 @@ using TownOfThem.Utilities;
 using UnityEngine;
 using TownOfThem.Patch;
 using TownOfThem.ModHelpers;
+using Cpp2IL.Core.Analysis.Actions.x86.Important;
 
 namespace TownOfThem.CreateCustomObjects
 {
@@ -19,6 +20,7 @@ namespace TownOfThem.CreateCustomObjects
     {
         public static bool initialized = false;
         public static CustomButton sheriffKillButton;
+        public static CustomButton leaderMeetingButton;
         public static CustomButton battleRoyaleKillButton;
         public static void Postfix(HudManager __instance)
         {
@@ -27,12 +29,41 @@ namespace TownOfThem.CreateCustomObjects
             try
             {
                 createButtonsPostfix(__instance);
+                leaderMeetingButton.setActive(true);
             }
-            catch { }
+            catch { Main.Log.LogMessage("error create button"); }
         }
 
         public static void createButtonsPostfix(HudManager __instance)
         {
+            leaderMeetingButton = new CustomButton
+            (
+                () =>
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        pc.ReportDeadBody(PlayerControl.LocalPlayer.Data);
+                    }
+                },
+                () =>
+                {
+                    return true;
+                },
+                () =>
+                {
+                    return true;
+                },
+                () =>
+                {
+                    leaderMeetingButton.setActive(true);
+                },
+                HudManager.Instance.ReportButton.graphic.sprite,
+                CustomButton.ButtonPositions.lowerRowRight,
+                __instance,
+                KeyCode.M,
+                false,
+                "Meeting"
+            );
             /*battleRoyaleKillButton = new CustomButton
             (
                 () => 

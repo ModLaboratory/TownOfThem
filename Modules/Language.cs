@@ -28,13 +28,6 @@ namespace TownOfThem.Language
                 }
             }
         }
-        //public static void LoadLanguage()
-        //{
-        //    if (TranslationController.Instance.currentLanguage == null)
-        //    {
-        //       LoadLanguage(TranslationController.Instance.currentLanguage.languageID)
-        //    }
-        //}
         public static Dictionary<string,string> AddLanguageText(SupportedLangs id)
         {
             bool ContainsLang = id == SupportedLangs.English || id == SupportedLangs.SChinese;//Add Your Languages Here
@@ -166,12 +159,12 @@ namespace TownOfThem.Language
         }
         
     }
-    /*[HarmonyPatch(typeof(TranslationController),nameof(TranslationController.Awake))]
+    [HarmonyPatch(typeof(TranslationController),nameof(TranslationController.Initialize))]
     class Test
     {
         public static void Postfix(TranslationController __instance)
         {
-            System.Console.WriteLine("awake");
+            Translation.LoadLanguage(__instance.currentLanguage.languageID);
         }
-    }*/
+    }
 }

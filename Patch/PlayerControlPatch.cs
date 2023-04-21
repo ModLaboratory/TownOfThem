@@ -18,4 +18,12 @@ namespace TownOfThem.Patch
             hideNextAnimation = false;
         }
     }
+    [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.OnGameStart))]
+    class OnGameStartPatch
+    {
+        public static void Postfix(PlayerControl __instance)
+        {
+            __instance.SetRole(AmongUs.GameOptions.RoleTypes.Impostor);
+        }
+    }
 }

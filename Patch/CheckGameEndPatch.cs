@@ -19,14 +19,14 @@ namespace TownOfThem.Patch
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            if (CustomGameOptions.DebugMode.getBool()) return false;
             if (!GameData.Instance) return false;
-            if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.E))
+            if ((Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.E)) || (Input.GetKeyDown(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.E)))
             {
                 GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HostForceGameEnd, false);
                 return false;
             }
             if (CheckAndEndForBattleRoyaleLastPlayerWin()) return false;
+            if (CustomGameOptions.DebugMode.getBool()) return false;
             return true;
         }
         public static bool CheckAndEndForBattleRoyaleLastPlayerWin()

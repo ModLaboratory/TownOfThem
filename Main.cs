@@ -26,7 +26,7 @@ namespace TownOfThem
         public const string ModVer = "0.0.0.1";
         public static readonly string GithubLink = "https://github.com/JieGeLovesDengDuaLang/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
-        public static ConfigEntry<int> LanguageID;
+        //public static ConfigEntry<int> LanguageID;
         public static ConfigEntry<string> HostCustomName;
 
 
@@ -36,20 +36,19 @@ namespace TownOfThem
         public Harmony Harmony { get; } = new Harmony(ModGUID);
         public override void Load()
         {
-            Main.Log = base.Log;
-            LanguageID = Config.Bind("TownOfThemMod", "LanguageID", 0, "Mod Language ID");
+            Log = base.Log;
+            //LanguageID = Config.Bind("TownOfThemMod", "LanguageID", 0, "Mod Language ID");
             HostCustomName = Config.Bind("TownOfThemMod", "HostCustomName", "", "Host Custom Name");
-            Main.Log.LogInfo("Town Of Them is loaded!");
-            //TownOfThem.Language.Translation.LoadLanguage(TranslationController.Instance.currentLanguage.languageID);
+            Log.LogInfo("Town Of Them is loaded!");
             if (TB)
             {
                 if(DateTime.Now == tbdt)
                 {
-                    Main.Log.LogError("Mod Error!");
+                    Log.LogError("Mod Error!");
                     return;
                 }
             }
-            TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)LanguageID.Value);
+            //TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)LanguageID.Value);
             TownOfThem.CreateCustomObjects.CustomGameOptions.Load();
             Harmony.PatchAll();
 

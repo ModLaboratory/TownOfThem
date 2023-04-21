@@ -46,7 +46,7 @@ namespace TownOfThem.Patch
                 case "/finishtask":
                     LocalPlayer.RpcCompleteTask(Convert.ToUInt32(command[1]));
                     break;
-                case "/language":
+                /*case "/language":
                     TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
                     if (TownOfThem.Language.Translation.Translations["ModLanguage"] == "0" && command[1] != "0")
                     {
@@ -58,7 +58,7 @@ namespace TownOfThem.Patch
                         Main.LanguageID.Value = Convert.ToInt32(command[1]);
                         LocalPlayer.RpcSendChat($"OK!\nNow Mod Language:{(SupportedLangs)Convert.ToInt32(command[1])}\nConfig file(Mod Default Language)Edited!");
                     }
-                    break;
+                    break;*/
                 case "/hostname":
                     string playerName = LocalPlayer.name;
                     if (AmongUsClient.Instance.AmHost)

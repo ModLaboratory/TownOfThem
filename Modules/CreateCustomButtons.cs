@@ -29,9 +29,8 @@ namespace TownOfThem.CreateCustomObjects
             try
             {
                 createButtonsPostfix(__instance);
-                leaderMeetingButton.setActive(true);
             }
-            catch { Main.Log.LogMessage("error create button"); }
+            catch { Main.Log.LogMessage("Error creating button!"); }
         }
 
         public static void createButtonsPostfix(HudManager __instance)
@@ -110,6 +109,12 @@ namespace TownOfThem.CreateCustomObjects
             //    __instance,
             //    KeyCode.Q
             //);
+
+
+
+            leaderMeetingButton.setActive(true);
+
+
             initialized = true;
         }
 

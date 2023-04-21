@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using TownOfThem.CreateCustomObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace TownOfThem.Patch
@@ -20,20 +15,25 @@ namespace TownOfThem.Patch
         public static bool Prefix(ShipStatus __instance)
         {
             if (!GameData.Instance) return false;
-            if ((Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.E)) || (Input.GetKeyDown(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.E)))
-            {
-                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HostForceGameEnd, false);
-                return false;
-            }
-            if (CheckAndEndForBattleRoyaleLastPlayerWin()) return false;
+            if (CheckAndEndForHostPressesHotkeyToForceEndGame()) return false;
+            if (CheckAndEndForBattleRoyaleLastPlayerWins()) return false;
             if (CustomGameOptions.DebugMode.getBool()) return false;
             return true;
         }
-        public static bool CheckAndEndForBattleRoyaleLastPlayerWin()
+        private static bool CheckAndEndForBattleRoyaleLastPlayerWins()
         {
             if (TownOfThem.ModHelpers.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
             {
                 GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BattleRoyaleLastPlayerWin, false);
+                return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndForHostPressesHotkeyToForceEndGame()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKeyDown(KeyCode.E))
+            {
+                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HostForceGameEnd, false);
                 return true;
             }
             return false;

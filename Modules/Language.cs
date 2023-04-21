@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using static TownOfThem.Main;
 
 namespace TownOfThem.Language
@@ -160,11 +161,27 @@ namespace TownOfThem.Language
         
     }
     [HarmonyPatch(typeof(TranslationController),nameof(TranslationController.Initialize))]
-    class Test
+    class TrsCtrlInitPatch
     {
         public static void Postfix(TranslationController __instance)
         {
             Translation.LoadLanguage(__instance.currentLanguage.languageID);
+        }
+    }
+    [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.SetLanguage))]
+    class TrsCtrlSetLanguagePatch
+    {
+        public static void Postfix(TranslationController __instance, [HarmonyArgument(0)] TranslatedImageSet lang)
+        {
+            foreach(var l in __instance.Languages)
+            {
+                if (l.Value == lang)
+                {
+                    Translation.LoadLanguage(l.Key);
+                    break;
+                }
+            }
+            
         }
     }
 }

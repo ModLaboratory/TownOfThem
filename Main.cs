@@ -16,7 +16,6 @@ namespace TownOfThem
     {
         public static DateTime tbdt = new DateTime(2022, 12, 21);
         public static bool TB = false;
-        public static bool versionSent = false;
         internal static new ManualLogSource Log;
         public static Main Instance;
         public static bool ModDamaged = false;

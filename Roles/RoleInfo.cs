@@ -1,16 +1,26 @@
-﻿using System;
+﻿using AmongUs.GameOptions;
+using HarmonyLib;
+using Il2CppSystem.Xml.Schema;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
+using UnityEngine;
 
-namespace TownOfThem.RoleInfo
+namespace TownOfThem.Roles
 {
     enum RoleId
     {
-        Sheriff=100,
-        Jester=110,
-        Handicapped=120,
+        Sheriff = 100,
+
     }
-    class RoleInfo
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]
+    class RpcSetRolePatch
     {
+        public static void Prefix(PlayerControl __instance,RoleTypes roleType)
+        {
+
+        }
     }
+
 }

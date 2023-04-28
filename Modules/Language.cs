@@ -62,6 +62,7 @@ namespace TownOfThem.Language
                         ["SheriffKillLimit"] = "Sheriff Kill Limit",
                         ["Jester"] = "<color=#EC62A5>Jester</color>",
                         ["Handicapped"] = "<color=#808080>Handicapped</color>",
+                        ["HandicappedSpeed"] = "Handicapped speed",
                         ["On"] = "On",
                         ["Off"] = "Off",
                         ["Bilibili"] = "BILIBILI",
@@ -81,13 +82,15 @@ namespace TownOfThem.Language
                         ["CustomGamemodes"] = "Gamemodes",
                         ["Gamemode_Classic"] = "Classic",
                         ["Gamemode_BattleRoyale"] = "Battle Royale",
+                        ["PlayerCheckError1"] = "has no mod or other mods.",
+                        ["PlayerCheckError2"] = "has a different version of TownOfThem or other mods.",
                     };
                 case SupportedLangs.SChinese:
                     return new Dictionary<string, string>()
                     {
                         ["ModLanguage"] = "13",
-                        ["ModInfo1"]="杰哥制作",
-                        ["totBirthday"]="生日快乐，",
+                        ["ModInfo1"] = "杰哥制作",
+                        ["totBirthday"] = "生日快乐，",
                         ["totSettings"] = "他们的小镇设置",
                         ["ImpostorSettings"] = "内鬼职业设置",
                         ["NeutralSettings"] = "中立职业设置",
@@ -104,6 +107,7 @@ namespace TownOfThem.Language
                         ["SheriffKillLimit"] = "警长击杀次数",
                         ["Jester"] = "<color=#EC62A5>小丑</color>",
                         ["Handicapped"] = "<color=#808080>残疾人</color>",
+                        ["HandicappedSpeed"] = "残疾人速度",
                         ["On"] = "开",
                         ["Off"] = "关",
                         ["Bilibili"]="哔哩哔哩",
@@ -123,6 +127,8 @@ namespace TownOfThem.Language
                         ["CustomGamemodes"] = "游戏模式",
                         ["Gamemode_Classic"] = "原版玩法",
                         ["Gamemode_BattleRoyale"] = "太空决斗",
+                        ["PlayerCheckError1"] = "没有安装模组或安装了其它模组",
+                        ["PlayerCheckError2"] = "安装了其他版本的Town Of Them或其它模组",
                     };
                 //template
                 /*
@@ -134,16 +140,10 @@ namespace TownOfThem.Language
                         ["Key2"]="TranslatedText2",
                     };
                  */
-                //don't change this!!!
                 default:
                     return new Dictionary<string, string>() { ["Error"]="Error" };
             }
         }
-        /// <summary>
-        /// Load language from a Dictionary
-        /// </summary>
-        /// <param name="key">Key word</param>
-        /// <returns>Return your key when there is a exception / Return translation text</returns>
         public static string LoadTranslation(string key)
         {
             try
@@ -171,7 +171,7 @@ namespace TownOfThem.Language
     [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.SetLanguage))]
     class TrsCtrlSetLanguagePatch
     {
-        public static void Postfix(TranslationController __instance, [HarmonyArgument(0)] TranslatedImageSet lang)
+        public static bool Prefix(TranslationController __instance, TranslatedImageSet lang)
         {
             foreach(var l in __instance.Languages)
             {
@@ -181,7 +181,7 @@ namespace TownOfThem.Language
                     break;
                 }
             }
-            
+            return true;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TownOfThem.CreateCustomObjects
         public static string[] hostName = new string[] { LoadTranslation("Off"), LoadTranslation("HostSuggestName2"), LoadTranslation("HostSuggestName3") };
         public static string[] gamemodes = new string[] { LoadTranslation("Gamemode_Classic"), LoadTranslation("Gamemode_BattleRoyale") };
         //host
-        public static CustomOption HostName;
+        //public static CustomOption HostName;
         //debug
         public static CustomOption DebugMode;
         //roleCount
@@ -36,6 +36,7 @@ namespace TownOfThem.CreateCustomObjects
         //handicapped
         public static CustomOption Handicapped;
         public static CustomOption HandicappedMaxPlayer;
+        public static CustomOption HandicappedSpeed;
         public static void Load()
         {
             //host
@@ -54,6 +55,7 @@ namespace TownOfThem.CreateCustomObjects
             //handicapped
             Handicapped = CustomOption.Create(120, CustomOption.CustomOptionType.Modifier, LoadTranslation("Handicapped"), rates, null, true);
             HandicappedMaxPlayer = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, LoadTranslation("MaxPlayer"), 1, 1, 15, 1, Handicapped, false);
+            HandicappedSpeed = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, LoadTranslation("HandicappedSpeed"), 1, 1, 3, 0.25f, Handicapped, false);
             //gamemodes
             gameModes = CustomOption.Create(130, CustomOption.CustomOptionType.General, LoadTranslation("CustomGamemodes"), gamemodes, null, true);
         }

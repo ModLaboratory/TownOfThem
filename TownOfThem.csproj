@@ -20,6 +20,11 @@
 	  <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.664" Private="false" ExcludeAssets="runtime;native" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Roles\Imp\" />
+    <Folder Include="Roles\Modi\" />
+  </ItemGroup>
+
   
 
   

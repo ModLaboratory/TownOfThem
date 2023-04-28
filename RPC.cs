@@ -11,7 +11,7 @@ namespace TownOfThem.CustomRPCs
 {
     public enum CustomRPC:uint
     {
-        ShareOptions=100,
+        ShareOptions = 100,
         ShareModVersion,
         UncheckedMurderPlayer,
     }
@@ -35,9 +35,9 @@ namespace TownOfThem.CustomRPCs
                 Main.Log.LogError("Error while deserializing options: " + e.Message);
             }
         }
-        public static void ShareModVersion(int cntID, int ver)
+        public static void ShareModVersion(uint pcNetID, string ver)
         {
-            //TownOfThem.PlayersPatch.SendModVer.playerVersion[cntID] = ver;
+            SendModVer.playerVersion[pcNetID] = ver;
         }
         public static void uncheckedMurderPlayer(byte sourceId, byte targetId, byte showAnimation)
         {
@@ -64,16 +64,22 @@ namespace TownOfThem.CustomRPCs
                     RPCProcedure.HandleShareOptions(reader.ReadByte(), reader);
                     break;
                 case (byte)CustomRPC.ShareModVersion:
-                    byte cntID = reader.ReadByte();
-                    byte ver = reader.ReadByte();
-                    RPCProcedure.ShareModVersion(cntID, ver);
+                    uint netID = reader.ReadUInt32();
+                    string ver = reader.ReadString();
+                    RPCProcedure.ShareModVersion(netID, ver);
                     break;
                 case (byte)CustomRPC.UncheckedMurderPlayer:
                     byte source = reader.ReadByte();
                     byte target = reader.ReadByte();
                     byte showAnimation = reader.ReadByte();
                     RPCProcedure.uncheckedMurderPlayer(source, target, showAnimation);
-                    break; 
+                    break;
+                default:
+                    if (!Enum.IsDefined(typeof(RpcCalls), packetId))
+                    {
+                        Main.Log.LogError($"Unknown RPC: {packetId.ToString()}");
+                    }
+                    break;
             }
         }
     }

@@ -4,9 +4,12 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using System;
+using System.Reflection;
 
+[assembly: AssemblyFileVersion(TownOfThem.Main.ModVer)]
+[assembly: AssemblyInformationalVersion(TownOfThem.Main.ModVer)]
+[assembly: AssemblyVersion(TownOfThem.Main.ModVer)]
 namespace TownOfThem;
-
 
 [BepInPlugin(ModGUID, "TownOfThem", ModVer)]
 [BepInProcess("Among Us.exe")]

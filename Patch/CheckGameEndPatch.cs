@@ -2,41 +2,40 @@
 using TownOfThem.CreateCustomObjects;
 using UnityEngine;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patch;
+
+enum CustomGameOverReason
 {
-    enum CustomGameOverReason
+    BattleRoyaleLastPlayerWin,
+    HostForceGameEnd,
+}
+[HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
+class CheckGameEndPatch
+{
+    public static bool Prefix(ShipStatus __instance)
     {
-        BattleRoyaleLastPlayerWin,
-        HostForceGameEnd,
+        if (!GameData.Instance) return false;
+        if (CheckAndEndForHostPressesHotkeyToForceEndGame()) return false;
+        if (CheckAndEndForBattleRoyaleLastPlayerWins()) return false;
+        if (CustomGameOptions.DebugMode.getBool()) return false;
+        return true;
     }
-    [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
-    class CheckGameEndPatch
+    private static bool CheckAndEndForBattleRoyaleLastPlayerWins()
     {
-        public static bool Prefix(ShipStatus __instance)
+        if (TownOfThem.ModHelpers.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
         {
-            if (!GameData.Instance) return false;
-            if (CheckAndEndForHostPressesHotkeyToForceEndGame()) return false;
-            if (CheckAndEndForBattleRoyaleLastPlayerWins()) return false;
-            if (CustomGameOptions.DebugMode.getBool()) return false;
+            GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BattleRoyaleLastPlayerWin, false);
             return true;
         }
-        private static bool CheckAndEndForBattleRoyaleLastPlayerWins()
+        return false;
+    }
+    private static bool CheckAndEndForHostPressesHotkeyToForceEndGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKeyDown(KeyCode.E))
         {
-            if (TownOfThem.ModHelpers.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
-            {
-                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BattleRoyaleLastPlayerWin, false);
-                return true;
-            }
-            return false;
+            GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HostForceGameEnd, false);
+            return true;
         }
-        private static bool CheckAndEndForHostPressesHotkeyToForceEndGame()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape) && Input.GetKeyDown(KeyCode.E))
-            {
-                GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.HostForceGameEnd, false);
-                return true;
-            }
-            return false;
-        }
+        return false;
     }
 }

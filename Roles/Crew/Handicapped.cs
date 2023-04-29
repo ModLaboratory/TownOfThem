@@ -1,13 +1,6 @@
-﻿using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine.EventSystems;
+﻿namespace TownOfThem.Roles.Crew;
 
-namespace TownOfThem.Roles.Crew
+class Handicapped
 {
-    class Handicapped
-    {
-        public static float speed = CreateCustomObjects.CustomGameOptions.HandicappedSpeed.getFloat();
-    }
+    public static float speed = CreateCustomObjects.CustomGameOptions.HandicappedSpeed.getFloat();
 }

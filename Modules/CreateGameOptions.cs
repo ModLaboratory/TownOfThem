@@ -11,7 +11,7 @@ namespace TownOfThem.CreateCustomObjects
         public static string[] hostName = new string[] { LoadTranslation("Off"), LoadTranslation("HostSuggestName2"), LoadTranslation("HostSuggestName3") };
         public static string[] gamemodes = new string[] { LoadTranslation("Gamemode_Classic"), LoadTranslation("Gamemode_BattleRoyale") };
         //host
-        //public static CustomOption HostName;
+        public static CustomOption HostName;
         //debug
         public static CustomOption DebugMode;
         //roleCount

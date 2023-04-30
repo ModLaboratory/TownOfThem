@@ -4,7 +4,7 @@ using static TownOfThem.Main;
 
 namespace TownOfThem.Language;
 
-class Translation
+public static class Translation
 {
     public static Dictionary<string, string> Translations = new Dictionary<string, string>();
     public static void LoadLanguage(SupportedLangs lang)
@@ -129,6 +129,36 @@ class Translation
                     ["PlayerCheckError1"] = "没有安装模组或安装了其它模组",
                     ["PlayerCheckError2"] = "安装了其他版本的Town Of Them或其它模组",
                 };
+                /*
+            case SupportedLangs.Latam:
+                break;
+            case SupportedLangs.Brazilian:
+                break;
+            case SupportedLangs.Portuguese:
+                break;
+            case SupportedLangs.Korean:
+                break;
+            case SupportedLangs.Russian:
+                break;
+            case SupportedLangs.Dutch:
+                break;
+            case SupportedLangs.Filipino:
+                break;
+            case SupportedLangs.French:
+                break;
+            case SupportedLangs.German:
+                break;
+            case SupportedLangs.Italian:
+                break;
+            case SupportedLangs.Japanese:
+                break;
+            case SupportedLangs.Spanish:
+                break;
+            case SupportedLangs.TChinese:
+                break;
+            case SupportedLangs.Irish:
+                break;
+                */
             //template
             /*
             case SupportedLangs.YourLanguage:

@@ -9,14 +9,14 @@ namespace TownOfThem.Patch;
 [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
 class SendModVer
 {
-    public static Dictionary<uint, string> playerVersion;
+    public static Dictionary<uint, string> playerVersion = new();
     public static bool versionSent = false;
     public static void Postfix()
     {
         if (!versionSent)
         {
-            ShareVersion();
             versionSent = true;
+            ShareVersion();
         }
     }
     public static void ShareVersion()

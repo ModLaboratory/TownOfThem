@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿global using Hazel;
+using BepInEx;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using BepInEx.Logging;

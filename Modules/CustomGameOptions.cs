@@ -390,7 +390,7 @@ namespace TownOfThem.CustomObjects
         private static SpriteRenderer getTabHighlight(GameObject tab, string tabName, string tabSpritePath)
         {
             var tabHighlight = tab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
-            tab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = TownOfThem.ModHelpers.ModHelpers.LoadSprite(tabSpritePath, 100f);
+            tab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = TownOfThem.ModHelpers.LoadSprite(tabSpritePath, 100f);
             tab.name = "tabName";
 
             return tabHighlight;
@@ -549,7 +549,7 @@ namespace TownOfThem.CustomObjects
         {
             if (GameOptionsManager.Instance.currentGameOptions.GameMode == AmongUs.GameOptions.GameModes.HideNSeek) return; // Allow Vanilla Hide N Seek
             int counter = TownOfThem.Main.optionsPage;
-            string hudString = counter != 0 ? TownOfThem.ModHelpers.ModHelpers.cs(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "(Use scroll wheel if necessary)\n\n") : "";
+            string hudString = counter != 0 ? TownOfThem.ModHelpers.cs(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "(Use scroll wheel if necessary)\n\n") : "";
             int maxPage = 6;
                 switch (counter)
                 {

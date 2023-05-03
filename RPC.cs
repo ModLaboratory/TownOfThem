@@ -42,8 +42,8 @@ namespace TownOfThem.CustomRPCs
         public static void uncheckedMurderPlayer(byte sourceId, byte targetId, byte showAnimation)
         {
             if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
-            PlayerControl source = ModHelpers.ModHelpers.playerById(sourceId);
-            PlayerControl target = ModHelpers.ModHelpers.playerById(targetId);
+            PlayerControl source = ModHelpers.playerById(sourceId);
+            PlayerControl target = ModHelpers.playerById(targetId);
             if (source != null && target != null)
             {
                 if (showAnimation == 0) KillAnimationCoPerformKillPatch.hideNextAnimation = true;

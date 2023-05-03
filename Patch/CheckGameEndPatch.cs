@@ -22,7 +22,7 @@ namespace TownOfThem.Patch
         }
         private static bool CheckAndEndForBattleRoyaleLastPlayerWins()
         {
-            if (TownOfThem.ModHelpers.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
+            if (TownOfThem.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
             {
                 GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BattleRoyaleLastPlayerWin, false);
                 return true;

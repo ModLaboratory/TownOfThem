@@ -93,10 +93,10 @@ namespace TownOfThem.GetGameOptionsText
         public static string GetModSettingGameOptions()
         {
 
-            string ModSettingOptions =
-                HostName.name + ":" + (HostName.getBool() ? LoadTranslation("On") : LoadTranslation("Off")) + "\n" + 
-                DebugMode.name + ":"+ (DebugMode.getBool() ? LoadTranslation("On") : LoadTranslation("Off")) + "\n";
-            return ModSettingOptions;
+            //string ModSettingOptions =
+            //    HostName.name + ":" + (HostName.getBool() ? LoadTranslation("On") : LoadTranslation("Off")) + "\n" + 
+            //    DebugMode.name + ":"+ (DebugMode.getBool() ? LoadTranslation("On") : LoadTranslation("Off")) + "\n";
+            return "";
         }
         public static string GetModifierGameOptions()
         {

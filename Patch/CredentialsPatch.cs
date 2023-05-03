@@ -62,9 +62,16 @@ namespace TownOfThem.Patch
             totlogo.transform.position = Vector3.up;
             totlogo.transform.localScale *= 1.2f;
             var renderer = totlogo.AddComponent<SpriteRenderer>();
-            renderer.sprite = ModHelpers.ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
+            renderer.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
 
-            
+            var localButton = GameObject.Find("PlayLocalButton");
+            var onlineButton = GameObject.Find("PlayOnlineButton");
+            var freeplayButton = GameObject.Find("FreeplayButton");
+            var howtoplayButton = GameObject.Find("HowToPlayButton");
+            localButton.transform.position = new Vector3(2.85f, 1.15f, 0);
+            onlineButton.transform.position = new Vector3(2.85f, 0.3f, 0);
+            freeplayButton.transform.position = new Vector3(2.85f, -0.95f, 0);
+            howtoplayButton.transform.position = new Vector3(2.85f, -0.4f, 0);
         }
      }
 

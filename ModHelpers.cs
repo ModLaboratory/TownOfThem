@@ -10,7 +10,7 @@ using TownOfThem.CustomRPCs;
 using Unity.Services.Core.Telemetry.Internal;
 using JetBrains.Annotations;
 
-namespace TownOfThem.ModHelpers
+namespace TownOfThem
 {
     public enum MurderAttemptResult
     {

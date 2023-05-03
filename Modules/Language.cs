@@ -5,7 +5,7 @@ using static TownOfThem.Main;
 
 namespace TownOfThem.Language
 {
-    class Translation
+    public static class Translation
     {
         public static Dictionary<string, string> Translations =new Dictionary<string,string>();
         public static void LoadLanguage(SupportedLangs lang)

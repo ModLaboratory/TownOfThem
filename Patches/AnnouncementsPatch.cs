@@ -5,7 +5,8 @@ using HarmonyLib;
 using Il2CppSystem.Runtime.ExceptionServices;
 
 namespace TownOfThem.Patch
-{    [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.UpdateAnnouncementText))]
+{    
+    [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.UpdateAnnouncementText))]
     class AnnouncementsPatch
     {
         

@@ -63,21 +63,21 @@ namespace TownOfThem.CreateCustomObjects
                 true,
                 true,
             );*/
-            sheriffKillButton = new CustomButton(
-                () =>
-                {
-                    if (Sheriff.target == null) return;
-                    //if(Sheriff.target==)
+            //sheriffKillButton = new CustomButton(
+            //    () =>
+            //    {
+            //        if (Sheriff.target == null) return;
+            //        //if(Sheriff.target==)
                     
-                },
-                () => {  },
-                () => {  },
-                () => { sheriffKillButton.Timer = sheriffKillButton.MaxTimer; },
-                __instance.KillButton.graphic.sprite,
-                CustomButton.ButtonPositions.upperRowRight,
-                __instance,
-                KeyCode.Q
-            );
+            //    },
+            //    () => {  },
+            //    () => {  },
+            //    () => { sheriffKillButton.Timer = sheriffKillButton.MaxTimer; },
+            //    __instance.KillButton.graphic.sprite,
+            //    CustomButton.ButtonPositions.upperRowRight,
+            //    __instance,
+            //    KeyCode.Q
+            //);
 
 
 

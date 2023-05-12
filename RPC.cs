@@ -7,6 +7,7 @@ using TownOfThem.CustomObjects;
 using TownOfThem.Utilities;
 using TownOfThem.Patch;
 using TownOfThem.Roles;
+using TownOfThem.Roles.Crew;
 
 namespace TownOfThem.CustomRPCs
 {
@@ -52,6 +53,16 @@ namespace TownOfThem.CustomRPCs
                 source.MurderPlayer(target);
             }
         }
+        public static void SetRole(byte target,int roleID)
+        {
+            var targetPC = ModHelpers.playerById(target);
+            switch (roleID)
+            {
+                case (int)RoleId.Sheriff:
+                    Sheriff.player = targetPC;
+                    break;
+            }
+        }
     }
 
     [HarmonyPatch(typeof(PlayerControl),nameof(PlayerControl.HandleRpc))]
@@ -75,6 +86,10 @@ namespace TownOfThem.CustomRPCs
                     byte target = reader.ReadByte();
                     byte showAnimation = reader.ReadByte();
                     RPCProcedure.uncheckedMurderPlayer(source, target, showAnimation);
+                    break;
+                case (byte)CustomRPC.SetRole:
+                    byte roleTarget = reader.ReadByte();
+                    int roleID = reader.ReadInt32();
                     break;
                 default:
                     if (!Enum.IsDefined(typeof(RpcCalls), packetId))

@@ -83,7 +83,7 @@ namespace TownOfThem.Patch
             var credentials = UnityEngine.Object.Instantiate(__instance.text);
             if((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
             {
-                credentials.text = LoadTranslation("totBirthday")+$"{TownOfThem.Main.ModName}!\nv{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Translation.Translations["ModInfo1"]}";
+                credentials.text = LoadTranslation("totBirthday")+$"{TownOfThem.Main.ModName}!\nv{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Translation.LoadTranslation("ModInfo1")}";
             }
             else
             {

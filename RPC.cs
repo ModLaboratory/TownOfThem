@@ -6,6 +6,7 @@ using System.Linq;
 using TownOfThem.CustomObjects;
 using TownOfThem.Utilities;
 using TownOfThem.Patch;
+using TownOfThem.Roles;
 
 namespace TownOfThem.CustomRPCs
 {
@@ -14,6 +15,7 @@ namespace TownOfThem.CustomRPCs
         ShareOptions = 100,
         ShareModVersion,
         UncheckedMurderPlayer,
+        SetRole,
     }
 
     class RPCProcedure

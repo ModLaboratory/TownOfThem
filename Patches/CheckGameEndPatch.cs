@@ -18,7 +18,7 @@ namespace TownOfThem.Patch
             if (CheckAndEndForHostPressesHotkeyToForceEndGame()) return false;
             if (CheckAndEndForBattleRoyaleLastPlayerWins()) return false;
             if (CustomGameOptions.DebugMode.getBool()) return false;
-            return true;
+            return false;
         }
         private static bool CheckAndEndForBattleRoyaleLastPlayerWins()
         {

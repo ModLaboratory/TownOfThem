@@ -15,8 +15,8 @@ namespace TownOfThem
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-        public static DateTime tbdt = new DateTime(2022, 12, 21);
-        public static bool TB = false;
+        public static DateTime ExpireTime = new DateTime(2022, 12, 21);
+        public static bool IsBeta = false;
         internal static new ManualLogSource Log;
         public static Main Instance;
         public static bool ModDamaged = false;
@@ -39,12 +39,12 @@ namespace TownOfThem
             Log = base.Log;
             //LanguageID = Config.Bind("TownOfThemMod", "LanguageID", 0, "Mod Language ID");
             HostCustomName = Config.Bind("TownOfThemMod", "HostCustomName", "", "Host Custom Name");
-            Log.LogInfo("Town Of Them is loaded!");
-            if (TB)
+            Log.LogInfo("Town Of Them was loaded!");
+            if (IsBeta)
             {
-                if(DateTime.Now == tbdt)
+                if(DateTime.Now >= ExpireTime)
                 {
-                    Log.LogError("Mod Error!");
+                    Log.LogError("The mod was expired, please update the modification!");
                     return;
                 }
             }

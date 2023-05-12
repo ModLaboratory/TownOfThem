@@ -62,7 +62,7 @@ namespace TownOfThem.Patch
             }
             return result;
         }
-        public static void setPlayerOutline(PlayerControl target, Color color)
+        public static void setPlayerOutline(this PlayerControl target, Color color)
         {
             if (target == null || target.cosmetics?.currentBodySprite?.BodySprite == null) return;
 
@@ -78,8 +78,7 @@ namespace TownOfThem.Patch
         }
         public static void Postfix(PlayerControl __instance)
         {
-            setTarget();
-            setPlayerOutline(PlayerControl.LocalPlayer, new Color(255, 255, 255));
+            
         }
     }
 }

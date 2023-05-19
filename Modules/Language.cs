@@ -208,6 +208,8 @@ namespace TownOfThem.Language
     //    }
     //}
     #endregion
+    //嘿兄弟，你都有这能力了，就别来改什么搞笑翻译、生草翻译之类的了吧？
+    //开发者请忽视上面那段话
     public static class Language
     {
         public static Dictionary<string,string> GetLangDictionary(SupportedLangs lang)

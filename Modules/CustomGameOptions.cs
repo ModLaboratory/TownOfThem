@@ -557,19 +557,19 @@ namespace TownOfThem.CustomObjects
                         hudString += $"{LoadTranslation("ckptPage1")} \n\n" + __result;
                         break;
                     case 1:
-                        hudString += $"{LoadTranslation("ckptPage2")} \n" + Cockpit_GetGameOptionText.GetModSettingGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage2")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.General);
                         break;
                     case 2:
-                        hudString += $"{LoadTranslation("ckptPage3")} \n" + Cockpit_GetGameOptionText.GetImpostorGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage3")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Impostor);
                         break;
                     case 3:
-                        hudString += $"{LoadTranslation("ckptPage4")} \n" + Cockpit_GetGameOptionText.GetNeutralGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage4")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Neutral);
                         break;
                     case 4:
-                        hudString += $"{LoadTranslation("ckptPage5")} \n" + Cockpit_GetGameOptionText.GetCrewmateGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage5")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Crewmate);
                         break;
                     case 5:
-                        hudString += $"{LoadTranslation("ckptPage6")} \n" + Cockpit_GetGameOptionText.GetModifierGameOptions();
+                        hudString += $"{LoadTranslation("ckptPage6")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Modifier);
                         break;
                 }
             

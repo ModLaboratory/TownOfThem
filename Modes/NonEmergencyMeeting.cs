@@ -6,7 +6,5 @@ using System.Threading.Tasks;
 
 namespace TownOfThem.Modes
 {
-    internal class NonEmergencyMeeting
-    {
-    }
+    
 }

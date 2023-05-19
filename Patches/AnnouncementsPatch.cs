@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Assets.InnerNet;
 using HarmonyLib;
 using Il2CppSystem.Runtime.ExceptionServices;
 
 namespace TownOfThem.Patch
 {    
-    [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.UpdateAnnouncementText))]
-    class AnnouncementsPatch
-    {
-        
-        public static string AnnouncementText = "test";
-        /*public static bool Prefix(AnnouncementPopUp __instance)
-        {
-            return false;
-        }*/
-    }
+    
 }

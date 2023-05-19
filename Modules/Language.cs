@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -149,16 +150,33 @@ namespace TownOfThem.Language
         #endregion
         public static string LoadTranslation(string key)
         {
-            string returnValue = key;
+            string returnValue = "";
+            if (key == null)
+            {
+                Log.LogError("Error - Key is null");
+                return "STRERR";
+            }
             try
             {
                 returnValue = Language.GetLangDictionary(TranslationController.Instance.currentLanguage.languageID)[key];
             }
-            catch (KeyNotFoundException Error)
+            catch (Exception Error)
             {
-                Log.LogError("Can not find translation key: " + key + " \nMore Infomation: " + Error);
-                return returnValue;
+                if(Error is KeyNotFoundException)
+                {
+                    Log.LogError($"Error loading translation - KeyNotFoundException:\r\nKey: {key}\r\nMore info: {Error.Message}");
+                }
+                else if(Error is NullReferenceException)
+                {
+                    Log.LogError($"Error loading translation - NullReferenceException:\r\nKey: {key}\r\nMore info: {Error.Message}");
+                }
+                else
+                {
+                    Log.LogError($"Error loading translation - Unknown exception:\r\nKey: {key}\r\nMore info: {Error.Message}");
+                }
+                return key;
             }
+            
             //Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);
             return returnValue;
         }

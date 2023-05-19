@@ -269,13 +269,13 @@ namespace TownOfThem.CustomObjects
             var modifierTab = UnityEngine.Object.Instantiate(roleTab, crewmateTab.transform);
             var modifierTabHighlight = getTabHighlight(modifierTab, "ModifierTab", "TownOfThem.Resources.TabIconModifier.png");
 
-            // Position of Tab Icons
             gameTab.transform.position += Vector3.left * 3f;
             roleTab.transform.position += Vector3.left * 3f;
             torTab.transform.position += Vector3.left * 2f;
             impostorTab.transform.localPosition = Vector3.right * 1f;
             neutralTab.transform.localPosition = Vector3.right * 1f;
             crewmateTab.transform.localPosition = Vector3.right * 1f;
+            crewmateTab.transform.localScale *= 0.8f;
             modifierTab.transform.localPosition = Vector3.right * 1f;
 
             var tabs = new GameObject[] { gameTab, roleTab, torTab, impostorTab, neutralTab, crewmateTab, modifierTab };

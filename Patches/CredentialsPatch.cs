@@ -39,7 +39,7 @@ namespace TownOfThem.Patch
                 howToPlayButton.GetComponent<PassiveButton>().OnClick = new();
                 howToPlayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL(TownOfThem.Main.BilibiliLink)));
                 howToPlayButton.GetComponent<PassiveButton>().OnMouseOut.AddListener((Action)(() => howToPlayButton.GetComponent<SpriteRenderer>().color = bilibiliText.color = bilibiliColor));
-                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => howToPlayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText(LoadTranslation("Bilibili")))));
+                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => howToPlayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText(GetString("Bilibili")))));
                 howToPlayButton.GetComponent<SpriteRenderer>().color = bilibiliText.color = bilibiliColor;
             }
         }
@@ -63,15 +63,6 @@ namespace TownOfThem.Patch
             totlogo.transform.localScale *= 1.2f;
             var renderer = totlogo.AddComponent<SpriteRenderer>();
             renderer.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
-
-            var localButton = GameObject.Find("PlayLocalButton");
-            var onlineButton = GameObject.Find("PlayOnlineButton");
-            var freeplayButton = GameObject.Find("FreeplayButton");
-            var howtoplayButton = GameObject.Find("HowToPlayButton");
-            localButton.transform.position = new Vector3(2.85f, 1.15f, 0);
-            onlineButton.transform.position = new Vector3(2.85f, 0.3f, 0);
-            freeplayButton.transform.position = new Vector3(2.85f, -0.95f, 0);
-            howtoplayButton.transform.position = new Vector3(2.85f, -0.4f, 0);
         }
      }
 
@@ -83,11 +74,11 @@ namespace TownOfThem.Patch
             var credentials = UnityEngine.Object.Instantiate(__instance.text);
             if((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
             {
-                credentials.text = LoadTranslation("totBirthday")+$"{TownOfThem.Main.ModName}!\nv{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Translation.LoadTranslation("ModInfo1")}";
+                credentials.text = GetString("totBirthday")+$"{TownOfThem.Main.ModName}!\nv{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Translation.GetString("ModInfo1")}";
             }
             else
             {
-                credentials.text = $"{TownOfThem.Main.ModName}\nv{TownOfThem.Main.ModVer}\n" + LoadTranslation("ModInfo1");
+                credentials.text = $"{TownOfThem.Main.ModName}\nv{TownOfThem.Main.ModVer}\n" + GetString("ModInfo1");
             }
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
             credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
@@ -108,7 +99,10 @@ namespace TownOfThem.Patch
     {
         public static void Postfix(PingTracker __instance)
         {
-            __instance.text.text = $"{__instance.text.text}\n{TownOfThem.Main.ModName}\nv{TownOfThem.Main.ModVer}\n" + LoadTranslation("ModInfo1");
+            __instance.text.text = $"{__instance.text.text}\n" +
+                $"{TownOfThem.Main.ModName}\n" +
+                $"v{TownOfThem.Main.ModVer}\n" + 
+                GetString("ModInfo1");
             __instance.transform.localPosition = new Vector3(1.25f, 3f, __instance.transform.localPosition.z);
         }
     }

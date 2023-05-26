@@ -17,6 +17,7 @@ namespace TownOfThem.CustomRPCs
         ShareModVersion,
         UncheckedMurderPlayer,
         SetRole,
+        SetRoles,
     }
 
     class RPCProcedure

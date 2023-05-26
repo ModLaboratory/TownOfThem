@@ -82,7 +82,7 @@ namespace TownOfThem.CustomObjects
         public static CustomOption Create(int id, CustomOptionType type, string name, bool defaultValue, CustomOption parent = null, bool isHeader = false)
         {
             Main.Log.LogInfo("Custom Option Added:" + id + "," + type + "," + name + "," + defaultValue + "," + parent + "," + isHeader);
-            return new CustomOption(id, type, name, new string[] { LoadTranslation("Off"), LoadTranslation("On") }, defaultValue ? LoadTranslation("On") : LoadTranslation("Off"), parent, isHeader);
+            return new CustomOption(id, type, name, new string[] { GetString("Off"), GetString("On") }, defaultValue ? GetString("On") : GetString("Off"), parent, isHeader);
         }
 
         // Static behaviour
@@ -221,11 +221,11 @@ namespace TownOfThem.CustomObjects
             bool isReturn = setNames(
                 new Dictionary<string, string>()
                 {
-                    ["totSettings"] = LoadTranslation("totSettings"),
-                    ["ImpostorSettings"] = LoadTranslation("ImpostorSettings"),
-                    ["NeutralSettings"] = LoadTranslation("NeutralSettings"),
-                    ["CrewmateSettings"] = LoadTranslation("CrewmateSettings"),
-                    ["ModifierSettings"] = LoadTranslation("ModifierSettings")
+                    ["totSettings"] = GetString("totSettings"),
+                    ["ImpostorSettings"] = GetString("ImpostorSettings"),
+                    ["NeutralSettings"] = GetString("NeutralSettings"),
+                    ["CrewmateSettings"] = GetString("CrewmateSettings"),
+                    ["ModifierSettings"] = GetString("ModifierSettings")
                 });
 
             if (isReturn) return;
@@ -554,27 +554,27 @@ namespace TownOfThem.CustomObjects
                 switch (counter)
                 {
                     case 0:
-                        hudString += $"{LoadTranslation("ckptPage1")} \n\n" + __result;
+                        hudString += $"{GetString("ckptPage1")} \n\n" + __result;
                         break;
                     case 1:
-                        hudString += $"{LoadTranslation("ckptPage2")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.General);
+                        hudString += $"{GetString("ckptPage2")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.General);
                         break;
                     case 2:
-                        hudString += $"{LoadTranslation("ckptPage3")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Impostor);
+                        hudString += $"{GetString("ckptPage3")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Impostor);
                         break;
                     case 3:
-                        hudString += $"{LoadTranslation("ckptPage4")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Neutral);
+                        hudString += $"{GetString("ckptPage4")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Neutral);
                         break;
                     case 4:
-                        hudString += $"{LoadTranslation("ckptPage5")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Crewmate);
+                        hudString += $"{GetString("ckptPage5")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Crewmate);
                         break;
                     case 5:
-                        hudString += $"{LoadTranslation("ckptPage6")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Modifier);
+                        hudString += $"{GetString("ckptPage6")} \n" + GetGameOptionText.GetOptByType(CustomOptionType.Modifier);
                         break;
                 }
             
 
-            hudString += $"\n {LoadTranslation("ckptToOtherPages")} ({counter + 1}/{maxPage})";
+            hudString += $"\n {GetString("ckptToOtherPages")} ({counter + 1}/{maxPage})";
             __result = hudString;
         }
     }

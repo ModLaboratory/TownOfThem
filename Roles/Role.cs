@@ -1,19 +1,24 @@
-﻿using AmongUs.GameOptions;
-using HarmonyLib;
-using Il2CppSystem.Xml.Schema;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownOfThem.Roles
 {
     enum RoleId
     {
-        Sheriff = 100,
+        Crewmate = -1,
+        Impostor = -2,
+        Unknown = -3,
+        Sheriff = 1,
 
     }
-    
-
+    enum Camp
+    {
+        Crew,
+        Neu,
+        Imp,
+        Unknown,
+    }
+    class RoleInfo
+    {
+        public static int RoleCount = 1;
+    }
 }

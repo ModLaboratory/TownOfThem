@@ -1,7 +1,8 @@
 ﻿global using Hazel;
+global using static TownOfThem.Language.Translation;
+global using HarmonyLib;
 using BepInEx;
 using BepInEx.IL2CPP;
-using HarmonyLib;
 using BepInEx.Logging;
 using BepInEx.Configuration;
 using System;
@@ -27,7 +28,6 @@ namespace TownOfThem
         public static readonly string GithubLink = "https://github.com/JieGeLovesDengDuaLang/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
         //public static ConfigEntry<int> LanguageID;
-        public static ConfigEntry<string> HostCustomName;
 
 
         public static bool IsMeeting = false;
@@ -38,20 +38,9 @@ namespace TownOfThem
         {
             Log = base.Log;
             //LanguageID = Config.Bind("TownOfThemMod", "LanguageID", 0, "Mod Language ID");
-            HostCustomName = Config.Bind("TownOfThemMod", "HostCustomName", "", "Host Custom Name");
-            Log.LogInfo("Town Of Them was loaded!");
-            if (IsBeta)
-            {
-                if(DateTime.Now >= ExpireTime)
-                {
-                    Log.LogError("The mod was expired, please update the modification!");
-                    return;
-                }
-            }
-            //TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)LanguageID.Value);
+            Log.LogInfo("Town Of Them loaded!");
             TownOfThem.CreateCustomObjects.CustomGameOptions.Load();
             Harmony.PatchAll();
-
         }
     }
 }

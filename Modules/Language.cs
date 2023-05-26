@@ -148,7 +148,7 @@ namespace TownOfThem.Language
         //    }
         //}
         #endregion
-        public static string LoadTranslation(string key)
+        public static string GetString(string key)
         {
             string returnValue = "";
             if (key == null)
@@ -266,6 +266,7 @@ namespace TownOfThem.Language
             ["Gamemode_BattleRoyale"] = "Battle Royale",
             ["PlayerCheckError1"] = "has no mod or other mods.",
             ["PlayerCheckError2"] = "has a different version of TownOfThem or other mods.",
+            ["ModExpired"] = "The mod was expired. Click OK to quit game.",
         };
         public static Dictionary<string, string> Chinese = new Dictionary<string, string>()
         {
@@ -309,6 +310,7 @@ namespace TownOfThem.Language
             ["Gamemode_BattleRoyale"] = "太空决斗",
             ["PlayerCheckError1"] = "没有安装模组或安装了其它模组",
             ["PlayerCheckError2"] = "安装了其他版本的Town Of Them或其它模组",
+            ["ModExpired"] = "模组已过期。按下“确定”以退出游戏。",
         };
         
     }

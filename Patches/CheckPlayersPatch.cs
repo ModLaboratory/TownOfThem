@@ -59,7 +59,7 @@ namespace TownOfThem.Patch
                     {
                         
                         canStart = false;
-                        message += $"<color=#FF0000FF>{pc.Data.PlayerName} {LoadTranslation("PlayerCheckError2")}</color>";
+                        message += $"<color=#FF0000FF>{pc.Data.PlayerName} {GetString("PlayerCheckError2")}</color>";
                         //foreach (var cnt in AmongUsClient.Instance.allClients)
                         //{
                         //    cntID = cnt.Character.NetId;
@@ -72,7 +72,7 @@ namespace TownOfThem.Patch
                 else
                 {
                     canStart = false;
-                    message += $"<color=#FF0000FF>{pc.Data.PlayerName} {LoadTranslation("PlayerCheckError1")}</color>\n";
+                    message += $"<color=#FF0000FF>{pc.Data.PlayerName} {GetString("PlayerCheckError1")}</color>\n";
                 }
 
             }

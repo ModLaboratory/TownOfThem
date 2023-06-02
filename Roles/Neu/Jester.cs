@@ -4,19 +4,19 @@ using System.Text;
 using AmongUs.Data;
 using HarmonyLib;
 using BepInEx;
+using UnityEngine;
 
 namespace TownOfThem.Roles.Neu
 {
-    [HarmonyPatch(typeof(ExileController), nameof(ExileController.WrapUp))]
-    class Jester
+    public class Jester : Role
     {
-        public static void PostFix(ExileController __instance)
-        {
-            var pd = __instance.exiled;
-            if (pd != null)
-            {
-                
-            }
+        public static new Color color = new Color32(236, 98, 165, byte.MaxValue);
+        public override void reset()
+        { 
+
         }
+
     }
-}
+}  
+
+

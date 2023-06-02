@@ -24,7 +24,7 @@ namespace TownOfThem.Patches
         {
             var localButton = GameObject.Find("PlayLocalButton");
             var onlineButton = GameObject.Find("PlayOnlineButton");
-            var freeplayButton = GameObject.Find("FreeplayButton");
+            var freeplayButton = GameObject.Find("FreePlayButton");
             var howtoplayButton = GameObject.Find("HowToPlayButton");
             localButton.transform.position = new Vector3(2.85f, 1.15f, 0);
             onlineButton.transform.position = new Vector3(2.85f, 0.3f, 0);
@@ -33,7 +33,7 @@ namespace TownOfThem.Patches
 
             if (Main.IsBeta)
             {
-                if (System.DateTime.Now >= Main.ExpireTime)
+                if (System.DateTime.UtcNow >= Main.ExpireTime.ToUniversalTime())
                 {
                     ShowPopup(GetString("ModExpired"), bat: ButtonActionType.Quit);
                 }

@@ -8,6 +8,7 @@ using BepInEx.Configuration;
 using System;
 using System.Runtime;
 using BepInEx.Unity.IL2CPP;
+using System.Text;
 
 namespace TownOfThem
 {
@@ -16,7 +17,10 @@ namespace TownOfThem
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-        public static DateTime ExpireTime = new DateTime(2022, 12, 21);
+
+        public static StringBuilder modInfo = new();
+        public static DateTime ExpireTime = new DateTime(0, 0, 0, 0, 0, 0);
+        public static DateTime BuildTime = new DateTime(0, 0, 0, 0, 0, 0);
         public static bool IsBeta = false;
         internal static new ManualLogSource Log;
         public static Main Instance;
@@ -27,7 +31,7 @@ namespace TownOfThem
         public const string ModVer = "0.0.0.1";
         public static readonly string GithubLink = "https://github.com/JieGeLovesDengDuaLang/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
-        //public static ConfigEntry<int> LanguageID;
+        public static ConfigEntry<bool> EnableDevMode;
 
 
         public static bool IsMeeting = false;
@@ -37,9 +41,10 @@ namespace TownOfThem
         public override void Load()
         {
             Log = base.Log;
-            //LanguageID = Config.Bind("TownOfThemMod", "LanguageID", 0, "Mod Language ID");
+            EnableDevMode = Config.Bind("TownOfThemMod", "EnableDevMode", false, "Enable developer mode");
             Log.LogInfo("Town Of Them loaded!");
-            TownOfThem.CreateCustomObjects.CustomGameOptions.Load();
+            modInfo.Append((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21) ? string.Format(GetString(Language.StringKey.totBirthday), ModName) : ModName);
+            modInfo.Append("\nv").Append(ModVer).Append("\n").Append(GetString(Language.StringKey.ModInfo1));
             Harmony.PatchAll();
         }
     }

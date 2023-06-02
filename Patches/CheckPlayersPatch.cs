@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Hazel;
 using TownOfThem.Utilities;
-using TownOfThem.CustomRPCs;
+using TownOfThem;
 using System.Collections.Generic;
 using Il2CppSystem.Web.Util;
 using Il2CppSystem.Linq.Expressions;
@@ -28,10 +28,7 @@ namespace TownOfThem.Patch
         public static void ShareVersion()
         {
             uint netID = PlayerControl.LocalPlayer.NetId;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(netID, (byte)CustomRPC.ShareModVersion, SendOption.Reliable, -1);
-            writer.Write(netID);
-            writer.Write(Main.ModVer);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            PlayerControl.LocalPlayer.RPCSendModVersion(Main.ModVer);
             RPCProcedure.ShareModVersion(netID, Main.ModVer);
         }
     }

@@ -24,7 +24,7 @@ A mod for Among Us and it is planning!
 
 * [BepInEx](https://github.com/BepInEx/BepInEx)
 
-* [tukasa001](https://github.com/tukasa0001)'s 
+* [tukasa0001](https://github.com/tukasa0001)'s 
 [TownOfHost](https://github.com/tukasa0001/TownOfHost)
 
 * [TheOtherRolesAU](https://github.com/TheOtherRolesAU)'s 

@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using TownOfThem.Patches;
 using static PlayerControl;
 using static TownOfThem.Language.Translation;
 
@@ -15,7 +16,7 @@ namespace TownOfThem.Patch
             switch (command[0].ToLower())
             {
                 case "/help":
-                    LocalPlayer.RpcSendChat(GetString("cmdHelp"));
+                    __instance.AddChat(LocalPlayer, GetString("cmdHelp"));
                     break;
                 case "/name":
                     LocalPlayer.RpcSetName(command[1]);
@@ -62,6 +63,60 @@ namespace TownOfThem.Patch
                 case "/pet":
                     LocalPlayer.RpcSetPet(command[1]);
                     break;
+                case "/popup":
+                    MainMenuManagerStartPatch.ShowPopup(command[1]);
+                    break;
+                case "/pid":
+                    string a = "";
+                    foreach(var pc in PlayerControl.AllPlayerControls)
+                    {
+                        a += pc.Data.PlayerName + " " + pc.PlayerId + "\n";
+                    }
+                    __instance.AddChat(LocalPlayer, a);
+                    break;
+                case "sn":
+                    PlayerControl playerToSetName1 = null;
+                    foreach(var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.PlayerId == Convert.ToByte(command[1]))
+                        {
+                            playerToSetName1 = pc;
+                        }
+                    }
+                    playerToSetName1.RpcSetName(command[2]);
+                    break;
+                case "sm":
+                    PlayerControl playerToSetName2 = null;
+                    PlayerControl targ = null;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.PlayerId == Convert.ToByte(command[1]))
+                        {
+                            playerToSetName2 = pc;
+                        }
+                    }
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.PlayerId == Convert.ToByte(command[2]))
+                        {
+                            targ = pc;
+                        }
+                    }
+                    playerToSetName2.RpcMurderPlayer(targ);
+                    break;
+                case "/sc":
+                    PlayerControl player1 = null;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.PlayerId == Convert.ToByte(command[1]))
+                        {
+                            player1 = pc;
+                        }
+                    }
+                    player1.RpcSendChatNote(player1.PlayerId, ChatNoteTypes.DidVote);
+                    break;
+
+
             }
             
         }

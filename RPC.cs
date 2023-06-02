@@ -8,16 +8,18 @@ using TownOfThem.Utilities;
 using TownOfThem.Patch;
 using TownOfThem.Roles;
 using TownOfThem.Roles.Crew;
+using System.Runtime.CompilerServices;
 
-namespace TownOfThem.CustomRPCs
+namespace TownOfThem
 {
-    public enum CustomRPC:uint
+    public enum CustomRPC : uint
     {
         ShareOptions = 100,
         ShareModVersion,
         UncheckedMurderPlayer,
         SetRole,
-        SetRoles,
+        AssignRoles,
+        ResetVariables,
     }
 
     class RPCProcedure
@@ -60,7 +62,7 @@ namespace TownOfThem.CustomRPCs
             switch (roleID)
             {
                 case (int)RoleId.Sheriff:
-                    Sheriff.player = targetPC;
+                    Sheriff.players.Add(targetPC);
                     break;
             }
         }
@@ -92,6 +94,15 @@ namespace TownOfThem.CustomRPCs
                     byte roleTarget = reader.ReadByte();
                     int roleID = reader.ReadInt32();
                     break;
+                case (byte)CustomRPC.AssignRoles:
+                    int count = reader.ReadPackedInt32();
+                    for(int a = 0; a < count; a++)
+                    {
+                        byte assignPlayerID=reader.ReadByte();
+                        int assignRoleID=reader.ReadInt32();
+                        SelectRolesPatch.pr[ModHelpers.playerById(assignPlayerID)] = assignRoleID;
+                    }
+                    break;
                 default:
                     if (!Enum.IsDefined(typeof(RpcCalls), packetId))
                     {
@@ -99,6 +110,17 @@ namespace TownOfThem.CustomRPCs
                     }
                     break;
             }
+        }
+    }
+
+    public static class RPCHelper
+    {
+        public static void RPCSendModVersion(this PlayerControl pc, string version)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)CustomRPC.ShareModVersion, SendOption.Reliable, -1);
+            writer.Write(pc.NetId);
+            writer.Write(version);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
     }
 }

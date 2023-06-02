@@ -6,9 +6,10 @@ using System.Linq;
 using System.Reflection;
 using TownOfThem.Utilities;
 using UnityEngine;
-using TownOfThem.CustomRPCs;
+using TownOfThem;
 using Unity.Services.Core.Telemetry.Internal;
 using JetBrains.Annotations;
+using System.Runtime.CompilerServices;
 
 namespace TownOfThem
 {
@@ -18,7 +19,7 @@ namespace TownOfThem
         SuppressKill,
         BlankKill,
     }
-    class ModHelpers
+    public static class ModHelpers
     {
         public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
         {
@@ -55,6 +56,17 @@ namespace TownOfThem
                 }
             }
             return pcAliveList;
+        }
+        public static PlayerControl ToPlayerControl(this GameData.PlayerInfo pinfo)
+        {
+            foreach(var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Data.Equals(pinfo))
+                {
+                    return pc;
+                }
+            }
+            return null;
         }
     } 
 }

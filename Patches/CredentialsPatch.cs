@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System;
+using System.Text;
 using UnityEngine;
 using static TownOfThem.Language.Translation;
 
@@ -60,26 +61,21 @@ namespace TownOfThem.Patch
 
             var totlogo = new GameObject("totLogo");
             totlogo.transform.position = Vector3.up;
+            totlogo.transform.position = Vector3.up;
             totlogo.transform.localScale *= 1.2f;
             var renderer = totlogo.AddComponent<SpriteRenderer>();
             renderer.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
+            Main.Log.LogInfo(totlogo.transform.localPosition.x.ToString() + "" + totlogo.transform.localPosition.y.ToString());
         }
      }
 
      [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
-     class ModOtherInfosPatch
-    {
+     class VersionShowerPatch
+     {
         static void Postfix(VersionShower __instance)
         {
             var credentials = UnityEngine.Object.Instantiate(__instance.text);
-            if((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
-            {
-                credentials.text = GetString("totBirthday")+$"{TownOfThem.Main.ModName}!\nv{TownOfThem.Main.ModVer}\n{TownOfThem.Language.Translation.GetString("ModInfo1")}";
-            }
-            else
-            {
-                credentials.text = $"{TownOfThem.Main.ModName}\nv{TownOfThem.Main.ModVer}\n" + GetString("ModInfo1");
-            }
+            credentials.text = Main.modInfo.ToString();
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
             credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
         }

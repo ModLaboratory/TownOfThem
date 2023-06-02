@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using TownOfThem.Roles.Crew;
+using UnityEngine;
 
 namespace TownOfThem.Roles
 {
-    enum RoleId
+    public enum RoleId
     {
         Crewmate = -1,
         Impostor = -2,
@@ -10,7 +12,7 @@ namespace TownOfThem.Roles
         Sheriff = 1,
 
     }
-    enum Camp
+    public enum Camp
     {
         Crew,
         Neu,
@@ -20,5 +22,14 @@ namespace TownOfThem.Roles
     class RoleInfo
     {
         public static int RoleCount = 1;
+    }
+    public abstract class Role
+    {
+        public static Color color;
+        public static List<PlayerControl> players;
+        public static int roleID;
+        public static bool enable;
+        public static int maxPlayerCount;
+        public abstract void reset();
     }
 }

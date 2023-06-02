@@ -7,6 +7,53 @@ using static TownOfThem.Main;
 
 namespace TownOfThem.Language
 {
+    public enum StringKey
+    {
+        ModInfo1,
+        totBirthday,
+        totSettings,
+        ImpostorSettings,
+        NeutralSettings,
+        CrewmateSettings,
+        ModifierSettings,
+        Preset1,
+        Preset2,
+        Preset3,
+        Preset4,
+        Preset5,
+        MaxPlayer,
+        Sheriff,
+        SheriffCD,
+        SheriffKillLimit,
+        Jester,
+        Handicapped,
+        HandicappedSpeed,
+        On,
+        Off,
+        Bilibili,
+        ckptPage1,
+        ckptPage2,
+        ckptPage3,
+        ckptPage4,
+        ckptPage5,
+        ckptPage6,
+        ckptToOtherPages,
+        cmdHelp,
+        DebugMode,
+        HostSuggestName,
+        HostSuggestName2,
+        HostSuggestName3,
+        CantPlayWithoutMod,
+        CustomGamemodes,
+        Gamemode_Classic,
+        Gamemode_BattleRoyale,
+        PlayerCheckError1,
+        PlayerCheckError2,
+        ModExpired,
+        KickByHacking,
+        ExiledPlayerIsJester,
+    }
+
     public static class Translation
     {
         #region Obsoleted
@@ -148,6 +195,11 @@ namespace TownOfThem.Language
         //    }
         //}
         #endregion
+        public static Dictionary<string, string> langDic = null;
+        public static string GetString(StringKey key)
+        {
+            return GetString(key.ToString());
+        }
         public static string GetString(string key)
         {
             string returnValue = "";
@@ -158,7 +210,7 @@ namespace TownOfThem.Language
             }
             try
             {
-                returnValue = Language.GetLangDictionary(TranslationController.Instance.currentLanguage.languageID)[key];
+                returnValue = langDic[key];
             }
             catch (Exception Error)
             {
@@ -182,32 +234,6 @@ namespace TownOfThem.Language
         }
         
     }
-    #region Obsoleted
-    //[HarmonyPatch(typeof(TranslationController),nameof(TranslationController.Initialize))]
-    //class TrsCtrlInitPatch
-    //{
-    //    public static void Postfix(TranslationController __instance)
-    //    {
-    //        Translation.LoadLanguage(__instance.currentLanguage.languageID);
-    //    }
-    //}
-    //[HarmonyPatch(typeof(TranslationController), nameof(TranslationController.SetLanguage))]
-    //class TrsCtrlSetLanguagePatch
-    //{
-    //    public static bool Prefix(TranslationController __instance, TranslatedImageSet lang)
-    //    {
-    //        foreach(var l in __instance.Languages)
-    //        {
-    //            if (l.Value == lang)
-    //            {
-    //                Translation.LoadLanguage(l.Key);
-    //                break;
-    //            }
-    //        }
-    //        return true;
-    //    }
-    //}
-    #endregion
     //嘿兄弟，你都有这能力了，就别来改什么搞笑翻译、生草翻译之类的了吧？
     //开发者请忽视上面那段话
     public static class Language
@@ -224,10 +250,14 @@ namespace TownOfThem.Language
                     return English;
             }
         }
+        public static void SetLangDic(SupportedLangs lang)
+        {
+            langDic = GetLangDictionary(lang);
+        }
         public static Dictionary<string, string> English = new Dictionary<string, string>()
         {
             ["ModInfo1"] = "Modded By JieGe ",
-            ["totBirthday"] = "Happy Birthday To ",
+            ["totBirthday"] = "Happy Birthday To {0}!",
             ["totSettings"] = "Town Of Them Settings ",
             ["ImpostorSettings"] = "Impostor Roles Settings ",
             ["NeutralSettings"] = "Neutral Roles Settings ",
@@ -239,10 +269,10 @@ namespace TownOfThem.Language
             ["Preset4"] = "Preset 4",
             ["Preset5"] = "Preset 5",
             ["MaxPlayer"] = "Max Player",
-            ["Sheriff"] = "<color=#F8CD46>Sheriff</color>",
+            ["Sheriff"] = "Sheriff",
             ["SheriffCD"] = "Sheriff Kill Cooldown",
             ["SheriffKillLimit"] = "Sheriff Kill Limit",
-            ["Jester"] = "<color=#EC62A5>Jester</color>",
+            ["Jester"] = "Jester",
             ["Handicapped"] = "<color=#808080>Handicapped</color>",
             ["HandicappedSpeed"] = "Handicapped speed",
             ["On"] = "On",
@@ -267,11 +297,13 @@ namespace TownOfThem.Language
             ["PlayerCheckError1"] = "has no mod or other mods.",
             ["PlayerCheckError2"] = "has a different version of TownOfThem or other mods.",
             ["ModExpired"] = "The mod was expired. Click OK to quit game.",
+            [StringKey.KickByHacking.ToString()] = "You were banned by Innersloth.\n\nMaybe there is a BUG what will treat as hacking in this mod or you are hacking.",
+            [StringKey.ExiledPlayerIsJester.ToString()]="{0} was a {1}.\n\nI tricked y'all! Hahahahaha..."
         };
         public static Dictionary<string, string> Chinese = new Dictionary<string, string>()
         {
             ["ModInfo1"] = "杰哥制作",
-            ["totBirthday"] = "生日快乐，",
+            ["totBirthday"] = "生日快乐，{0}！",
             ["totSettings"] = "他们的小镇设置",
             ["ImpostorSettings"] = "内鬼职业设置",
             ["NeutralSettings"] = "中立职业设置",
@@ -311,6 +343,8 @@ namespace TownOfThem.Language
             ["PlayerCheckError1"] = "没有安装模组或安装了其它模组",
             ["PlayerCheckError2"] = "安装了其他版本的Town Of Them或其它模组",
             ["ModExpired"] = "模组已过期。按下“确定”以退出游戏。",
+            [StringKey.KickByHacking.ToString()] = "你被树懒的反作弊系统踢了（树懒每日发癫1/1）。\n\n可能是一个bug引发了它，也有可能是你在开挂。",
+            [StringKey.ExiledPlayerIsJester.ToString()] = "{0} 是 {1}.\n\n不足挂齿的小把戏，你们真信啊！哈哈哈哈哈哈……"
         };
         
     }

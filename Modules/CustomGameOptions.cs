@@ -126,7 +126,7 @@ namespace TownOfThem.CustomObjects
         {
             var option = options.FirstOrDefault(x => x.id == optionId);
             if (option == null) return;
-            var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPCs.CustomRPC.ShareOptions, SendOption.Reliable, -1);
+            var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPC.ShareOptions, SendOption.Reliable, -1);
             writer.Write((byte)1);
             writer.WritePacked((uint)option.id);
             writer.WritePacked(Convert.ToUInt32(option.selection));
@@ -140,7 +140,7 @@ namespace TownOfThem.CustomObjects
             while (optionsList.Any())
             {
                 byte amount = (byte)Math.Min(optionsList.Count, 200); // takes less than 3 bytes per option on average
-                var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPCs.CustomRPC.ShareOptions, SendOption.Reliable, -1);
+                var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPC.ShareOptions, SendOption.Reliable, -1);
                 writer.Write(amount);
                 for (int i = 0; i < amount; i++)
                 {

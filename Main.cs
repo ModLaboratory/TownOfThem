@@ -19,8 +19,8 @@ namespace TownOfThem
     {
 
         public static StringBuilder modInfo = new();
-        public static DateTime ExpireTime = new DateTime(0, 0, 0, 0, 0, 0);
-        public static DateTime BuildTime = new DateTime(0, 0, 0, 0, 0, 0);
+        public static DateTime ExpireTime = new DateTime();
+        public static DateTime BuildTime = new DateTime();
         public static bool IsBeta = false;
         internal static new ManualLogSource Log;
         public static Main Instance;

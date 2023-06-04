@@ -35,8 +35,10 @@ namespace TownOfThem.Roles
         }
         public static void AssignByRoleCamp(this PlayerControl pc, System.Random role, List<int> roles)
         {
+            Assign:
+            //随机职业ID
             int a = role.Next(0, roles.Count - 1);
-
+            //如果未分配完成，分配职业并删除待分配职业中的此职业
             if (roles.Count != 0)
             {
                 pr[pc] = a;
@@ -46,11 +48,13 @@ namespace TownOfThem.Roles
             {
                 if (roles.Count == 0)
                 {
+                    //职业分配完毕，开始将未分配到职业的玩家的aus职业加入玩家职业字典
                     pr[pc] = AUGetTOTRoleID(pc.GetRoleCampAU());
                 }
                 if (roles.Count != 0 && !roles.Contains(a))
                 {
-                    AssignRoles();
+                    //随机到的职业不在未分配职业列表，再随机一次
+                    goto Assign;
                 }
             }
         }

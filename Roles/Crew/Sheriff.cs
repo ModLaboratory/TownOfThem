@@ -6,7 +6,7 @@ namespace TownOfThem.Roles.Crew
     public class Sheriff : Role
     {
         public static Sheriff Instance = new();
-        public static new Color color = new Color32(248, 205, 70, byte.MaxValue);
+        public static new Color color = new Color(248, 205, 70);
         public static new List<PlayerControl> players;
         public static PlayerControl target;
         public static new int roleID

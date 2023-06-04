@@ -6,9 +6,10 @@ namespace TownOfThem.Patches
     class ExileControllerWrapUpPatch
     {
         public static PlayerControl lastExiledPlayer = null;
-        public static void Postfix()
+        public static void Postfix(ExileController __instance)
         {
-            lastExiledPlayer = ExileController.Instance.exiled.ToPlayerControl();
+            lastExiledPlayer = __instance.exiled.ToPlayerControl();
+            Main.Log.LogInfo(__instance.Text.text);
         }
     }
 }

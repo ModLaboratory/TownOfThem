@@ -35,7 +35,7 @@ namespace TownOfThem.Patches
             {
                 if (System.DateTime.UtcNow >= Main.ExpireTime.ToUniversalTime())
                 {
-                    ShowPopup(GetString("ModExpired"), bat: ButtonActionType.Quit);
+                    ShowPopup(GetString(Language.StringKey.ModExpired), bat: ButtonActionType.Quit);
                 }
             }
         }

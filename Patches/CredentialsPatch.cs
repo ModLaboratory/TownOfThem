@@ -1,8 +1,10 @@
-﻿using HarmonyLib;
+﻿using Epic.OnlineServices.Mods;
+using HarmonyLib;
 using System;
 using System.Text;
 using UnityEngine;
 using static TownOfThem.Language.Translation;
+using static TownOfThem.Main;
 
 //used TownOfHost's code
 namespace TownOfThem.Patch
@@ -26,7 +28,7 @@ namespace TownOfThem.Patch
             PassiveButton githubPassiveButton = githubButton.GetComponent<PassiveButton>();
             SpriteRenderer githubButtonSprite = githubButton.GetComponent<SpriteRenderer>();
             githubPassiveButton.OnClick = new();
-            githubPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(TownOfThem.Main.GithubLink)));
+            githubPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(GithubLink)));
             githubPassiveButton.OnMouseOut.AddListener((Action)(() => githubButtonSprite.color = githubText.color = githubColor));
             __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => githubText.SetText("Github"))));
             githubButtonSprite.color = githubText.color = githubColor;
@@ -61,23 +63,40 @@ namespace TownOfThem.Patch
 
             var totlogo = new GameObject("totLogo");
             totlogo.transform.position = Vector3.up;
-            totlogo.transform.position = Vector3.up;
             totlogo.transform.localScale *= 1.2f;
             var renderer = totlogo.AddComponent<SpriteRenderer>();
             renderer.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
-            Main.Log.LogInfo(totlogo.transform.localPosition.x.ToString() + "" + totlogo.transform.localPosition.y.ToString());
+            totlogo.transform.SetLocalX(-0.5f);
         }
-     }
-
+    }
      [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
      class VersionShowerPatch
      {
+
+        public static StringBuilder modInfo = new();
+        static void getInfo()
+        {
+            modInfo.Clear();
+            //birthday
+            if ((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
+            {
+                modInfo.Append(string.Format(GetString(Language.StringKey.totBirthday), IsBeta ? ModName + "<color=#00b4eb> Beta</color>" : ModName));
+            }
+            else
+            {
+                modInfo.Append(IsBeta ? ModName + "<color=#00b4eb> Beta </color>" : ModName);
+            }
+
+            //version + credits
+            modInfo.Append($"v{ModVer}\n<size=100%>" + GetString(Language.StringKey.ModInfo1) + "</size>");
+        }
         static void Postfix(VersionShower __instance)
         {
             var credentials = UnityEngine.Object.Instantiate(__instance.text);
-            credentials.text = Main.modInfo.ToString();
+            getInfo();
+            credentials.text = modInfo.ToString();
             credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-            credentials.transform.position = new Vector3(4.6f, 3.2f, 0);
+            credentials.transform.position = new Vector3(4f, 3f, 0);
         }
      }
 
@@ -95,11 +114,23 @@ namespace TownOfThem.Patch
     {
         public static void Postfix(PingTracker __instance)
         {
-            __instance.text.text = $"{__instance.text.text}\n" +
-                $"{TownOfThem.Main.ModName}\n" +
-                $"v{TownOfThem.Main.ModVer}\n" + 
-                GetString("ModInfo1");
-            __instance.transform.localPosition = new Vector3(1.25f, 3f, __instance.transform.localPosition.z);
+            StringBuilder ping = new();
+            ping.Append("\n<color=");
+            if (AmongUsClient.Instance.Ping < 100)
+            {
+                ping.Append("#00ff00>");
+            }
+            else if(AmongUsClient.Instance.Ping < 300)
+            {
+                ping.Append("#ffff00>");
+            }
+            else if (AmongUsClient.Instance.Ping > 300)
+            {
+                ping.Append("#ff0000>");
+            }
+            ping.Append(string.Format(GetString(Language.StringKey.Ping), AmongUsClient.Instance.Ping)).Append("</color>");
+            __instance.text.text = VersionShowerPatch.modInfo.ToString() + ping.ToString();
+            __instance.transform.localPosition = new Vector3(1f, 3f, __instance.transform.localPosition.z);
         }
     }
 }

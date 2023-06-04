@@ -10,7 +10,7 @@ namespace TownOfThem.Roles.Neu
 {
     public class Jester : Role
     {
-        public static new Color color = new Color32(236, 98, 165, byte.MaxValue);
+        public static new Color color = new Color(236, 98, 165);
         public override void reset()
         { 
 

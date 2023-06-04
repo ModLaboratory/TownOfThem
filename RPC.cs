@@ -103,6 +103,9 @@ namespace TownOfThem
                         SelectRolesPatch.pr[ModHelpers.playerById(assignPlayerID)] = assignRoleID;
                     }
                     break;
+                case (byte)CustomRPC.ResetVariables:
+                    
+                    break;
                 default:
                     if (!Enum.IsDefined(typeof(RpcCalls), packetId))
                     {

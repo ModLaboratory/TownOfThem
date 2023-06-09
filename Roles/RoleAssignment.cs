@@ -49,7 +49,7 @@ namespace TownOfThem.Roles
                 if (roles.Count == 0)
                 {
                     //职业分配完毕，开始将未分配到职业的玩家的aus职业加入玩家职业字典
-                    pr[pc] = AUGetTOTRoleID(pc.GetRoleCampAU());
+                    pr[pc] = AUGetTOTRoleID(pc.Data.Role.TeamType);
                 }
                 if (roles.Count != 0 && !roles.Contains(a))
                 {
@@ -70,30 +70,14 @@ namespace TownOfThem.Roles
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-        public static Camp GetRoleCampAU(this PlayerControl pc)
+        
+        public static int AUGetTOTRoleID(RoleTeamTypes t)
         {
-            switch (pc.Data.RoleType)
+            switch (t)
             {
-                case AmongUs.GameOptions.RoleTypes.Crewmate:
-                case AmongUs.GameOptions.RoleTypes.Engineer:
-                case AmongUs.GameOptions.RoleTypes.Scientist:
-                case AmongUs.GameOptions.RoleTypes.GuardianAngel:
-                case AmongUs.GameOptions.RoleTypes.CrewmateGhost:
-                    return Camp.Crew;
-                case AmongUs.GameOptions.RoleTypes.Impostor:
-                case AmongUs.GameOptions.RoleTypes.Shapeshifter:
-                case AmongUs.GameOptions.RoleTypes.ImpostorGhost:
-                    return Camp.Imp;
-            }
-            return Camp.Unknown;
-        }
-        public static int AUGetTOTRoleID(Camp c)
-        {
-            switch (c)
-            {
-                case Camp.Crew:
+                case RoleTeamTypes.Crewmate:
                     return -1;
-                case Camp.Imp:
+                case RoleTeamTypes.Impostor:
                     return -2;
             }
             return 0;

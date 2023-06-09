@@ -34,7 +34,7 @@ namespace TownOfThem
         }
         public static string cs(Color c, string s)
         {
-            return string.Format("<color=#{0:X2}{1:X2}{2:X2}{3:X2}>{4}</color>", Convert.ToByte(c.r), Convert.ToByte(c.g), Convert.ToByte(c.b), Convert.ToByte(c.a), s);
+            return string.Format("<color=#{0}>{1}</color>", ((Convert.ToInt32(c.r) << 16) | ((Convert.ToInt32(c.g) << 8) | Convert.ToInt32(c.b))).ToString("X6"), s);
         }
 
         public static PlayerControl playerById(byte id)

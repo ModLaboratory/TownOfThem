@@ -30,6 +30,7 @@ namespace TownOfThem.Roles
         public static int roleID;
         public static bool enable;
         public static int maxPlayerCount;
+        public static Sprite button;
         public abstract void reset();
     }
 }

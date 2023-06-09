@@ -7,7 +7,22 @@ namespace TownOfThem.Roles.Crew
     {
         public static Sheriff Instance = new();
         public static new Color color = new Color(248, 205, 70);
-        public static new List<PlayerControl> players;
+        public static new Sprite button = ModHelpers.LoadSprite("");
+        public static new List<PlayerControl> players
+        {
+            get
+            {
+                List<PlayerControl> p = new();
+                foreach(var a in SelectRolesPatch.pr)
+                {
+                    if (a.Value == roleID)
+                    {
+                        p.Add(a.Key);
+                    }
+                }
+                return p;
+            }
+        }
         public static PlayerControl target;
         public static new int roleID
         {

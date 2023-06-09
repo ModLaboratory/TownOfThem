@@ -3,6 +3,7 @@ using TownOfThem.CustomObjects;
 using TownOfThem.Roles.Crew;
 using TownOfThem.Patch;
 using UnityEngine;
+using TownOfThem.Roles;
 
 namespace TownOfThem.CreateCustomObjects
 {
@@ -26,62 +27,60 @@ namespace TownOfThem.CreateCustomObjects
 
         public static void createButtonsPostfix(HudManager __instance)
         {
-        //    leaderMeetingButton = new CustomButton
-        //    (
-        //        () =>
-        //        {
-        //            foreach (var pc in PlayerControl.AllPlayerControls)
-        //            {
-        //                pc.ReportDeadBody(PlayerControl.LocalPlayer.Data);
-        //            }
-        //        },
-        //        () =>
-        //        {
-        //            return true;
-        //        },
-        //        () =>
-        //        {
-        //            return true;
-        //        },
-        //        () =>
-        //        {
-        //            leaderMeetingButton.setActive(true);
-        //        },
-        //        HudManager.Instance.ReportButton.graphic.sprite,
-        //        CustomButton.ButtonPositions.lowerRowRight,
-        //        __instance,
-        //        KeyCode.M,
-        //        false,
-        //        "Meeting"
-        //    );
-            /*battleRoyaleKillButton = new CustomButton
+            leaderMeetingButton = new CustomButton
             (
-                () => 
+                () =>
                 {
-
+                    RPCHelper.RpcUncheckedStartMeeting(PlayerControl.LocalPlayer);
                 },
-                true,
-                true,
-            );*/
-            //sheriffKillButton = new CustomButton(
-            //    () =>
-            //    {
-            //        if (Sheriff.target == null) return;
-            //        //if(Sheriff.target==)
-                    
-            //    },
-            //    () => {  },
-            //    () => {  },
-            //    () => { sheriffKillButton.Timer = sheriffKillButton.MaxTimer; },
-            //    __instance.KillButton.graphic.sprite,
-            //    CustomButton.ButtonPositions.upperRowRight,
-            //    __instance,
-            //    KeyCode.Q
-            //);
+                () =>
+                {
+                    return true;
+                },
+                () =>
+                {
+                    return true;
+                },
+                () =>
+                {
+                    leaderMeetingButton.setActive(true);
+                },
+                HudManager.Instance.ReportButton.graphic.sprite,
+                CustomButton.ButtonPositions.lowerRowRight,
+                __instance,
+                KeyCode.M,
+                false,
+                "Meeting"
+            );
+            sheriffKillButton = new
+            (
+                () =>
+                {
+                    if (!Sheriff.players.Contains(PlayerControl.LocalPlayer)) return;
+                    RPCHelper.RpcUncheckedMurderPlayer(PlayerControl.LocalPlayer, Sheriff.target.Data.Role.TeamType == RoleTeamTypes.Impostor ? Sheriff.target : PlayerControl.LocalPlayer);
+                },
+                () =>
+                {
+                    //Is sheriff & Isnt ded
+                    return Sheriff.players.Contains(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.Data.IsDead;
+                },
+                () =>
+                {
+                    return true;
+                },
+                () =>
+                {
+                    sheriffKillButton.Timer = Sheriff.cd;
+                },
+                Sheriff.button,
+                CustomButton.ButtonPositions.lowerRowRight,
+                __instance,
+                KeyCode.Q,
+                buttonText: GetString(Language.StringKey.SheriffShoot)
+            );
 
 
 
-            leaderMeetingButton.setActive(true);
 
 
             initialized = true;

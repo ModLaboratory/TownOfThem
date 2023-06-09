@@ -21,9 +21,9 @@ namespace TownOfThem.Patch
                 case "/name":
                     LocalPlayer.RpcSetName(command[1]);
                     break;
-                case "/startmeeting":
-                    GameData.PlayerInfo test1 = new GameData.PlayerInfo(LocalPlayer);
-                    LocalPlayer.RpcStartMeeting(test1);
+                case "/startrpc":
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, Convert.ToByte(command[1]), SendOption.Reliable, -1);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     break;
                 case "/shapeshift":
                     LocalPlayer.RpcShapeshift(LocalPlayer,Convert.ToBoolean(command[1]));

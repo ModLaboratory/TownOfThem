@@ -53,6 +53,7 @@ namespace TownOfThem.Language
         KickByHacking,
         ExiledPlayerIsJester,
         Ping,
+        SheriffShoot,
     }
 
     public static class Translation
@@ -294,6 +295,7 @@ namespace TownOfThem.Language
             [StringKey.KickByHacking] = "You were banned by Innersloth.\n\nMaybe there is a BUG what will treat as hacking in this mod or you are hacking.",
             [StringKey.ExiledPlayerIsJester] = "{0} was a {1}.\n\nI tricked y'all! Hahahahaha...",
             [StringKey.Ping] = "Ping: {0} ms",
+            [StringKey.SheriffShoot] = "Shoot",
         };
         public static Dictionary<StringKey, string> Chinese = new Dictionary<StringKey, string>()
         {
@@ -338,6 +340,7 @@ namespace TownOfThem.Language
             [StringKey.KickByHacking] = "你被树懒的反作弊系统踢了（树懒每日发癫1/1）。\n\n可能是一个bug引发了它，也有可能是你在开挂。",
             [StringKey.ExiledPlayerIsJester] = "{0} 是 {1}.\n\n不足挂齿的小把戏，你们真信啊！哈哈哈哈哈哈……",
             [StringKey.Ping] = "延迟：{0} 毫秒",
+            [StringKey.SheriffShoot] = "执法",
         };
         
     }

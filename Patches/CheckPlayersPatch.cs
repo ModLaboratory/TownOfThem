@@ -28,7 +28,7 @@ namespace TownOfThem.Patch
         public static void ShareVersion()
         {
             uint netID = PlayerControl.LocalPlayer.NetId;
-            PlayerControl.LocalPlayer.RPCSendModVersion(Main.ModVer);
+            PlayerControl.LocalPlayer.RpcSendModVersion(Main.ModVer);
             RPCProcedure.ShareModVersion(netID, Main.ModVer);
         }
     }

@@ -6,5 +6,11 @@ using System.Threading.Tasks;
 
 namespace TownOfThem.Modes
 {
-    
+    class NonEmergencyMeeting
+    {
+        public static void Start()
+        {
+            
+        }
+    }
 }

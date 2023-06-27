@@ -18,8 +18,8 @@ namespace TownOfThem
     public class Main : BasePlugin
     {
 
-        public static DateTime ExpireTime = new DateTime(2023,7,10);
-        public static DateTime BuildTime = new DateTime(2023,6,10);
+        public static DateTime ExpireTime = new DateTime(2023, 12, 31, 23, 59, 59);
+        public static DateTime BuildTime = new DateTime(2023, 6, 27);
         public static bool IsBeta = true;
         internal static new ManualLogSource Log;
         public static Main Instance;
@@ -28,7 +28,7 @@ namespace TownOfThem
         public const string ModGUID = "cn.JieGe.TownOfThem";
         public const string ModName = "<size=130%><color=#FF8C00>Town Of Them</color></size>";
         public const string ModVer = "0.0.0.1";
-        public static readonly string GithubLink = "https://github.com/JieGeLovesDengDuaLang/TownOfThem";
+        public static readonly string GithubLink = "https://github.com/TownOfThemAU/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
         public static ConfigEntry<bool> EnableDevMode;
 

@@ -12,8 +12,8 @@ namespace TownOfThem.Patches
         {
             SetLangDic(TranslationController.Instance.currentLanguage.languageID);
             init = true;
-            //GameOptionsMenuStartPatch.destroyAllOptions();
-            //CustomGameOptions.Load();
+            
+            CustomGameOptions.Load();
         }
     }
     //[HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString))]
@@ -42,7 +42,8 @@ namespace TownOfThem.Patches
         public static void Postfix([HarmonyArgument(0)] TranslatedImageSet lang)
         {
             SetLangDic(lang.languageID);
-            
+            GameOptionsMenuStartPatch.destroyAllOptions();
+            CustomGameOptions.Load();
         }
     }
 }

@@ -1,22 +1,39 @@
-﻿using Epic.OnlineServices.Mods;
-using HarmonyLib;
-using System;
+﻿using System;
 using System.Text;
 using UnityEngine;
-using static TownOfThem.Language.Translation;
 using static TownOfThem.Main;
 
-//used TownOfHost's code
 namespace TownOfThem.Patch
 {
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class MainMenuButtonPatch
     {
-        public static void Start_Prefix(MainMenuManager __instance)
+        public static PassiveButton template;
+        public static PassiveButton github;
+        public static PassiveButton bilibili;
+        public static void Postfix(MainMenuManager __instance)
         {
+            template = __instance.quitButton;
+            if (template == null) return;
+            github = CreateButton("GitHubButton", new Vector3(10f, 10f, 0), () =>
+            {
+                Application.OpenURL(GithubLink);
+            }, "GitHub");
+            bilibili = CreateButton("BilibiliButton", new Vector3(20f, 10f, 0), () =>
+            {
+                Application.OpenURL(Main.BilibiliLink);
+            }, GetString(Language.StringKey.Bilibili));
             
         }
-        
+        static PassiveButton CreateButton(string name, Vector3 position, Action action, string label)
+        {
+            var button = UnityEngine.Object.Instantiate(template);
+            button.name = name;
+            button.transform.localPosition = position;
+            button.OnClick.RemoveAllListeners();
+            button.buttonText.text = label;
+            return button;
+        }
     }
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
@@ -27,9 +44,7 @@ namespace TownOfThem.Patch
         {
             if ((amongUsLogo = GameObject.Find("LOGO-AU")) != null)
             {
-                amongUsLogo.transform.localScale *= 0.4f;
-                amongUsLogo.transform.position += Vector3.up * 0.25f;
-                amongUsLogo.GetComponent<SpriteRenderer>().sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 200);
+                amongUsLogo.GetComponent<SpriteRenderer>().sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 100f);
                 amongUsLogo.name = "totLogo";
             }
         }

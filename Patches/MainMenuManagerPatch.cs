@@ -45,10 +45,6 @@ namespace TownOfThem.Patches
                 pressed.enabled = false;
                 unpressed.enabled = true;
             }));
-            creditsButton.OnClick.AddListener((UnityAction)(() =>
-            {
-                CreditsPatch.IsModCredits = true;
-            }));
             
 
             if (Main.IsBeta)

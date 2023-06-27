@@ -12,12 +12,18 @@ namespace TownOfThem.Roles
         public static List<int> enableCrewRoles = new();
         public static void Postfix(RoleManager __instance)
         {
-            if (AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance.AmHost) return;
+            switch (CreateCustomObjects.CustomGameOptions.gameModes.selection)
             {
-                GetEnableRoles();
-                AssignRoles();
-                RPCAssignRoles();
+                case 0:
+                    GetEnableRoles();
+                    AssignRoles();
+                    RPCAssignRoles();
+                    break;
+                case 1:
+                    break;
             }
+
         }
         public static void GetEnableRoles()
         {

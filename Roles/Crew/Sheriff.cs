@@ -7,7 +7,7 @@ namespace TownOfThem.Roles.Crew
     {
         public static Sheriff Instance = new();
         public static new Color color = new Color(248, 205, 70);
-        public static new Sprite button = ModHelpers.LoadSprite("");
+        public static new Sprite button = ModHelpers.LoadSprite("TownOfThem.Resources.SheriffKillButton.png");
         public static new List<PlayerControl> players
         {
             get

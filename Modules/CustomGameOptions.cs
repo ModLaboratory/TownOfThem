@@ -215,7 +215,33 @@ namespace TownOfThem.CustomObjects
             createClassicTabs(__instance);
 
         }
+        public static void destroyAllOptions()
+        {
 
+            var gameSettings = GameObject.Find("Game Settings");
+            var totSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var totMenu = getMenu(totSettings, "TOTSettings");
+
+            var ImpostorSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var ImpostorMenu = getMenu(ImpostorSettings, "ImpostorSettings");
+
+            var neutralSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var neutralMenu = getMenu(neutralSettings, "NeutralSettings");
+
+            var crewmateSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var crewmateMenu = getMenu(crewmateSettings, "CrewmateSettings");
+
+            var modifierSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var modifierMenu = getMenu(modifierSettings, "ModifierSettings");
+
+            destroyOptions(new List<List<OptionBehaviour>>{
+                totMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
+                ImpostorMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
+                neutralMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
+                crewmateMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
+                modifierMenu.GetComponentsInChildren<OptionBehaviour>().ToList()
+            });
+        }
         private static void createClassicTabs(GameOptionsMenu __instance)
         {
             bool isReturn = setNames(
@@ -254,37 +280,37 @@ namespace TownOfThem.CustomObjects
             var roleTab = GameObject.Find("RoleTab");
             var gameTab = GameObject.Find("GameTab");
 
-            var torTab = UnityEngine.Object.Instantiate(roleTab, roleTab.transform.parent);
-            var torTabHighlight = getTabHighlight(torTab, "TownOfThemTab", "TownOfThem.Resources.TabIcon.png");
+            var totTab = UnityEngine.Object.Instantiate(roleTab, roleTab.transform.parent);
+            var totTabHighlight = getTabHighlight(totTab, "TownOfThemTab", "TownOfThem.Resources.TabIcon.png");
 
-            var impostorTab = UnityEngine.Object.Instantiate(roleTab, torTab.transform);
-            var impostorTabHighlight = getTabHighlight(impostorTab, "ImpostorTab", "TownOfThem.Resources.TabIconImpostor.png");
+            var impostotTab = UnityEngine.Object.Instantiate(roleTab, totTab.transform);
+            var impostotTabHighlight = HudManagerGetButton.KillButton/*getTabHighlight(impostotTab, "ImpostotTab", "TownOfThem.Resources.TabIconImpostor.png")*/;
 
-            var neutralTab = UnityEngine.Object.Instantiate(roleTab, impostorTab.transform);
+            var neutralTab = UnityEngine.Object.Instantiate(roleTab, impostotTab.transform);
             var neutralTabHighlight = getTabHighlight(neutralTab, "NeutralTab", "TownOfThem.Resources.TabIconNeutral.png");
 
             var crewmateTab = UnityEngine.Object.Instantiate(roleTab, neutralTab.transform);
             var crewmateTabHighlight = getTabHighlight(crewmateTab, "CrewmateTab", "TownOfThem.Resources.TabIconCrewmate.png");
 
             var modifierTab = UnityEngine.Object.Instantiate(roleTab, crewmateTab.transform);
-            var modifierTabHighlight = getTabHighlight(modifierTab, "ModifierTab", "TownOfThem.Resources.TabIconModifier.png");
+            var modifierTabHighlight = ModManager._instance.ModStamp;//getTabHighlight(modifierTab, "ModifierTab", "TownOfThem.Resources.TabIconModifier.png");
 
             gameTab.transform.position += Vector3.left * 3f;
             roleTab.transform.position += Vector3.left * 3f;
-            torTab.transform.position += Vector3.left * 2f;
-            impostorTab.transform.localPosition = Vector3.right * 1f;
+            totTab.transform.position += Vector3.left * 2f;
+            impostotTab.transform.localPosition = Vector3.right * 1f;
             neutralTab.transform.localPosition = Vector3.right * 1f;
             crewmateTab.transform.localPosition = Vector3.right * 1f;
             crewmateTab.transform.localScale *= 0.8f;
             modifierTab.transform.localPosition = Vector3.right * 1f;
 
-            var tabs = new GameObject[] { gameTab, roleTab, torTab, impostorTab, neutralTab, crewmateTab, modifierTab };
+            var tabs = new GameObject[] { gameTab, roleTab, totTab, impostotTab, neutralTab, crewmateTab, modifierTab };
             var settingsHighlightMap = new Dictionary<GameObject, SpriteRenderer>
             {
                 [gameSettingMenu.RegularGameSettings] = gameSettingMenu.GameSettingsHightlight,
                 [gameSettingMenu.RolesSettings.gameObject] = gameSettingMenu.RolesSettingsHightlight,
-                [totSettings.gameObject] = torTabHighlight,
-                [ImpostorSettings.gameObject] = impostorTabHighlight,
+                [totSettings.gameObject] = totTabHighlight,
+                [ImpostorSettings.gameObject] = impostotTabHighlight,
                 [neutralSettings.gameObject] = neutralTabHighlight,
                 [crewmateSettings.gameObject] = crewmateTabHighlight,
                 [modifierSettings.gameObject] = modifierTabHighlight
@@ -392,10 +418,8 @@ namespace TownOfThem.CustomObjects
             var tabHighlight = tab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
             tab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = TownOfThem.ModHelpers.LoadSprite(tabSpritePath, 100f);
             tab.name = "tabName";
-
             return tabHighlight;
         }
-
         private static void setOptions(List<GameOptionsMenu> menus, List<List<OptionBehaviour>> options, List<GameObject> settings)
         {
             if (!(menus.Count == options.Count && options.Count == settings.Count))
@@ -423,7 +447,6 @@ namespace TownOfThem.CustomObjects
             if (longTasksOption != null) longTasksOption.ValidRange = new FloatRange(0f, 15f);
         }
     }
-
     [HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
     public class StringOptionEnablePatch
     {
@@ -710,6 +733,33 @@ namespace TownOfThem.CustomObjects
 
             Scroller.Inner = __instance.GameSettings.transform;
             __instance.GameSettings.transform.SetParent(Scroller.transform);
+        }
+    }
+    [HarmonyPatch(typeof(HudManager),nameof(HudManager.Start))]
+    class HudManagerGetButton
+    {
+        public static SpriteRenderer AbilityButton;
+        public static SpriteRenderer AdminButton;
+        public static SpriteRenderer ImpostorVentButton;
+        public static SpriteRenderer PetButton;
+        public static SpriteRenderer ReportButton;
+        public static SpriteRenderer SabotageButton;
+        public static SpriteRenderer UseButton;
+        public static SpriteRenderer KillButton;
+        static void Postfix(HudManager __instance)
+        {
+            GetButton(__instance);
+        }
+        static void GetButton(HudManager __instance)
+        {
+            AbilityButton = __instance.AbilityButton.graphic;
+            AdminButton = __instance.AdminButton.graphic;
+            ImpostorVentButton = __instance.ImpostorVentButton.graphic;
+            PetButton = __instance.PetButton.graphic;
+            ReportButton = __instance.ReportButton.graphic;
+            SabotageButton = __instance.SabotageButton.graphic;
+            UseButton = __instance.UseButton.graphic;
+            KillButton = __instance.KillButton.graphic;
         }
     }
 }

@@ -13,12 +13,10 @@ namespace TownOfThem.Patch
             if (TownOfThem.CreateCustomObjects.CustomGameOptions.DebugMode.getBool())
             {
                 __instance.MinPlayers = 0;
-                __instance.countDownTimer = 0;
             }
             else
             {
                 __instance.MinPlayers = 4;
-                __instance.countDownTimer = 5;
             }
         }
     }

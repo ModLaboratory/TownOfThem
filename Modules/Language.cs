@@ -54,6 +54,10 @@ namespace TownOfThem.Language
         ExiledPlayerIsJester,
         Ping,
         SheriffShoot,
+        DevModeWarning,
+        FunnyOk,
+        BuildTime,
+        ExpireTime,
     }
 
     public static class Translation
@@ -254,7 +258,7 @@ namespace TownOfThem.Language
         }
         public static Dictionary<StringKey, string> English = new Dictionary<StringKey, string>()
         {
-            [StringKey.ModInfo1] = "Modded By JieGe ",
+            [StringKey.ModInfo1] = "Programming: Jiege  Artist: Xiaolu",
             [StringKey.totBirthday] = "Happy Birthday To {0}!",
             [StringKey.totSettings] = "Town Of Them Settings ",
             [StringKey.ImpostorSettings] = "Impostor Roles Settings ",
@@ -296,10 +300,14 @@ namespace TownOfThem.Language
             [StringKey.ExiledPlayerIsJester] = "{0} was a {1}.\n\nI tricked y'all! Hahahahaha...",
             [StringKey.Ping] = "Ping: {0} ms",
             [StringKey.SheriffShoot] = "Shoot",
+            [StringKey.DevModeWarning] = "You are playing Town Of Them on developer mode!\nIt will active some hidden things, but maybe it will make some trouble...",
+            [StringKey.FunnyOk] = "That's for sure lol",
+            [StringKey.BuildTime] = "Build time: ",
+            [StringKey.ExpireTime] = "Expire time: ",
         };
         public static Dictionary<StringKey, string> Chinese = new Dictionary<StringKey, string>()
         {
-            [StringKey.ModInfo1] = "杰哥制作",
+            [StringKey.ModInfo1] = "程序：杰哥  美术：小鹿",
             [StringKey.totBirthday] = "生日快乐，{0}！",
             [StringKey.totSettings] = "他们的小镇设置",
             [StringKey.ImpostorSettings] = "内鬼职业设置",
@@ -341,6 +349,9 @@ namespace TownOfThem.Language
             [StringKey.ExiledPlayerIsJester] = "{0} 是 {1}.\n\n不足挂齿的小把戏，你们真信啊！哈哈哈哈哈哈……",
             [StringKey.Ping] = "延迟：{0} 毫秒",
             [StringKey.SheriffShoot] = "执法",
+            [StringKey.FunnyOk] = "朕已阅",
+            [StringKey.BuildTime] = "构建时间：",
+            [StringKey.ExpireTime] = "到期时间： ",
         };
         
     }

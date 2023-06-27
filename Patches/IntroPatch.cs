@@ -1,7 +1,8 @@
-﻿using Cpp2IL.Core.Analysis.Actions.x86.Important;
+﻿
 using HarmonyLib;
 using System;
 using TownOfThem.CreateCustomObjects;
+using TownOfThem.Roles;
 using TownOfThem.Utilities;
 
 namespace TownOfThem.Patch
@@ -14,6 +15,7 @@ namespace TownOfThem.Patch
             switch (CustomGameOptions.gameModes.selection)
             {
                 case 0:
+                    __instance.YouAreText.text = ((RoleId)SelectRolesPatch.pr[PlayerControl.LocalPlayer]).ToString();
                     break;
                 case 1:
                     __instance.YouAreText.text = PlayerControl.LocalPlayer.Data.PlayerName;

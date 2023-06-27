@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using static Il2CppSystem.Net.Http.Headers.Parser;
 
 namespace TownOfThem.Patches
@@ -22,24 +24,48 @@ namespace TownOfThem.Patches
         }
         public static void Postfix(MainMenuManager __instance)
         {
-            var localButton = GameObject.Find("PlayLocalButton");
-            var onlineButton = GameObject.Find("PlayOnlineButton");
-            var freeplayButton = GameObject.Find("FreePlayButton");
-            var howtoplayButton = GameObject.Find("HowToPlayButton");
-            localButton.transform.position = new Vector3(2.85f, 1.15f, 0);
-            onlineButton.transform.position = new Vector3(2.85f, 0.3f, 0);
-            freeplayButton.transform.position = new Vector3(2.85f, -0.95f, 0);
-            howtoplayButton.transform.position = new Vector3(2.85f, -0.4f, 0);
+            var button = __instance.GetComponentInChildren<DoNotPressButton>(true);
+            SpriteRenderer pedestal = button.GetComponent<SpriteRenderer>();
+            SpriteRenderer pressed = button.transform.GetChild(0).GetComponent<SpriteRenderer>();
+            SpriteRenderer unpressed = button.transform.GetChild(1).GetComponent<SpriteRenderer>();
+            pedestal.gameObject.SetActive(true);
+            pressed.gameObject.SetActive(true);
+            unpressed.gameObject.SetActive(true);
+            unpressed.enabled = true;
+            pressed.enabled = false;
+            PassiveButton creditsButton = button.GetComponent<PassiveButton>();
+
+            creditsButton.OnMouseOver.AddListener((UnityAction)(() =>
+            {
+                pressed.enabled = true;
+                unpressed.enabled = false;
+            }));
+            creditsButton.OnMouseOut.AddListener((UnityAction)(() =>
+            {
+                pressed.enabled = false;
+                unpressed.enabled = true;
+            }));
+            creditsButton.OnClick.AddListener((UnityAction)(() =>
+            {
+                CreditsPatch.IsModCredits = true;
+            }));
+            
 
             if (Main.IsBeta)
             {
                 if (System.DateTime.UtcNow >= Main.ExpireTime.ToUniversalTime())
                 {
                     ShowPopup(GetString(Language.StringKey.ModExpired), bat: ButtonActionType.Quit);
+                    return;
                 }
             }
+            if (Main.EnableDevMode.Value)
+            {
+                ShowPopup(GetString(Language.StringKey.DevModeWarning), buttonText: GetString(Language.StringKey.FunnyOk));
+            }
+
         }
-        public static void ShowPopup(string message, bool showButton = true, ButtonActionType bat = ButtonActionType.Close, System.Action action = null)
+        public static void ShowPopup(string message, bool showButton = true, ButtonActionType bat = ButtonActionType.Close, System.Action action = null, string buttonText = null)
         {
             System.Action a = null;
             if (InfoPopup != null)
@@ -49,7 +75,14 @@ namespace TownOfThem.Patches
                 if (button != null)
                 {
                     button.gameObject.SetActive(showButton);
-                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    if (buttonText == null)
+                    {
+                        button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
+                    }
+                    else
+                    {
+                        button.GetChild(0).GetComponent<TextMeshPro>().text = GetString(Language.StringKey.FunnyOk);
+                    }
                     button.GetComponent<PassiveButton>().OnClick = new();
                     switch (bat)
                     {

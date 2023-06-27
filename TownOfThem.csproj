@@ -8,23 +8,25 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release;Beta</Configurations>
+    <AmongUs>H:\Among Us\AmongUs</AmongUs>
   </PropertyGroup>
 
   <ItemGroup>
     	<EmbeddedResource Include="Resources\**" />
+	<Reference Include="$(AmongUs)\BepInEx\core\*.dll" />
+    	<Reference Include="$(AmongUs)\BepInEx\interop\*.dll" />
   </ItemGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.3.28" />
-	  <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1" />
-	  <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.664" Private="false" ExcludeAssets="runtime;native" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="Roles\Imp\" />
     <Folder Include="Roles\Modi\" />
   </ItemGroup>
 
+<Target Name="Copy" AfterTargets="Build" Condition="'$(AmongUs)' != ''">
+		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(AmongUs)/BepInEx/plugins/" Condition="'$(Configuration)' == 'Debug'" />
+	</Target>
   
 
   

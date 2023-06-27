@@ -10,7 +10,7 @@ namespace TownOfThem.CreateCustomObjects
         public static string[] ratesModifier = new string[] { "1", "2", "3" };
         public static string[] presets = new string[] { GetString("Preset1"), GetString("Preset2"), GetString("Preset3"), GetString("Preset4"), GetString("Preset5") };
         //public static string[] hostName = new string[] { GetString("Off"), GetString("HostSuggestName2"), GetString("HostSuggestName3") };
-        public static string[] gamemodes = new string[] { GetString("Gamemode_Classic"), GetString("Gamemode_BattleRoyale") ,"Host Of Them"/*planning*/ };
+        public static string[] gamemodes = new string[] { GetString("Gamemode_Classic"), GetString("Gamemode_BattleRoyale") ,/*"Host Of Them"     planning*/ };
         //host
         //public static CustomOption HostName;
         //debug

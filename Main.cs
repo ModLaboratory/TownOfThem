@@ -18,9 +18,9 @@ namespace TownOfThem
     public class Main : BasePlugin
     {
 
-        public static DateTime ExpireTime = new DateTime();
-        public static DateTime BuildTime = new DateTime();
-        public static bool IsBeta = false;
+        public static DateTime ExpireTime = new DateTime(2023,7,10);
+        public static DateTime BuildTime = new DateTime(2023,6,10);
+        public static bool IsBeta = true;
         internal static new ManualLogSource Log;
         public static Main Instance;
         public static bool ModDamaged = false;

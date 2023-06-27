@@ -9,42 +9,12 @@ using static TownOfThem.Main;
 //used TownOfHost's code
 namespace TownOfThem.Patch
 {
-    [HarmonyPatch]
+    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     public class MainMenuButtonPatch
     {
-        public static GameObject template;
-        public static GameObject githubButton;
-        [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start)), HarmonyPrefix]
         public static void Start_Prefix(MainMenuManager __instance)
         {
-            if (template == null) template = GameObject.Find("/MainUI/ExitGameButton");
-            if (template == null) return;
-            if (githubButton == null) githubButton = UnityEngine.Object.Instantiate(template, template.transform.parent);
-            githubButton.name = "githubButton";
-            githubButton.transform.position = Vector3.Reflect(template.transform.position, Vector3.left);
-
-            var githubText = githubButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-            Color githubColor = new Color32(255, 255, 255, byte.MaxValue);
-            PassiveButton githubPassiveButton = githubButton.GetComponent<PassiveButton>();
-            SpriteRenderer githubButtonSprite = githubButton.GetComponent<SpriteRenderer>();
-            githubPassiveButton.OnClick = new();
-            githubPassiveButton.OnClick.AddListener((Action)(() => Application.OpenURL(GithubLink)));
-            githubPassiveButton.OnMouseOut.AddListener((Action)(() => githubButtonSprite.color = githubText.color = githubColor));
-            __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => githubText.SetText("Github"))));
-            githubButtonSprite.color = githubText.color = githubColor;
-            githubButton.gameObject.SetActive(true);
-
-            var howToPlayButton = GameObject.Find("HowToPlayButton");
-            if (howToPlayButton != null)
-            {
-                var bilibiliText = howToPlayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>();
-                Color bilibiliColor = new Color32(0, 174, 236, byte.MaxValue);
-                howToPlayButton.GetComponent<PassiveButton>().OnClick = new();
-                howToPlayButton.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.OpenURL(TownOfThem.Main.BilibiliLink)));
-                howToPlayButton.GetComponent<PassiveButton>().OnMouseOut.AddListener((Action)(() => howToPlayButton.GetComponent<SpriteRenderer>().color = bilibiliText.color = bilibiliColor));
-                __instance.StartCoroutine(Effects.Lerp(0.01f, new Action<float>((p) => howToPlayButton.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().SetText(GetString("Bilibili")))));
-                howToPlayButton.GetComponent<SpriteRenderer>().color = bilibiliText.color = bilibiliColor;
-            }
+            
         }
         
     }
@@ -55,18 +25,13 @@ namespace TownOfThem.Patch
         public static GameObject amongUsLogo;
         static void Postfix(MainMenuManager __instance)
         {
-            if ((amongUsLogo = GameObject.Find("bannerLogo_AmongUs")) != null)
+            if ((amongUsLogo = GameObject.Find("LOGO-AU")) != null)
             {
                 amongUsLogo.transform.localScale *= 0.4f;
                 amongUsLogo.transform.position += Vector3.up * 0.25f;
+                amongUsLogo.GetComponent<SpriteRenderer>().sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 200);
+                amongUsLogo.name = "totLogo";
             }
-
-            var totlogo = new GameObject("totLogo");
-            totlogo.transform.position = Vector3.up;
-            totlogo.transform.localScale *= 1.2f;
-            var renderer = totlogo.AddComponent<SpriteRenderer>();
-            renderer.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
-            totlogo.transform.SetLocalX(-0.5f);
         }
     }
      [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
@@ -76,6 +41,7 @@ namespace TownOfThem.Patch
         public static StringBuilder modInfo = new();
         static void getInfo()
         {
+            //修改必追究
             modInfo.Clear();
             //birthday
             if ((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
@@ -86,9 +52,12 @@ namespace TownOfThem.Patch
             {
                 modInfo.Append(IsBeta ? ModName + "<color=#00b4eb> Beta </color>" : ModName);
             }
-
             //version + credits
-            modInfo.Append($"v{ModVer}\n<size=100%>" + GetString(Language.StringKey.ModInfo1) + "</size>");
+            modInfo.Append($"v{ModVer}\n<size=80%>" + GetString(Language.StringKey.ModInfo1) + "</size>\n");
+
+            modInfo.Append("<size=65%>").Append(GetString(Language.StringKey.BuildTime)).Append(Main.BuildTime.ToString("yyyy-MM-dd"));
+            if (IsBeta) modInfo.Append("\n").Append(GetString(Language.StringKey.ExpireTime)).Append(Main.ExpireTime.ToString());
+            modInfo.Append("</size>");
         }
         static void Postfix(VersionShower __instance)
         {
@@ -103,9 +72,11 @@ namespace TownOfThem.Patch
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
     class ModStampPatch
     {
-        public static void Prefix(ModManager __instance)
+        public static SpriteRenderer ModStamp = null;
+        static void Prefix(ModManager __instance)
         {
             __instance.ShowModStamp();
+            ModStamp = __instance.ModStamp;
         }
     }
 

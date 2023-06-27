@@ -1,5 +1,7 @@
 ﻿using static TownOfThem.Language.Language;
 using TownOfThem.Roles.Neu;
+using TownOfThem.CustomObjects;
+using TownOfThem.CreateCustomObjects;
 
 namespace TownOfThem.Patches
 {
@@ -10,8 +12,8 @@ namespace TownOfThem.Patches
         {
             SetLangDic(TranslationController.Instance.currentLanguage.languageID);
             init = true;
-
-            CreateCustomObjects.CustomGameOptions.Load();
+            //GameOptionsMenuStartPatch.destroyAllOptions();
+            //CustomGameOptions.Load();
         }
     }
     //[HarmonyPatch(typeof(TranslationController), nameof(TranslationController.GetString))]
@@ -40,7 +42,7 @@ namespace TownOfThem.Patches
         public static void Postfix([HarmonyArgument(0)] TranslatedImageSet lang)
         {
             SetLangDic(lang.languageID);
-            CreateCustomObjects.CustomGameOptions.Load();
+            
         }
     }
 }

@@ -7,7 +7,7 @@ using Il2CppSystem.Web.Util;
 using Il2CppSystem.Linq.Expressions;
 using TownOfThem.Patch;
 using static TownOfThem.Patch.SendModVer;
-using static TownOfThem.Language.Translation;
+using static TownOfThem.Modules.Translation;
 using UnityEngine;
 
 namespace TownOfThem.Patch

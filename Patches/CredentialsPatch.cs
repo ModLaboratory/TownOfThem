@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System.Drawing;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using static TownOfThem.Main;
 
@@ -15,38 +17,88 @@ namespace TownOfThem.Patch
         {
             template = __instance.quitButton;
             if (template == null) return;
-            github = CreateButton("GitHubButton", new Vector3(10f, 10f, 0), () =>
+            if (github == null)
             {
-                Application.OpenURL(GithubLink);
-            }, "GitHub");
-            bilibili = CreateButton("BilibiliButton", new Vector3(20f, 10f, 0), () =>
+                github = CreateButton(
+                    "GitHubButton",
+                    new(1f, -1f, 1f),
+                    new(153, 153, 153, byte.MaxValue),
+                    new(209, 209, 209, byte.MaxValue),
+                    () => Application.OpenURL(GithubLink),
+                    "GitHub");
+            }
+            if (bilibili == null)
             {
-                Application.OpenURL(Main.BilibiliLink);
-            }, GetString(Language.StringKey.Bilibili));
-            
+                bilibili = CreateButton(
+                    "BilibiliButton",
+                    new(-1f, -1f, 1f),
+                    new(0, 174, 236, byte.MaxValue),
+                    new(0, 134, 236, byte.MaxValue),
+                    () => Application.OpenURL(Main.BilibiliLink),
+                    GetString(StringKey.Bilibili));
+            }
+
         }
-        static PassiveButton CreateButton(string name, Vector3 position, Action action, string label)
+        //https://github.com/tukasa0001/TownOfHost/blob/main/Patches/MainMenuManagerPatch.cs
+        private static PassiveButton CreateButton(string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, System.Action action, string label, Vector2? scale = null)
         {
-            var button = UnityEngine.Object.Instantiate(template);
+            var button = Object.Instantiate(template, ModLogoPatch.amongUsLogo.transform);
             button.name = name;
-            button.transform.localPosition = position;
-            button.OnClick.RemoveAllListeners();
-            button.buttonText.text = label;
+            Object.Destroy(button.GetComponent<AspectPosition>());
+            button.transform.localPosition = localPosition;
+
+            button.OnClick = new();
+            button.OnClick.AddListener(action);
+
+            var buttonText = button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMP_Text>();
+            var translator = buttonText.GetComponent<TextTranslatorTMP>();
+            if (translator != null)
+            {
+                Object.Destroy(translator);
+            }
+            buttonText.fontSize = buttonText.fontSizeMax = buttonText.fontSizeMin = 3.5f;
+            buttonText.enableWordWrapping = false;
+            buttonText.text = label;
+            var normalSprite = button.inactiveSprites.GetComponent<SpriteRenderer>();
+            var hoverSprite = button.activeSprites.GetComponent<SpriteRenderer>();
+            normalSprite.color = normalColor;
+            hoverSprite.color = hoverColor;
+            var container = buttonText.transform.parent;
+            Object.Destroy(container.GetComponent<AspectPosition>());
+            Object.Destroy(buttonText.GetComponent<AspectPosition>());
+            container.SetLocalX(0f);
+            buttonText.transform.SetLocalX(0f);
+            buttonText.horizontalAlignment = HorizontalAlignmentOptions.Center;
+
+            var buttonCollider = button.GetComponent<BoxCollider2D>();
+            if (scale.HasValue)
+            {
+                normalSprite.size = hoverSprite.size = buttonCollider.size = scale.Value;
+            }
+            buttonCollider.offset = new(0f, 0f);
+
             return button;
         }
+
     }
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
     class ModLogoPatch
     {
         public static GameObject amongUsLogo;
+        public static SpriteRenderer totLogo;
         static void Postfix(MainMenuManager __instance)
         {
-            if ((amongUsLogo = GameObject.Find("LOGO-AU")) != null)
-            {
-                amongUsLogo.GetComponent<SpriteRenderer>().sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 100f);
-                amongUsLogo.name = "totLogo";
-            }
+            amongUsLogo = GameObject.Find("LOGO-AU");
+
+            var rightpanel = __instance.gameModeButtons.transform.parent;
+            var logoObject = new GameObject("titleLogo_TOH");
+            var logoTransform = logoObject.transform;
+            totLogo = logoObject.AddComponent<SpriteRenderer>();
+            logoTransform.parent = rightpanel;
+            logoTransform.localPosition = new(0f, 0.15f, 1f);
+            logoTransform.localScale *= 1.2f;
+            totLogo.sprite = ModHelpers.LoadSprite("TownOfThem.Resources.totLogo.png", 300f);
         }
     }
      [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
@@ -59,30 +111,31 @@ namespace TownOfThem.Patch
             //修改必追究
             modInfo.Clear();
             //birthday
-            if ((DateTime.Now.Month == 12) && (DateTime.Now.Day == 21))
+            if ((System.DateTime.Now.Month == 12) && (System.DateTime.Now.Day == 21))
             {
-                modInfo.Append(string.Format(GetString(Language.StringKey.totBirthday), IsBeta ? ModName + "<color=#00b4eb> Beta</color>" : ModName));
+                modInfo.Append(string.Format(GetString(StringKey.totBirthday), IsBeta ? ModName + "<color=#00b4eb> Beta</color>" : ModName));
             }
             else
             {
                 modInfo.Append(IsBeta ? ModName + "<color=#00b4eb> Beta </color>" : ModName);
             }
             //version + credits
-            modInfo.Append($"v{ModVer}\n<size=80%>" + GetString(Language.StringKey.ModInfo1) + "</size>\n");
+            modInfo.Append($"v{ModVer}\n<size=80%>" + GetString(StringKey.ModInfo1) + "</size>\n");
 
-            modInfo.Append("<size=65%>").Append(GetString(Language.StringKey.BuildTime)).Append(Main.BuildTime.ToString("yyyy-MM-dd"));
-            if (IsBeta) modInfo.Append("\n").Append(GetString(Language.StringKey.ExpireTime)).Append(Main.ExpireTime.ToString());
-            modInfo.Append("</size>");
+            modInfo.Append("<size=65%>").Append(GetString(StringKey.BuildTime)).Append(BuildTime.ToString("yyyy-MM-dd"));
+            if (IsBeta) modInfo.Append("\n").Append(GetString(StringKey.ExpireTime)).Append(ExpireTime.ToString());
+            modInfo.Append("</size>\n");
+            if (EnableDevMode.Value) modInfo.Append("<color=#00b4eb>").Append(GetString(StringKey.DeveloperMode)).Append("</color>\n");
         }
         static void Postfix(VersionShower __instance)
         {
             var credentials = UnityEngine.Object.Instantiate(__instance.text);
             getInfo();
             credentials.text = modInfo.ToString();
-            credentials.alignment = TMPro.TextAlignmentOptions.TopRight;
-            credentials.transform.position = new Vector3(4f, 3f, 0);
+            credentials.alignment = TMPro.TextAlignmentOptions.BottomRight;
+            credentials.transform.position = new Vector3(5f, 0, 0);
         }
-     }
+    }
 
     [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
     class ModStampPatch
@@ -114,7 +167,7 @@ namespace TownOfThem.Patch
             {
                 ping.Append("#ff0000>");
             }
-            ping.Append(string.Format(GetString(Language.StringKey.Ping), AmongUsClient.Instance.Ping)).Append("</color>");
+            ping.Append(string.Format(GetString(StringKey.Ping), AmongUsClient.Instance.Ping)).Append("</color>");
             __instance.text.text = VersionShowerPatch.modInfo.ToString() + ping.ToString();
             __instance.transform.localPosition = new Vector3(1f, 3f, __instance.transform.localPosition.z);
         }

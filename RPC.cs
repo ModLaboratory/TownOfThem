@@ -3,12 +3,14 @@ using Hazel;
 using Il2CppSystem.Web.Util;
 using System;
 using System.Linq;
-using TownOfThem.CustomObjects;
+using TownOfThem.Modules;
 using TownOfThem.Utilities;
 using TownOfThem.Patch;
 using TownOfThem.Roles;
 using TownOfThem.Roles.Crew;
 using System.Runtime.CompilerServices;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using InnerNet;
 
 namespace TownOfThem
 {
@@ -129,24 +131,134 @@ namespace TownOfThem
     {
         public static void RpcSendModVersion(this PlayerControl pc, string version)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)CustomRPC.ShareModVersion, SendOption.Reliable, -1);
-            writer.Write(pc.NetId);
-            writer.Write(version);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            try
+            {
+                CustomRpcSender writer = new(pc, CustomRPC.ShareModVersion);
+                writer.Write(pc.NetId).Write(version).EndRpc();
+            }
+            catch
+            {
+                Main.Log.LogError($"Error sending mod version! If you are local playing, please ignore this error.\r\nSender: {pc?.Data?.PlayerName} Version: {version}");
+            }
+            
         }
         public static void RpcUncheckedStartMeeting(this PlayerControl pc)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)CustomRPC.UncheckedStartMeeting, SendOption.Reliable, -1);
-            writer.Write(pc.PlayerId);
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
+            CustomRpcSender writer = new(pc, RpcCalls.StartMeeting);
+            writer.EndRpc();
         }
         public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target, bool showAnimation = true)
         {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(source.NetId, (byte)CustomRPC.UncheckedMurderPlayer, SendOption.Reliable, -1);
-            writer.Write(source.PlayerId);
-            writer.Write(target.PlayerId);
-            writer.Write(showAnimation);
+            CustomRpcSender writer = new(source, CustomRPC.UncheckedMurderPlayer);
+            writer.Write(source.PlayerId).Write(target.PlayerId).Write(showAnimation).EndRpc();
+            
+        }
+        public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target)
+        {
+            CustomRpcSender writer = new(source, RpcCalls.MurderPlayer);
+            writer.Write(target.NetId).EndRpc();
+        }
+    }
+    public class CustomRpcSender
+    {
+        private MessageWriter writer;
+        public bool WasEnded = false;
+        public CustomRpcSender(PlayerControl source, CustomRPC rpc, int target = -1, SendOption sendOption = SendOption.Reliable)
+        {
+            writer = AmongUsClient.Instance.StartRpcImmediately(source.NetId, (byte)rpc, sendOption, target);
+            Main.Log.LogInfo($"Rpc Started: {source.NetId}, {target}, {rpc.ToString()}, {sendOption.ToString()}");
+        }
+        public CustomRpcSender(PlayerControl source, CustomRPC rpc, PlayerControl target, SendOption sendOption = SendOption.Reliable)
+        {
+            writer = AmongUsClient.Instance.StartRpcImmediately(source.NetId, (byte)rpc, sendOption, (int)target.NetId);
+            Main.Log.LogInfo($"Rpc Started: {source.NetId}, {target.NetId}, {rpc.ToString()}, {sendOption.ToString()}");
+        }
+        public CustomRpcSender(PlayerControl source, RpcCalls rpc, PlayerControl target, SendOption sendOption = SendOption.Reliable)
+        {
+            writer = AmongUsClient.Instance.StartRpcImmediately(source.NetId, (byte)rpc, sendOption, (int)target.NetId);
+            Main.Log.LogInfo($"Rpc Started: {source.NetId}, {target.NetId}, {rpc.ToString()}, {sendOption.ToString()}");
+        }
+        public CustomRpcSender(PlayerControl source, RpcCalls rpc, int target = -1, SendOption sendOption = SendOption.Reliable)
+        {
+            writer = AmongUsClient.Instance.StartRpcImmediately(source.NetId, (byte)rpc, sendOption, target);
+            Main.Log.LogInfo($"Rpc Started: {source.NetId}, {target}, {rpc.ToString()}, {sendOption.ToString()}");
+        }
+        
+        public CustomRpcSender Write(float val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(string val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(ulong val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(int val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(uint val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(ushort val)
+        {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(byte val) {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(sbyte val) {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(bool val) {
+            writer.Write(val);
+            return this;
+        }
+        public CustomRpcSender Write(Il2CppStructArray<byte> bytes)
+        {
+            writer.Write(bytes);
+            return this;
+        }
+        public CustomRpcSender Write(Il2CppStructArray<byte> bytes, int offset, int length) {
+            writer.Write(bytes, offset, length);
+            return this;
+        }
+        public CustomRpcSender WriteBytesAndSize(Il2CppStructArray<byte> bytes)
+        {
+            writer.Write(bytes);
+            return this;
+        }
+        public CustomRpcSender WritePacked(int val)
+        {
+            writer.WritePacked(val);
+            return this;
+        }
+        public CustomRpcSender WritePacked(uint val)
+        {
+            writer.WritePacked(val);
+            return this;
+        }
+        public CustomRpcSender WriteNetObject(InnerNetObject obj)
+        {
+            writer.WriteNetObject(obj);
+            return this;
+        }
+        public void EndRpc()
+        {
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+            this.WasEnded = true;
         }
     }
 }

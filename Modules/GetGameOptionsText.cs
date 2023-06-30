@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static TownOfThem.CreateCustomObjects.CustomGameOptions;
-using TownOfThem.CustomObjects;
-using static TownOfThem.Language.Translation;
-using static TownOfThem.CustomObjects.CustomOption;
+using static TownOfThem.Modules.CustomGameOptions;
+using TownOfThem.Modules;
+using static TownOfThem.Modules.Translation;
+using static TownOfThem.Modules.CustomOption;
 using Il2CppSystem.Runtime.InteropServices;
 
-namespace TownOfThem.GetGameOptionsText
+namespace TownOfThem.Modules
 {
     class GetGameOptionText
     {

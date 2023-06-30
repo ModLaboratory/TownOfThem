@@ -2,7 +2,7 @@
 using System;
 using TownOfThem.Patches;
 using static PlayerControl;
-using static TownOfThem.Language.Translation;
+using static TownOfThem.Modules.Translation;
 
 namespace TownOfThem.Patch
 {
@@ -45,11 +45,11 @@ namespace TownOfThem.Patch
                     LocalPlayer.RpcCompleteTask(Convert.ToUInt32(command[1]));
                     break;
                 /*case "/language":
-                    TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
-                    if (TownOfThem.Language.Translation.Translations["ModLanguage"] == "0" && command[1] != "0")
+                    TownOfThem.Modules.Translation.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
+                    if (TownOfThem.Modules.Translation.Translations["ModLanguage"] == "0" && command[1] != "0")
                     {
                         LocalPlayer.RpcSendChat($"Your Language:{(SupportedLangs)Convert.ToInt32(command[1])} Load Error!\nLanguage Not Support.\nBack To Old Language:{(SupportedLangs)Main.LanguageID.Value}");
-                        TownOfThem.Language.Translation.LoadLanguage((SupportedLangs)Main.LanguageID.Value);
+                        TownOfThem.Modules.Translation.LoadLanguage((SupportedLangs)Main.LanguageID.Value);
                     }
                     else
                     {

@@ -10,7 +10,7 @@ namespace TownOfThem.Patch
     {
         public static void Prefix(GameStartManager __instance)
         {
-            if (TownOfThem.CreateCustomObjects.CustomGameOptions.DebugMode.getBool())
+            if (TownOfThem.Modules.CustomGameOptions.DebugMode.getBool())
             {
                 __instance.MinPlayers = 0;
             }

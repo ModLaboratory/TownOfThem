@@ -19,10 +19,6 @@ namespace TownOfThem.Roles
         Imp,
         Unknown,
     }
-    class RoleInfo
-    {
-        public static int RoleCount = 1;
-    }
     public abstract class Role
     {
         public static Color color;

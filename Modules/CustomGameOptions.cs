@@ -6,12 +6,12 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using TownOfThem.Utilities;
-using static TownOfThem.CustomObjects.CustomOption;
-using TownOfThem.GetGameOptionsText;
-using static TownOfThem.Language.Translation;
+using static TownOfThem.Modules.CustomOption;
+using TownOfThem.Modules;
+using static TownOfThem.Modules.Translation;
 
 //used TheOtherRoles' code
-namespace TownOfThem.CustomObjects
+namespace TownOfThem.Modules
 {
     public class CustomOption
     {

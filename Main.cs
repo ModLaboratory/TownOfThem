@@ -1,5 +1,6 @@
 ﻿global using Hazel;
-global using static TownOfThem.Language.Translation;
+global using static TownOfThem.Modules.Translation;
+global using TownOfThem.Modules;
 global using HarmonyLib;
 using BepInEx;
 using BepInEx.IL2CPP;
@@ -9,6 +10,7 @@ using System;
 using System.Runtime;
 using BepInEx.Unity.IL2CPP;
 using System.Text;
+using UnityEngine;
 
 namespace TownOfThem
 {
@@ -41,10 +43,10 @@ namespace TownOfThem
         {
             Log = base.Log;
             EnableDevMode = Config.Bind("TownOfThemMod", "EnableDevMode", false, "Enable developer mode");
-            
-            Log.LogInfo("Town Of Them loaded!");
- 
-            
+
+            Log.LogInfo("========== Town Of Them loaded! ==========");
+
+            DataManager.Init();
             Harmony.PatchAll();
         }
     }

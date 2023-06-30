@@ -1,14 +1,14 @@
 ﻿using HarmonyLib;
-using TownOfThem.CustomObjects;
+using TownOfThem.Modules;
 using TownOfThem.Roles.Crew;
 using TownOfThem.Patch;
 using UnityEngine;
 using TownOfThem.Roles;
 
-namespace TownOfThem.CreateCustomObjects
+namespace TownOfThem.Modules
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Start))]
-    class CustomCustomButtons
+    class CreateCustomButtons
     {
         public static bool initialized = false;
         public static CustomButton sheriffKillButton;
@@ -66,7 +66,7 @@ namespace TownOfThem.CreateCustomObjects
                 },
                 () =>
                 {
-                    return true;
+                    return Sheriff.target != null;
                 },
                 () =>
                 {
@@ -76,12 +76,17 @@ namespace TownOfThem.CreateCustomObjects
                 CustomButton.ButtonPositions.lowerRowRight,
                 __instance,
                 KeyCode.Q,
-                buttonText: GetString(Language.StringKey.SheriffShoot)
+                buttonText: GetString(StringKey.SheriffShoot)
             );
 
 
 
-
+            switch (PlayerControl.LocalPlayer.GetRole())
+            {
+                case RoleId.Sheriff:
+                    sheriffKillButton.setActive(true);
+                    break;
+            }
 
             initialized = true;
         }

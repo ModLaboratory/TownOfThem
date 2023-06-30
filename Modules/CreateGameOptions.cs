@@ -1,8 +1,8 @@
-﻿using TownOfThem.CustomObjects;
-using static TownOfThem.Language.Translation;
+﻿using TownOfThem.Modules;
+using static TownOfThem.Modules.Translation;
 using static TownOfThem.ModHelpers;
 
-namespace TownOfThem.CreateCustomObjects 
+namespace TownOfThem.Modules 
 {
     class CustomGameOptions
     {
@@ -40,8 +40,6 @@ namespace TownOfThem.CreateCustomObjects
         public static CustomOption HandicappedSpeed;
         public static void Load()
         {
-            //host
-            //HostName = CustomOption.Create(60, CustomOption.CustomOptionType.General, GetString("HostSuggestName"), hostName, null, true);
             //debug
             DebugMode = CustomOption.Create(50, CustomOption.CustomOptionType.General, "Debug Mode", false, null, true);
 
@@ -50,13 +48,18 @@ namespace TownOfThem.CreateCustomObjects
             SheriffMaxPlayer = CustomOption.Create(101, CustomOption.CustomOptionType.Crewmate, GetString("MaxPlayer"), 1, 1, 15, 1, Sheriff, false);
             SheriffCooldown = CustomOption.Create(102, CustomOption.CustomOptionType.Crewmate, GetString("SheriffCD"), 20f, 10f, 60f, 0.5f, Sheriff, false);
             SheriffKillLimit = CustomOption.Create(103, CustomOption.CustomOptionType.Crewmate, GetString("SheriffKillLimit"), 2, 1, 5, 1, Sheriff, false);
-            //jester
-            Jester = CustomOption.Create(110, CustomOption.CustomOptionType.Neutral, cs(Roles.Neu.Jester.color, GetString("Jester")), false, null, true);
-            JesterMaxPlayer = CustomOption.Create(111, CustomOption.CustomOptionType.Neutral, GetString("MaxPlayer"), 1, 1, 15, 1, Jester, false);
-            //handicapped
-            Handicapped = CustomOption.Create(120, CustomOption.CustomOptionType.Modifier, GetString("Handicapped"), false, null, true);
-            HandicappedMaxPlayer = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, GetString("MaxPlayer"), 1, 1, 15, 1, Handicapped, false);
-            HandicappedSpeed = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, GetString("HandicappedSpeed"), 1, 1, 3, 0.25f, Handicapped, false);
+            
+            if (/*Main.EnableDevMode.Value*/false)
+            {
+                //jester
+                Jester = CustomOption.Create(110, CustomOption.CustomOptionType.Neutral, cs(Roles.Neu.Jester.color, GetString("Jester")), false, null, true);
+                JesterMaxPlayer = CustomOption.Create(111, CustomOption.CustomOptionType.Neutral, GetString("MaxPlayer"), 1, 1, 15, 1, Jester, false);
+                //handicapped
+                Handicapped = CustomOption.Create(120, CustomOption.CustomOptionType.Modifier, GetString("Handicapped"), false, null, true);
+                HandicappedMaxPlayer = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, GetString("MaxPlayer"), 1, 1, 15, 1, Handicapped, false);
+                HandicappedSpeed = CustomOption.Create(121, CustomOption.CustomOptionType.Modifier, GetString("HandicappedSpeed"), 1, 1, 3, 0.25f, Handicapped, false);
+            }
+            
             //gamemodes
             gameModes = CustomOption.Create(130, CustomOption.CustomOptionType.General, GetString("CustomGamemodes"), gamemodes, null, true);
         }

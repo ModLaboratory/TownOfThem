@@ -51,17 +51,17 @@ namespace TownOfThem.Patches
             {
                 if (System.DateTime.UtcNow >= Main.ExpireTime.ToUniversalTime())
                 {
-                    ShowPopup(GetString(Language.StringKey.ModExpired), bat: ButtonActionType.Quit);
+                    ShowPopup(GetString(StringKey.ModExpired), bat: ButtonActionType.Quit);
                     return;
                 }
             }
             if (Main.EnableDevMode.Value)
             {
-                ShowPopup(GetString(Language.StringKey.DevModeWarning), buttonText: GetString(Language.StringKey.FunnyOk));
+                ShowPopup(GetString(StringKey.DevModeWarning));
             }
 
         }
-        public static void ShowPopup(string message, bool showButton = true, ButtonActionType bat = ButtonActionType.Close, System.Action action = null, string buttonText = null)
+        public static void ShowPopup(string message, bool showButton = true, ButtonActionType bat = ButtonActionType.Close, System.Action action = null)
         {
             System.Action a = null;
             if (InfoPopup != null)
@@ -71,14 +71,7 @@ namespace TownOfThem.Patches
                 if (button != null)
                 {
                     button.gameObject.SetActive(showButton);
-                    if (buttonText == null)
-                    {
-                        button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
-                    }
-                    else
-                    {
-                        button.GetChild(0).GetComponent<TextMeshPro>().text = GetString(Language.StringKey.FunnyOk);
-                    }
+                    button.GetChild(0).GetComponent<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
                     button.GetComponent<PassiveButton>().OnClick = new();
                     switch (bat)
                     {

@@ -23,7 +23,7 @@ namespace TownOfThem.Patch
             Announcement a=new();
             a.Date = "1145/1/4";
             a.Id = "114514";
-            a.Language = (uint)DataManager.Settings.Language.CurrentLanguage;
+            a.Language = (uint)AmongUs.Data.DataManager.Settings.Language.CurrentLanguage;
             a.Text = "test";
             a.ShortTitle = "55555";
             a.SubTitle = "99999";

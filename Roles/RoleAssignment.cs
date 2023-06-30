@@ -10,10 +10,10 @@ namespace TownOfThem.Roles
     {
         public static Dictionary<PlayerControl, int> pr = new();
         public static List<int> enableCrewRoles = new();
-        public static void Postfix(RoleManager __instance)
+        public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            switch (CreateCustomObjects.CustomGameOptions.gameModes.selection)
+            switch (Modules.CustomGameOptions.gameModes.selection)
             {
                 case 0:
                     GetEnableRoles();

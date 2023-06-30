@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //used TheOtherRoles' code
-namespace TownOfThem.CustomObjects
+namespace TownOfThem.Modules
 {
     public class CustomButton
     {

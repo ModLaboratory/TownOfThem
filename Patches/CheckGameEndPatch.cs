@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using TownOfThem.CreateCustomObjects;
+using TownOfThem.Modules;
 using TownOfThem.Patches;
 using TownOfThem.Roles.Neu;
 using UnityEngine;

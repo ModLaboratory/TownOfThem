@@ -1,7 +1,7 @@
 ﻿
 using HarmonyLib;
 using System;
-using TownOfThem.CreateCustomObjects;
+using TownOfThem.Modules;
 using TownOfThem.Roles;
 using TownOfThem.Utilities;
 

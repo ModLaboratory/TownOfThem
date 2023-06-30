@@ -1,11 +1,8 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using static TownOfThem.Main;
 
-namespace TownOfThem.Language
+namespace TownOfThem.Modules
 {
     public enum StringKey
     {
@@ -51,13 +48,14 @@ namespace TownOfThem.Language
         PlayerCheckError2,
         ModExpired,
         KickByHacking,
-        ExiledPlayerIsJester,
+        ExiledText,
         Ping,
         SheriffShoot,
         DevModeWarning,
         FunnyOk,
         BuildTime,
         ExpireTime,
+        DeveloperMode,
     }
 
     public static class Translation
@@ -297,13 +295,13 @@ namespace TownOfThem.Language
             [StringKey.PlayerCheckError2] = "has a different version of TownOfThem or other mods.",
             [StringKey.ModExpired] = "The mod was expired. Click OK to quit game.",
             [StringKey.KickByHacking] = "You were banned by Innersloth.\n\nMaybe there is a BUG what will treat as hacking in this mod or you are hacking.",
-            [StringKey.ExiledPlayerIsJester] = "{0} was a {1}.\n\nI tricked y'all! Hahahahaha...",
+            [StringKey.ExiledText] = "{0} was a {1}.\n{2}\n{3}",
             [StringKey.Ping] = "Ping: {0} ms",
             [StringKey.SheriffShoot] = "Shoot",
             [StringKey.DevModeWarning] = "You are playing Town Of Them on developer mode!\nIt will active some hidden things, but maybe it will make some trouble...",
-            [StringKey.FunnyOk] = "That's for sure lol",
             [StringKey.BuildTime] = "Build time: ",
             [StringKey.ExpireTime] = "Expire time: ",
+            [StringKey.DeveloperMode] = "Developer Mode",
         };
         public static Dictionary<StringKey, string> Chinese = new Dictionary<StringKey, string>()
         {
@@ -330,7 +328,7 @@ namespace TownOfThem.Language
             [StringKey.Off] = "关",
             [StringKey.Bilibili] = "哔哩哔哩",
             [StringKey.ckptPage1] = "第一页：原版游戏设置",
-            [StringKey.ckptPage2] = "第二页：他们的小镇设置",
+            [StringKey.ckptPage2] = "第二页：Town Of Them设置",
             [StringKey.ckptPage3] = "第三页：内鬼职业设置",
             [StringKey.ckptPage4] = "第四页：中立职业设置",
             [StringKey.ckptPage5] = "第五页：船员职业设置",
@@ -346,12 +344,13 @@ namespace TownOfThem.Language
             [StringKey.PlayerCheckError2] = "安装了其他版本的Town Of Them或其它模组",
             [StringKey.ModExpired] = "模组已过期。按下“确定”以退出游戏。",
             [StringKey.KickByHacking] = "你被树懒的反作弊系统踢了（树懒每日发癫1/1）。\n\n可能是一个bug引发了它，也有可能是你在开挂。",
-            [StringKey.ExiledPlayerIsJester] = "{0} 是 {1}.\n\n不足挂齿的小把戏，你们真信啊！哈哈哈哈哈哈……",
+            [StringKey.ExiledText] = "{0} 是 {1}.\n{2}\n{3}",
             [StringKey.Ping] = "延迟：{0} 毫秒",
             [StringKey.SheriffShoot] = "执法",
-            [StringKey.FunnyOk] = "朕已阅",
+            [StringKey.DevModeWarning] = "您已启用了开发者模式。\n这会开启一些隐藏的功能，但也有可能会引发未知的错误……",
             [StringKey.BuildTime] = "构建时间：",
             [StringKey.ExpireTime] = "到期时间： ",
+            [StringKey.DeveloperMode] = "开发者模式",
         };
         
     }

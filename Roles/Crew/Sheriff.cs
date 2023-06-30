@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using TownOfThem.Modules;
 using UnityEngine;
 
 namespace TownOfThem.Roles.Crew
 {
     public class Sheriff : Role
     {
-        public static Sheriff Instance = new();
         public static new Color color = new Color(248, 205, 70);
         public static new Sprite button = ModHelpers.LoadSprite("TownOfThem.Resources.SheriffKillButton.png");
         public static new List<PlayerControl> players
@@ -35,32 +35,43 @@ namespace TownOfThem.Roles.Crew
         {
             get
             {
-                return CreateCustomObjects.CustomGameOptions.Sheriff.getBool();
+                return Modules.CustomGameOptions.Sheriff.getBool();
             }
         }
         public static new int maxPlayerCount
         {
             get
             {
-                return (int)CreateCustomObjects.CustomGameOptions.SheriffMaxPlayer.selections[CreateCustomObjects.CustomGameOptions.SheriffMaxPlayer.selection];
+                return (int)Modules.CustomGameOptions.SheriffMaxPlayer.selections[Modules.CustomGameOptions.SheriffMaxPlayer.selection];
             }
         }
         public static int cd
         {
             get
             {
-                return (int)CreateCustomObjects.CustomGameOptions.SheriffCooldown.selections[CreateCustomObjects.CustomGameOptions.SheriffCooldown.selection];
+                return (int)Modules.CustomGameOptions.SheriffCooldown.selections[Modules.CustomGameOptions.SheriffCooldown.selection];
             }
         }
         public static int limit {
             get
             {
-                return (int)CreateCustomObjects.CustomGameOptions.SheriffKillLimit.selections[CreateCustomObjects.CustomGameOptions.SheriffKillLimit.selection];
+                return (int)Modules.CustomGameOptions.SheriffKillLimit.selections[Modules.CustomGameOptions.SheriffKillLimit.selection];
             }
         }
         public override void reset()
         {
+            target = null;
+        }
 
+        public static void SetTarget()
+        {
+            target = ExtPlayerControl.setTarget();
+            ExtPlayerControl.setPlayerOutline(target, color);
+            
+        }
+        public static bool CheckTarget(PlayerControl target)
+        {
+            return target.IsImp();
         }
     }
 }

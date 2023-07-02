@@ -1,16 +1,10 @@
-﻿using HarmonyLib;
-using Hazel;
-using Il2CppSystem.Web.Util;
+﻿using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using InnerNet;
 using System;
 using System.Linq;
-using TownOfThem.Modules;
-using TownOfThem.Utilities;
-using TownOfThem.Patch;
+using TownOfThem.Patches;
 using TownOfThem.Roles;
 using TownOfThem.Roles.Crew;
-using System.Runtime.CompilerServices;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using InnerNet;
 
 namespace TownOfThem
 {

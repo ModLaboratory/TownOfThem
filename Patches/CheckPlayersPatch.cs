@@ -1,16 +1,8 @@
-﻿using HarmonyLib;
-using Hazel;
-using TownOfThem.Utilities;
-using TownOfThem;
-using System.Collections.Generic;
-using Il2CppSystem.Web.Util;
-using Il2CppSystem.Linq.Expressions;
-using TownOfThem.Patch;
-using static TownOfThem.Patch.SendModVer;
-using static TownOfThem.Modules.Translation;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using static TownOfThem.Patches.SendModVer;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class SendModVer
@@ -57,13 +49,6 @@ namespace TownOfThem.Patch
                         
                         canStart = false;
                         message += $"<color=#FF0000FF>{pc.Data.PlayerName} {GetString("PlayerCheckError2")}</color>";
-                        //foreach (var cnt in AmongUsClient.Instance.allClients)
-                        //{
-                        //    cntID = cnt.Character.NetId;
-                        //    if (cntID ==)
-                        //}
-                        //AmongUsClient.Instance.KickPlayer();
-                        //Main.Log.LogInfo($"{cntID}   {netID}");
                     }
                 }
                 else

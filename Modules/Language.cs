@@ -226,7 +226,7 @@ namespace TownOfThem.Modules
                 {
                     Log.LogError($"Error loading translation - Unknown exception:\r\nKey: {key}\r\nMore info: {Error.Message}");
                 }
-                return key.ToString();
+                return "<ERR_GET_TRSLARTION: " + key.ToString() + ">";
             }
             
             //Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);

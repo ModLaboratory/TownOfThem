@@ -5,7 +5,7 @@ using TownOfThem.Modules;
 using TownOfThem.Roles;
 using TownOfThem.Utilities;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     [HarmonyPatch(typeof(IntroCutscene), nameof(IntroCutscene.ShowRole))]
     class ShowRolePatch

@@ -41,7 +41,7 @@ namespace TownOfThem.Modules
             }
             return result;
         }
-        public static void setPlayerOutline(this PlayerControl target, Color color)
+        public static void SetPlayerOutline(this PlayerControl target, Color color)
         {
             if (target == null || target.cosmetics?.currentBodySprite?.BodySprite == null) return;
 

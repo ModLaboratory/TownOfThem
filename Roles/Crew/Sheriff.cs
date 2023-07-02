@@ -66,7 +66,7 @@ namespace TownOfThem.Roles.Crew
         public static void SetTarget()
         {
             target = ExtPlayerControl.setTarget();
-            ExtPlayerControl.setPlayerOutline(target, color);
+            target.SetPlayerOutline(color);
             
         }
         public static bool CheckTarget(PlayerControl target)

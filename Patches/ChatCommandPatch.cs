@@ -4,7 +4,7 @@ using TownOfThem.Patches;
 using static PlayerControl;
 using static TownOfThem.Modules.Translation;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     [HarmonyPatch(typeof(ChatController),nameof(ChatController.SendChat))]
     class ChatCommandPatch

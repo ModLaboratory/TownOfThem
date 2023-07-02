@@ -4,7 +4,7 @@ using TownOfThem.Patches;
 using TownOfThem.Roles.Neu;
 using UnityEngine;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     enum CustomGameOverReason
     {

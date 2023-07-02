@@ -5,7 +5,7 @@ using TownOfThem.Roles.Crew;
 using TownOfThem.Utilities;
 using UnityEngine;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     [HarmonyPatch(typeof(KillAnimation), nameof(KillAnimation.CoPerformKill))]
     class KillAnimationCoPerformKillPatch

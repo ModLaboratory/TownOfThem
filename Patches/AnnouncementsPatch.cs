@@ -7,7 +7,7 @@ using Assets.InnerNet;
 using HarmonyLib;
 using Il2CppSystem.Runtime.ExceptionServices;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
     [HarmonyPatch(typeof(AnnouncementPopUp),nameof(AnnouncementPopUp.Init))]
     class AnnouncementPopUpPatch
@@ -20,17 +20,6 @@ namespace TownOfThem.Patch
 
         public static void Postfix(PlayerAnnouncementData __instance)
         {
-            Announcement a=new();
-            a.Date = "1145/1/4";
-            a.Id = "114514";
-            a.Language = (uint)AmongUs.Data.DataManager.Settings.Language.CurrentLanguage;
-            a.Text = "test";
-            a.ShortTitle = "55555";
-            a.SubTitle = "99999";
-            a.Title = "news";
-            a.Number = 1145141919;
-            __instance.AddAnnouncement(a);
-            __instance.HandleChange();
 
         }
     }

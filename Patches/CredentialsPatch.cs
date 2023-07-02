@@ -1,44 +1,48 @@
 ﻿
+using Il2CppSystem.Linq.Expressions;
 using System.Drawing;
 using System.Text;
 using TMPro;
 using UnityEngine;
 using static TownOfThem.Main;
 
-namespace TownOfThem.Patch
+namespace TownOfThem.Patches
 {
-    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
+    [HarmonyPatch(typeof(MainMenuManager))]
     public class MainMenuButtonPatch
     {
         public static PassiveButton template;
         public static PassiveButton github;
         public static PassiveButton bilibili;
-        public static void Postfix(MainMenuManager __instance)
+        [HarmonyPatch(nameof(MainMenuManager.Start)), HarmonyPostfix]
+        public static void ShowButton_PF(MainMenuManager __instance)
         {
             template = __instance.quitButton;
             if (template == null) return;
-            if (github == null)
-            {
-                github = CreateButton(
-                    "GitHubButton",
-                    new(1f, -1f, 1f),
-                    new(153, 153, 153, byte.MaxValue),
-                    new(209, 209, 209, byte.MaxValue),
-                    () => Application.OpenURL(GithubLink),
-                    "GitHub");
-            }
-            if (bilibili == null)
-            {
-                bilibili = CreateButton(
-                    "BilibiliButton",
-                    new(-1f, -1f, 1f),
-                    new(0, 174, 236, byte.MaxValue),
-                    new(0, 134, 236, byte.MaxValue),
-                    () => Application.OpenURL(Main.BilibiliLink),
-                    GetString(StringKey.Bilibili));
-            }
-
+                //if (github == null)
+                //{
+                //    github = CreateButton(
+                //        "GitHubButton",
+                //        new(1f, -1f, 1f),
+                //        new(153, 153, 153, byte.MaxValue),
+                //        new(209, 209, 209, byte.MaxValue),
+                //        () => Application.OpenURL(GithubLink),
+                //        "GitHub");
+                //}
+                //if (bilibili == null)
+                //{
+                //    bilibili = CreateButton(
+                //        "BilibiliButton",
+                //        new(-1f, -1f, 1f),
+                //        new(0, 174, 236, byte.MaxValue),
+                //        new(0, 134, 236, byte.MaxValue),
+                //        () => Application.OpenURL(Main.BilibiliLink),
+                //        GetString(StringKey.Bilibili));
+                //}
         }
+            
+
+    
         //https://github.com/tukasa0001/TownOfHost/blob/main/Patches/MainMenuManagerPatch.cs
         private static PassiveButton CreateButton(string name, Vector3 localPosition, Color32 normalColor, Color32 hoverColor, System.Action action, string label, Vector2? scale = null)
         {
@@ -47,6 +51,7 @@ namespace TownOfThem.Patch
             Object.Destroy(button.GetComponent<AspectPosition>());
             button.transform.localPosition = localPosition;
 
+            Log.LogInfo("ok");
             button.OnClick = new();
             button.OnClick.AddListener(action);
 
@@ -79,7 +84,16 @@ namespace TownOfThem.Patch
 
             return button;
         }
-
+        [HarmonyPatch(nameof(MainMenuManager.OpenAccountMenu))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenCredits))]
+        [HarmonyPatch(nameof(MainMenuManager.OpenGameModeMenu))]
+        [HarmonyPostfix]
+        public static void Hide_PF()
+        {
+            ModLogoPatch.totLogo?.gameObject?.SetActive(false);
+            github?.gameObject?.SetActive(false);
+            bilibili?.gameObject?.SetActive(false);
+        }
     }
 
     [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]

@@ -13,7 +13,7 @@ namespace TownOfThem.Roles
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            switch (Modules.CustomGameOptions.gameModes.selection)
+            switch (CustomGameOptions.gameModes.selection)
             {
                 case 0:
                     GetEnableRoles();

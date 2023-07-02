@@ -2,6 +2,7 @@
 global using static TownOfThem.Modules.Translation;
 global using TownOfThem.Modules;
 global using HarmonyLib;
+global using TownOfThem.Utilities;
 using BepInEx;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;

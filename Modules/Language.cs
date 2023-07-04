@@ -56,6 +56,8 @@ namespace TownOfThem.Modules
         BuildTime,
         ExpireTime,
         DeveloperMode,
+        totOptions,
+        test,
     }
 
     public static class Translation
@@ -302,6 +304,8 @@ namespace TownOfThem.Modules
             [StringKey.BuildTime] = "Build time: ",
             [StringKey.ExpireTime] = "Expire time: ",
             [StringKey.DeveloperMode] = "Developer Mode",
+            [StringKey.totOptions] = "TOT Options",
+            [StringKey.test] = "TEST",
         };
         public static Dictionary<StringKey, string> Chinese = new Dictionary<StringKey, string>()
         {
@@ -351,6 +355,8 @@ namespace TownOfThem.Modules
             [StringKey.BuildTime] = "构建时间：",
             [StringKey.ExpireTime] = "到期时间： ",
             [StringKey.DeveloperMode] = "开发者模式",
+            [StringKey.totOptions] = "TOT 选项",
+            [StringKey.test] = "测试",
         };
         
     }

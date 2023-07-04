@@ -31,6 +31,7 @@ namespace TownOfThem
         public const string ModGUID = "cn.JieGe.TownOfThem";
         public const string ModName = "<size=130%><color=#FF8C00>Town Of Them</color></size>";
         public const string ModVer = "0.0.0.1";
+        public static readonly Color ModColor = new(255, 140, 0);
         public static readonly string GithubLink = "https://github.com/TownOfThemAU/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
         public static ConfigEntry<bool> EnableDevMode;
@@ -45,7 +46,7 @@ namespace TownOfThem
             Log = base.Log;
             EnableDevMode = Config.Bind("TownOfThemMod", "EnableDevMode", false, "Enable developer mode");
 
-            Log.LogInfo("========== Town Of Them loaded! ==========");
+            Log.LogInfo("========== Town Of Them loaded! ==========\r\n========== TOT，启动！ ==========");
 
             DataManager.Init();
             Harmony.PatchAll();

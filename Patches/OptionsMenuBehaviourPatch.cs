@@ -1,4 +1,6 @@
-﻿
+﻿using TownOfThem.Modules;
+using static TownOfThem.Modules.CustomOptionsMenuManager;
+
 
 namespace TownOfThem.Patches
 {
@@ -7,7 +9,15 @@ namespace TownOfThem.Patches
     {
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
+            CustomOptionsMenuManager.Init(__instance);
+            CreateAllButtons();
+        }
+        public static void CreateAllButtons()
+        {
+            ModOption[] allButtons =
+            {
 
+            };
         }
     }
 }

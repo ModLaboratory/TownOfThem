@@ -15,6 +15,7 @@ namespace TownOfThem.Modules
 
         private static bool inited = false;
 
+
         public static void Init(OptionsMenuBehaviour __instance)
         {
             if (inited) return;
@@ -38,11 +39,15 @@ namespace TownOfThem.Modules
             Object.DontDestroyOnLoad(popUp);
             popUp.transform.SetLocalZ(-810f);
             Object.Destroy(popUp.GetComponent<OptionsMenuBehaviour>());
+            DestroyAllOptions();
+            popUp.SetActive(false);
+        }
+        private static void DestroyAllOptions()
+        {
             foreach (var go in popUp.gameObject.GetAllChilds())
             {
                 if (go.name != "Background" && go.name != "CloseButton") Object.Destroy(go);
             }
-            popUp.SetActive(false);
         }
         private static void LoadButton(OptionsMenuBehaviour __instance)
         {
@@ -90,10 +95,7 @@ namespace TownOfThem.Modules
         private static void LoadButtons(OptionsMenuBehaviour __instance)
         {
             //refresh buttons
-            foreach (var child in popUp.GetAllChilds())
-            {
-                Object.Destroy(child);
-            }
+            DestroyAllOptions();
 
             int num = 0;
             foreach(var btn in buttons)
@@ -109,6 +111,7 @@ namespace TownOfThem.Modules
             var btn = Object.Instantiate(prefab, popUp.transform);
             var pos = new Vector3(num % 2 == 0 ? -1.17f : 1.17f, 1.3f - num / 2 * 0.8f, -.5f);
 
+            button.ToggleButton = btn;
             btn.transform.localPosition = pos;
             btn.onState = button.DefaultValue;
             btn.Background.color = btn.onState ? Color.green : Palette.ClearWhite;
@@ -155,6 +158,7 @@ namespace TownOfThem.Modules
             public StringKey Text;
             public System.Func<bool> OnClick;
             public bool DefaultValue;
+            public ToggleButtonBehaviour ToggleButton;
             public ModOption(StringKey text, System.Func<bool> onClick, bool defaultValue)
             {
                 this.Text = text;

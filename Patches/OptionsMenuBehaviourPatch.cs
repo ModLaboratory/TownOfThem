@@ -7,6 +7,7 @@ namespace TownOfThem.Patches
     [HarmonyPatch(typeof(OptionsMenuBehaviour),nameof(OptionsMenuBehaviour.Start))]
     public static class OptionsMenuBehaviourPatch
     {
+        public static ModOption testOpt;
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
             CustomOptionsMenuManager.Init(__instance);
@@ -14,10 +15,7 @@ namespace TownOfThem.Patches
         }
         public static void CreateAllButtons()
         {
-            ModOption[] allButtons =
-            {
-
-            };
+            testOpt = new(StringKey.test, () => { return !testOpt.ToggleButton.onState; }, false);
         }
     }
 }

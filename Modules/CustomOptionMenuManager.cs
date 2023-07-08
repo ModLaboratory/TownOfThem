@@ -39,15 +39,12 @@ namespace TownOfThem.Modules
             Object.DontDestroyOnLoad(popUp);
             popUp.transform.SetLocalZ(-810f);
             Object.Destroy(popUp.GetComponent<OptionsMenuBehaviour>());
-            DestroyAllOptions();
-            popUp.SetActive(false);
-        }
-        private static void DestroyAllOptions()
-        {
             foreach (var go in popUp.gameObject.GetAllChilds())
             {
+                if (go == null || popUp == null) continue;
                 if (go.name != "Background" && go.name != "CloseButton") Object.Destroy(go);
             }
+            popUp.SetActive(false);
         }
         private static void LoadButton(OptionsMenuBehaviour __instance)
         {
@@ -94,8 +91,6 @@ namespace TownOfThem.Modules
         }
         private static void LoadButtons(OptionsMenuBehaviour __instance)
         {
-            //refresh buttons
-            DestroyAllOptions();
 
             int num = 0;
             foreach(var btn in buttons)

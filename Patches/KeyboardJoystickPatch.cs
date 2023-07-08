@@ -1,5 +1,5 @@
 ﻿using InnerNet;
-using TownOfThem.Patch;
+using TownOfThem.Patches;
 using UnityEngine;
 
 namespace TownOfThem.Patches

@@ -45,7 +45,6 @@ namespace TownOfThem.Patches
         {
             SetLangDic(lang.languageID);
             GameOptionsMenuStartPatch.destroyAllOptions();
-            CustomGameOptions.Load();
         }
     }
 }

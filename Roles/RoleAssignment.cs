@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using Sentry;
 using System.Collections.Generic;
+using System.Linq;
+using TownOfThem.Modules;
 using TownOfThem.Roles.Crew;
 
 namespace TownOfThem.Roles
@@ -8,17 +10,18 @@ namespace TownOfThem.Roles
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     public static class SelectRolesPatch
     {
-        public static Dictionary<PlayerControl, int> pr = new();
-        public static List<int> enableCrewRoles = new();
+        public static List<RoleId> enableCrewRoles = new();
+        public static List<RoleId> enableNeuRoles = new();
+        public static List<RoleId> enableImpRoles = new();
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            switch (CustomGameOptions.gameModes.selection)
+            switch (CustomGameOptions.gameModes.GetSelection())
             {
                 case 0:
                     GetEnableRoles();
                     AssignRoles();
-                    RPCAssignRoles();
+                    foreach (var pair in RoleInfo.PlayerRoles) Main.Log.LogInfo($"{pair.Key.Data.PlayerName}: {pair.Value.ToString()}");
                     break;
                 case 1:
                     break;
@@ -27,53 +30,46 @@ namespace TownOfThem.Roles
         }
         public static void GetEnableRoles()
         {
-            if (Sheriff.enable) for (int a = 0; a < Sheriff.maxPlayerCount; a++) enableCrewRoles.Add(Sheriff.roleID);
-
+            if (Sheriff.enable) for (int a = 0; a < Sheriff.maxPlayerCount; a++) enableCrewRoles.Add(Sheriff.RoleID);
+            
         }
-        public static void AssignRoles()
+        static void AssignRoles()
         {
             System.Random role = new(System.DateTime.Now.Millisecond);
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            foreach (var pc in PlayerControl.AllPlayerControls) pc.Assign(role);
+            
+        }
+        static void Assign(this PlayerControl pc, System.Random role)
+        {
+            int roleIdx = -1;
+            RoleId thisRole = RoleId.Unknown;
+            var roles = GetDictionary(pc);
+            if (roles.Count == 0) return;
+            if (roles.Count == 1)
             {
-                pc.AssignByRoleCamp(role, enableCrewRoles);
+                thisRole = roles.FirstOrDefault();
+                goto AddRole;
+            }
+            roleIdx = role.Next(1, roles.Count);
+            thisRole = roles[roleIdx];
+        AddRole:
+            roles.RemoveAt(roleIdx);
+            pc.RpcSetRole(thisRole);
+            Main.Log.LogInfo($"{pc.Data.PlayerName}: {thisRole.ToString()}");
+        }
 
-            }
-        }
-        public static void AssignByRoleCamp(this PlayerControl pc, System.Random role, List<int> roles)
+        static List<RoleId> GetDictionary(PlayerControl pc)
         {
-            Assign:
-            //随机职业ID
-            int a = role.Next(0, roles.Count - 1);
-            //如果未分配完成，分配职业并删除待分配职业中的此职业
-            if (roles.Count != 0)
+            switch (pc.Data.Role.TeamType)
             {
-                pr[pc] = a;
-                roles.Remove(a);
+                default:
+                case RoleTeamTypes.Crewmate:
+                    System.Random r = new();
+                    int isCrew = r.Next(0, 2);
+                    return isCrew == 0 ? enableNeuRoles : enableCrewRoles;
+                case RoleTeamTypes.Impostor:
+                    return enableImpRoles;
             }
-            else
-            {
-                if (roles.Count == 0)
-                {
-                    //职业分配完毕，开始将未分配到职业的玩家的aus职业加入玩家职业字典
-                    pr[pc] = AUGetTOTRoleID(pc.Data.Role.TeamType);
-                }
-                if (roles.Count != 0 && !roles.Contains(a))
-                {
-                    //随机到的职业不在未分配职业列表，再随机一次
-                    goto Assign;
-                }
-            }
-        }
-        public static void RPCAssignRoles()
-        {
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AssignRoles, SendOption.Reliable, -1);
-            writer.WritePacked(pr.Count);
-            foreach (var pair in pr)
-            {
-                writer.Write(pair.Key.PlayerId);
-                writer.Write(pair.Value);
-            }
-            AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
         
@@ -82,11 +78,11 @@ namespace TownOfThem.Roles
             switch (t)
             {
                 case RoleTeamTypes.Crewmate:
-                    return -1;
+                    return (int)RoleId.Crewmate;
                 case RoleTeamTypes.Impostor:
-                    return -2;
+                    return (int)RoleId.Impostor;
             }
-            return 0;
+            return (int)RoleId.Unknown;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace TownOfThem.Modules
             (
                 () =>
                 {
-                    RPCHelper.RpcUncheckedStartMeeting(PlayerControl.LocalPlayer);
+                    PlayerControl.LocalPlayer.RpcUncheckedStartMeeting();
                 },
                 () =>
                 {
@@ -57,12 +57,12 @@ namespace TownOfThem.Modules
                 () =>
                 {
                     if (!Sheriff.players.Contains(PlayerControl.LocalPlayer)) return;
-                    RPCHelper.RpcUncheckedMurderPlayer(PlayerControl.LocalPlayer, Sheriff.target.Data.Role.TeamType == RoleTeamTypes.Impostor ? Sheriff.target : PlayerControl.LocalPlayer);
+                    PlayerControl.LocalPlayer.RpcMurderPlayer(Sheriff.CheckTarget(Sheriff.target) ? Sheriff.target : PlayerControl.LocalPlayer);
                 },
                 () =>
                 {
                     //Is sheriff & Isnt ded
-                    return Sheriff.players.Contains(PlayerControl.LocalPlayer) && !PlayerControl.LocalPlayer.Data.IsDead;
+                    return PlayerControl.LocalPlayer.GetRole() == RoleId.Sheriff && !PlayerControl.LocalPlayer.Data.IsDead;
                 },
                 () =>
                 {

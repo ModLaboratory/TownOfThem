@@ -5,27 +5,26 @@ using System;
 using System.Linq;
 using HarmonyLib;
 using Hazel;
-using TownOfThem.Utilities;
-using static TownOfThem.Modules.CustomOption;
 using TownOfThem.Modules;
+using Il2CppSystem.Web.Util;
 using static TownOfThem.Modules.Translation;
+using static TownOfThem.Modules.CustomGameOptions;
+using static TownOfThem.Modules.CustomOption;
 
-//used TheOtherRoles' code
+//used TownOfThem' code
 namespace TownOfThem.Modules
 {
+    public enum CustomOptionType
+    {
+        General,
+        Impostor,
+        Neutral,
+        Crewmate,
+        Modifier,
+    }
+
     public class CustomOption
     {
-        public enum CustomOptionType
-        {
-            General,
-            Impostor,
-            Neutral,
-            Crewmate,
-            Modifier,
-            Guesser,
-            HideNSeekMain,
-            HideNSeekRoles
-        }
 
         public static List<CustomOption> options = new List<CustomOption>();
         public static int preset = 0;
@@ -36,12 +35,12 @@ namespace TownOfThem.Modules
         public System.Object[] selections;
 
         public int defaultSelection;
-        public ConfigEntry<int> entry;
         public int selection;
         public OptionBehaviour optionBehaviour;
         public CustomOption parent;
         public bool isHeader;
         public CustomOptionType type;
+        public Action<OptionBehaviour> action = (o) => { };
 
         // Option creation
 
@@ -55,18 +54,11 @@ namespace TownOfThem.Modules
             this.parent = parent;
             this.isHeader = isHeader;
             this.type = type;
-            selection = 0;
-            /*if (id != 0)
-            {
-                entry = TownOfThem.Main.Instance.Config.Bind($"Preset{preset}", id.ToString(), defaultSelection);
-                selection = Mathf.Clamp(entry.Value, 0, selections.Length - 1);
-            }*/
             options.Add(this);
         }
 
         public static CustomOption Create(int id, CustomOptionType type, string name, string[] selections, CustomOption parent = null, bool isHeader = false)
         {
-            Main.Log.LogInfo("Custom Option Added:" + id + "," + type + "," + name + "," + parent + "," + isHeader);
             return new CustomOption(id, type, name, selections, "", parent, isHeader);
         }
 
@@ -75,58 +67,22 @@ namespace TownOfThem.Modules
             List<object> selections = new();
             for (float s = min; s <= max; s += step)
                 selections.Add(s);
-            Main.Log.LogInfo("Custom Option Added:" + id + "," + type + "," + name + "," + defaultValue + "," + min + "," + max + "," + step + "," + parent + "," + isHeader);
             return new CustomOption(id, type, name, selections.ToArray(), defaultValue, parent, isHeader);
         }
 
         public static CustomOption Create(int id, CustomOptionType type, string name, bool defaultValue, CustomOption parent = null, bool isHeader = false)
         {
-            Main.Log.LogInfo("Custom Option Added:" + id + "," + type + "," + name + "," + defaultValue + "," + parent + "," + isHeader);
-            return new CustomOption(id, type, name, new string[] { GetString("Off"), GetString("On") }, defaultValue ? GetString("On") : GetString("Off"), parent, isHeader);
+            return new CustomOption(id, type, name, new string[] { "Off", "On" }, defaultValue ? "On" : "Off", parent, isHeader);
         }
 
         // Static behaviour
 
-        public static void switchPreset(int newPreset)
-        {
-            saveVanillaOptions();
-            CustomOption.preset = newPreset;
-            vanillaSettings = TownOfThem.Main.Instance.Config.Bind($"Preset{preset}", "GameOptions", "");
-            loadVanillaOptions();
-            foreach (CustomOption option in CustomOption.options)
-            {
-                if (option.id == 0) continue;
-
-                option.entry = TownOfThem.Main.Instance.Config.Bind($"Preset{preset}", option.id.ToString(), option.defaultSelection);
-                option.selection = Mathf.Clamp(option.entry.Value, 0, option.selections.Length - 1);
-                if (option.optionBehaviour != null && option.optionBehaviour is StringOption stringOption)
-                {
-                    stringOption.oldValue = stringOption.Value = option.selection;
-                    stringOption.ValueText.text = option.selections[option.selection].ToString();
-                }
-            }
-        }
-
-        public static void saveVanillaOptions()
-        {
-            vanillaSettings.Value = Convert.ToBase64String(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameManager.Instance.LogicOptions.currentGameOptions));
-        }
-
-        public static void loadVanillaOptions()
-        {
-            string optionsString = vanillaSettings.Value;
-            if (optionsString == "") return;
-            GameOptionsManager.Instance.GameHostOptions = GameOptionsManager.Instance.gameOptionsFactory.FromBytes(Convert.FromBase64String(optionsString));
-            GameOptionsManager.Instance.CurrentGameOptions = GameOptionsManager.Instance.GameHostOptions;
-            GameManager.Instance.LogicOptions.SetGameOptions(GameOptionsManager.Instance.CurrentGameOptions);
-            GameManager.Instance.LogicOptions.SyncOptions();
-        }
 
         public static void ShareOptionChange(uint optionId)
         {
             var option = options.FirstOrDefault(x => x.id == optionId);
             if (option == null) return;
-            var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPC.ShareOptions, SendOption.Reliable, -1);
+            var writer = AmongUsClient.Instance!.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareOptions, SendOption.Reliable, -1);
             writer.Write((byte)1);
             writer.WritePacked((uint)option.id);
             writer.WritePacked(Convert.ToUInt32(option.selection));
@@ -135,12 +91,12 @@ namespace TownOfThem.Modules
 
         public static void ShareOptionSelections()
         {
-            if (CachedPlayer.AllPlayers.Count <= 1 || AmongUsClient.Instance!.AmHost == false && CachedPlayer.LocalPlayer.PlayerControl == null) return;
+            if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance!.AmHost == false && PlayerControl.LocalPlayer == null) return;
             var optionsList = new List<CustomOption>(CustomOption.options);
             while (optionsList.Any())
             {
                 byte amount = (byte)Math.Min(optionsList.Count, 200); // takes less than 3 bytes per option on average
-                var writer = AmongUsClient.Instance!.StartRpcImmediately(CachedPlayer.LocalPlayer.PlayerControl.NetId, (byte)TownOfThem.CustomRPC.ShareOptions, SendOption.Reliable, -1);
+                var writer = AmongUsClient.Instance!.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareOptions, SendOption.Reliable, -1);
                 writer.Write(amount);
                 for (int i = 0; i < amount; i++)
                 {
@@ -155,29 +111,37 @@ namespace TownOfThem.Modules
 
         // Getter
 
-        public int getSelection()
+        public int GetSelection()
         {
             return selection;
         }
 
-        public bool getBool()
+        public bool GetBool()
         {
             return selection > 0;
         }
 
-        public float getFloat()
+        public float GetFloat()
         {
             return (float)selections[selection];
         }
 
-        public int getQuantity()
+        public int GetQuantity()
         {
             return selection + 1;
         }
 
+        public T TryGetValue<T>()
+        {
+            object result = null;
+            try { result = (T)selections[selection]; }
+            catch { }
+            return (T)result;
+        }
+
         // Option changes
 
-        public void updateSelection(int newSelection)
+        public void UpdateSelection(int newSelection)
         {
             selection = Mathf.Clamp((newSelection + selections.Length) % selections.Length, 0, selections.Length - 1);
             if (optionBehaviour != null && optionBehaviour is StringOption stringOption)
@@ -185,25 +149,49 @@ namespace TownOfThem.Modules
                 stringOption.oldValue = stringOption.Value = selection;
                 stringOption.ValueText.text = selections[selection].ToString();
 
-                if (AmongUsClient.Instance?.AmHost == true && CachedPlayer.LocalPlayer.PlayerControl)
+                if (AmongUsClient.Instance?.AmHost == true && PlayerControl.LocalPlayer)
                 {
-                    if (id == 0 && selection != preset)
-                    {
-                        switchPreset(selection); // Switch presets
-                        ShareOptionSelections();
-                    }
-                    else if (entry != null)
-                    {
-                        entry.Value = selection; // Save selection to config
-                        ShareOptionChange((uint)id);// Share single selection
-                    }
-                }
+                    ShareOptionChange((uint)id);
+                }                
             }
-            else if (id == 0 && AmongUsClient.Instance?.AmHost == true && PlayerControl.LocalPlayer)
-            {  // Share the preset switch for random maps, even if the menu isnt open!
-                switchPreset(selection);
-                ShareOptionSelections();// Share all selections
-            }
+        }
+
+        public void SetAction(Action<OptionBehaviour> action) => this.action = action;
+
+        
+    }
+
+    [HarmonyPatch(typeof(StringOption))]
+    public class StringOptionPatch
+    {
+        [HarmonyPatch(nameof(StringOption.OnEnable)), HarmonyPrefix]
+        public static bool OnEnable(StringOption __instance)
+        {
+            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
+            if (option == null) return true;
+
+            __instance.OnValueChanged = option.action;
+            __instance.TitleText.text = option.name;
+            __instance.Value = __instance.oldValue = option.selection;
+            __instance.ValueText.text = option.selections[option.selection].ToString();
+
+            return false;
+        }
+        [HarmonyPatch(nameof(StringOption.Increase)), HarmonyPrefix]
+        public static bool OnIncrease(StringOption __instance)
+        {
+            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
+            if (option == null) return true;
+            option.UpdateSelection(option.selection + 1);
+            return false;
+        }
+        [HarmonyPatch(nameof(StringOption.Decrease)), HarmonyPrefix]
+        public static bool OnDecrease(StringOption __instance)
+        {
+            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
+            if (option == null) return true;
+            option.UpdateSelection(option.selection - 1);
+            return false;
         }
     }
 
@@ -212,51 +200,23 @@ namespace TownOfThem.Modules
     {
         public static void Postfix(GameOptionsMenu __instance)
         {
-            createClassicTabs(__instance);
-
+            CreateClassicTabs(__instance);
         }
-        public static void destroyAllOptions()
-        {
-
-            var gameSettings = GameObject.Find("Game Settings");
-            var totSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var totMenu = getMenu(totSettings, "TOTSettings");
-
-            var ImpostorSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var ImpostorMenu = getMenu(ImpostorSettings, "ImpostorSettings");
-
-            var neutralSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var neutralMenu = getMenu(neutralSettings, "NeutralSettings");
-
-            var crewmateSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var crewmateMenu = getMenu(crewmateSettings, "CrewmateSettings");
-
-            var modifierSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var modifierMenu = getMenu(modifierSettings, "ModifierSettings");
-
-            destroyOptions(new List<List<OptionBehaviour>>{
-                totMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
-                ImpostorMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
-                neutralMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
-                crewmateMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
-                modifierMenu.GetComponentsInChildren<OptionBehaviour>().ToList()
-            });
-        }
-        private static void createClassicTabs(GameOptionsMenu __instance)
+        private static void CreateClassicTabs(GameOptionsMenu __instance)
         {
             bool isReturn = setNames(
                 new Dictionary<string, string>()
                 {
-                    ["totSettings"] = GetString("totSettings"),
-                    ["ImpostorSettings"] = GetString("ImpostorSettings"),
-                    ["NeutralSettings"] = GetString("NeutralSettings"),
-                    ["CrewmateSettings"] = GetString("CrewmateSettings"),
-                    ["ModifierSettings"] = GetString("ModifierSettings")
+                    ["TOTSettings"] = GetString(StringKey.totSettings),
+                    ["ImpostorSettings"] = GetString(StringKey.ImpostorSettings),
+                    ["NeutralSettings"] = GetString(StringKey.NeutralSettings),
+                    ["CrewmateSettings"] = GetString(StringKey.CrewmateSettings),
+                    ["ModifierSettings"] = GetString(StringKey.ModifierSettings),
                 });
 
             if (isReturn) return;
 
-            // Setup TOR tab
+            // Setup TOT tab
             var template = UnityEngine.Object.FindObjectsOfType<StringOption>().FirstOrDefault();
             if (template == null) return;
             var gameSettings = GameObject.Find("Game Settings");
@@ -265,8 +225,8 @@ namespace TownOfThem.Modules
             var totSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
             var totMenu = getMenu(totSettings, "TOTSettings");
 
-            var ImpostorSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
-            var ImpostorMenu = getMenu(ImpostorSettings, "ImpostorSettings");
+            var impostorSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
+            var impostorMenu = getMenu(impostorSettings, "ImpostorSettings");
 
             var neutralSettings = UnityEngine.Object.Instantiate(gameSettings, gameSettings.transform.parent);
             var neutralMenu = getMenu(neutralSettings, "NeutralSettings");
@@ -283,34 +243,34 @@ namespace TownOfThem.Modules
             var totTab = UnityEngine.Object.Instantiate(roleTab, roleTab.transform.parent);
             var totTabHighlight = getTabHighlight(totTab, "TownOfThemTab", "TownOfThem.Resources.TabIcon.png");
 
-            var impostotTab = UnityEngine.Object.Instantiate(roleTab, totTab.transform);
-            var impostotTabHighlight = HudManagerGetButton.KillButton/*getTabHighlight(impostotTab, "ImpostotTab", "TownOfThem.Resources.TabIconImpostor.png")*/;
+            var impostorTab = UnityEngine.Object.Instantiate(roleTab, totTab.transform);
+            var impostorTabHighlight = getTabHighlight(impostorTab, "ImpostorTab", "TownOfThem.Resources.TabIconImpostor.png");
 
-            var neutralTab = UnityEngine.Object.Instantiate(roleTab, impostotTab.transform);
+            var neutralTab = UnityEngine.Object.Instantiate(roleTab, impostorTab.transform);
             var neutralTabHighlight = getTabHighlight(neutralTab, "NeutralTab", "TownOfThem.Resources.TabIconNeutral.png");
 
             var crewmateTab = UnityEngine.Object.Instantiate(roleTab, neutralTab.transform);
             var crewmateTabHighlight = getTabHighlight(crewmateTab, "CrewmateTab", "TownOfThem.Resources.TabIconCrewmate.png");
 
             var modifierTab = UnityEngine.Object.Instantiate(roleTab, crewmateTab.transform);
-            var modifierTabHighlight = ModManager._instance.ModStamp;//getTabHighlight(modifierTab, "ModifierTab", "TownOfThem.Resources.TabIconModifier.png");
+            var modifierTabHighlight = getTabHighlight(modifierTab, "ModifierTab", "TownOfThem.Resources.TabIconModifier.png");
 
+            // Position of Tab Icons
             gameTab.transform.position += Vector3.left * 3f;
             roleTab.transform.position += Vector3.left * 3f;
             totTab.transform.position += Vector3.left * 2f;
-            impostotTab.transform.localPosition = Vector3.right * 1f;
+            impostorTab.transform.localPosition = Vector3.right * 1f;
             neutralTab.transform.localPosition = Vector3.right * 1f;
             crewmateTab.transform.localPosition = Vector3.right * 1f;
-            crewmateTab.transform.localScale *= 0.8f;
             modifierTab.transform.localPosition = Vector3.right * 1f;
 
-            var tabs = new GameObject[] { gameTab, roleTab, totTab, impostotTab, neutralTab, crewmateTab, modifierTab };
+            var tabs = new GameObject[] { gameTab, roleTab, totTab, impostorTab, neutralTab, crewmateTab, modifierTab };
             var settingsHighlightMap = new Dictionary<GameObject, SpriteRenderer>
             {
                 [gameSettingMenu.RegularGameSettings] = gameSettingMenu.GameSettingsHightlight,
                 [gameSettingMenu.RolesSettings.gameObject] = gameSettingMenu.RolesSettingsHightlight,
                 [totSettings.gameObject] = totTabHighlight,
-                [ImpostorSettings.gameObject] = impostotTabHighlight,
+                [impostorSettings.gameObject] = impostorTabHighlight,
                 [neutralSettings.gameObject] = neutralTabHighlight,
                 [crewmateSettings.gameObject] = crewmateTabHighlight,
                 [modifierSettings.gameObject] = modifierTabHighlight
@@ -321,14 +281,14 @@ namespace TownOfThem.Modules
                 if (button == null) continue;
                 int copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                button.OnClick.AddListener((System.Action)(() => {
+                button.OnClick.AddListener((Action)(() => {
                     setListener(settingsHighlightMap, copiedIndex);
                 }));
             }
 
             destroyOptions(new List<List<OptionBehaviour>>{
                 totMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
-                ImpostorMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
+                impostorMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
                 neutralMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
                 crewmateMenu.GetComponentsInChildren<OptionBehaviour>().ToList(),
                 modifierMenu.GetComponentsInChildren<OptionBehaviour>().ToList()
@@ -341,7 +301,7 @@ namespace TownOfThem.Modules
             List<OptionBehaviour> modifierOptions = new List<OptionBehaviour>();
 
 
-            List<Transform> menus = new List<Transform>() { totMenu.transform, ImpostorMenu.transform, neutralMenu.transform, crewmateMenu.transform, modifierMenu.transform };
+            List<Transform> menus = new List<Transform>() { totMenu.transform, impostorMenu.transform, neutralMenu.transform, crewmateMenu.transform, modifierMenu.transform };
             List<List<OptionBehaviour>> optionBehaviours = new List<List<OptionBehaviour>>() { torOptions, impostorOptions, neutralOptions, crewmateOptions, modifierOptions };
 
             for (int i = 0; i < CustomOption.options.Count; i++)
@@ -363,9 +323,9 @@ namespace TownOfThem.Modules
             }
 
             setOptions(
-                new List<GameOptionsMenu> { totMenu, ImpostorMenu, neutralMenu, crewmateMenu, modifierMenu },
+                new List<GameOptionsMenu> { totMenu, impostorMenu, neutralMenu, crewmateMenu, modifierMenu },
                 new List<List<OptionBehaviour>> { torOptions, impostorOptions, neutralOptions, crewmateOptions, modifierOptions },
-                new List<GameObject> { totSettings, ImpostorSettings, neutralSettings, crewmateSettings, modifierSettings }
+                new List<GameObject> { totSettings, impostorSettings, neutralSettings, crewmateSettings, modifierSettings }
             );
 
             adaptTaskCount(__instance);
@@ -416,15 +376,17 @@ namespace TownOfThem.Modules
         private static SpriteRenderer getTabHighlight(GameObject tab, string tabName, string tabSpritePath)
         {
             var tabHighlight = tab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
-            tab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = TownOfThem.ModHelpers.LoadSprite(tabSpritePath, 100f);
+            tab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite(tabSpritePath, 100f);
             tab.name = "tabName";
+
             return tabHighlight;
         }
+
         private static void setOptions(List<GameOptionsMenu> menus, List<List<OptionBehaviour>> options, List<GameObject> settings)
         {
             if (!(menus.Count == options.Count && options.Count == settings.Count))
             {
-                TownOfThem.Main.Log.LogError("List counts are not equal");
+                Main.Log.LogError("List counts are not equal");
                 return;
             }
             for (int i = 0; i < menus.Count; i++)
@@ -447,66 +409,16 @@ namespace TownOfThem.Modules
             if (longTasksOption != null) longTasksOption.ValidRange = new FloatRange(0f, 15f);
         }
     }
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
-    public class StringOptionEnablePatch
+
+    public class SyncSettingsPatch
     {
-        public static bool Prefix(StringOption __instance)
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSyncSettings))]
+        [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoSpawnPlayer))]
+        [HarmonyPostfix]
+        public static void SyncSettings()
         {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-
-            __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
-            __instance.TitleText.text = option.name;
-            __instance.Value = __instance.oldValue = option.selection;
-            __instance.ValueText.text = option.selections[option.selection].ToString();
-
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
-    public class StringOptionIncreasePatch
-    {
-        public static bool Prefix(StringOption __instance)
-        {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-            option.updateSelection(option.selection + 1);
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.Decrease))]
-    public class StringOptionDecreasePatch
-    {
-        public static bool Prefix(StringOption __instance)
-        {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-            option.updateSelection(option.selection - 1);
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSyncSettings))]
-    public class RpcSyncSettingsPatch
-    {
-        public static void Postfix()
-        {
+            if (!PlayerControl.LocalPlayer) return;
             CustomOption.ShareOptionSelections();
-            CustomOption.saveVanillaOptions();
-        }
-    }
-
-    [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoSpawnPlayer))]
-    public class AmongUsClientOnPlayerJoinedPatch
-    {
-        public static void Postfix()
-        {
-            if (PlayerControl.LocalPlayer != null)
-            {
-                CustomOption.ShareOptionSelections();
-            }
         }
     }
 
@@ -529,19 +441,15 @@ namespace TownOfThem.Modules
             float offset = 2.75f;
             foreach (CustomOption option in CustomOption.options)
             {
-                if (GameObject.Find("totSettings") && option.type != CustomOption.CustomOptionType.General && option.type != CustomOptionType.HideNSeekMain)
+                if (GameObject.Find("totSettings") && option.type != CustomOptionType.General)
                     continue;
-                if (GameObject.Find("ImpostorSettings") && option.type != CustomOption.CustomOptionType.Impostor)
+                if (GameObject.Find("ImpostorSettings") && option.type != CustomOptionType.Impostor)
                     continue;
-                if (GameObject.Find("NeutralSettings") && option.type != CustomOption.CustomOptionType.Neutral)
+                if (GameObject.Find("NeutralSettings") && option.type != CustomOptionType.Neutral)
                     continue;
-                if (GameObject.Find("CrewmateSettings") && option.type != CustomOption.CustomOptionType.Crewmate)
+                if (GameObject.Find("CrewmateSettings") && option.type != CustomOptionType.Crewmate)
                     continue;
-                if (GameObject.Find("ModifierSettings") && option.type != CustomOption.CustomOptionType.Modifier)
-                    continue;
-                if (GameObject.Find("GuesserSettings") && option.type != CustomOption.CustomOptionType.Guesser)
-                    continue;
-                if (GameObject.Find("HideNSeekSettings") && option.type != CustomOption.CustomOptionType.HideNSeekRoles)
+                if (GameObject.Find("ModifierSettings") && option.type != CustomOptionType.Modifier)
                     continue;
                 if (option?.optionBehaviour != null && option.optionBehaviour.gameObject != null)
                 {
@@ -571,8 +479,8 @@ namespace TownOfThem.Modules
         private static void Postfix(ref string __result)
         {
             if (GameOptionsManager.Instance.currentGameOptions.GameMode == AmongUs.GameOptions.GameModes.HideNSeek) return; // Allow Vanilla Hide N Seek
-            int counter = TownOfThem.Main.optionsPage;
-            string hudString = counter != 0 ? TownOfThem.ModHelpers.cs(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "(Use scroll wheel if necessary)\n\n") : "";
+            int counter = Main.optionsPage;
+            string hudString = counter != 0 ? ModHelpers.ColorString(DateTime.Now.Second % 2 == 0 ? Color.white : Color.red, "(Use scroll wheel if necessary)\n\n") : "";
             int maxPage = 6;
                 switch (counter)
                 {
@@ -638,8 +546,8 @@ namespace TownOfThem.Modules
             }
             if (page != TownOfThem.Main.optionsPage)
             {
-                Vector3 position = (Vector3)FastDestroyableSingleton<HudManager>.Instance?.GameSettings?.transform.localPosition;
-                FastDestroyableSingleton<HudManager>.Instance.GameSettings.transform.localPosition = new Vector3(position.x, 2.9f, position.z);
+                Vector3 position = (Vector3)DestroyableSingleton<HudManager>.Instance?.GameSettings?.transform.localPosition;
+                DestroyableSingleton<HudManager>.Instance.GameSettings.transform.localPosition = new Vector3(position.x, 2.9f, position.z);
             }
         }
     }
@@ -701,7 +609,7 @@ namespace TownOfThem.Modules
             Scroller.ContentYBounds = new FloatRange(MinY, maxY);
 
             // Prevent scrolling when the player is interacting with a menu
-            if (CachedPlayer.LocalPlayer?.PlayerControl.CanMove != true)
+            if (PlayerControl.LocalPlayer.CanMove != true)
             {
                 __instance.GameSettings.transform.localPosition = LastPosition;
 

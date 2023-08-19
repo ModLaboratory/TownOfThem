@@ -6,13 +6,12 @@ using static TownOfThem.Modules.Translation;
 
 namespace TownOfThem.Patches
 {
-    [HarmonyPatch(typeof(ChatController),nameof(ChatController.SendChat))]
+    [HarmonyPatch(typeof(ChatController),nameof(ChatController.AddChat))]
     class ChatCommandPatch
     {
-        public static void Prefix(ChatController __instance)
+        public static void Prefix(ChatController __instance, PlayerControl sourcePlayer, string chatText)
         {
-            string text = __instance.TextArea.text;
-            string[] command = text.Split(" ");
+            string[] command = chatText.Split(" ");
             switch (command[0].ToLower())
             {
                 case "/help":
@@ -44,19 +43,6 @@ namespace TownOfThem.Patches
                 case "/finishtask":
                     LocalPlayer.RpcCompleteTask(Convert.ToUInt32(command[1]));
                     break;
-                /*case "/language":
-                    TownOfThem.Modules.Translation.LoadLanguage((SupportedLangs)Convert.ToInt32(command[1]));
-                    if (TownOfThem.Modules.Translation.Translations["ModLanguage"] == "0" && command[1] != "0")
-                    {
-                        LocalPlayer.RpcSendChat($"Your Language:{(SupportedLangs)Convert.ToInt32(command[1])} Load Error!\nLanguage Not Support.\nBack To Old Language:{(SupportedLangs)Main.LanguageID.Value}");
-                        TownOfThem.Modules.Translation.LoadLanguage((SupportedLangs)Main.LanguageID.Value);
-                    }
-                    else
-                    {
-                        Main.LanguageID.Value = Convert.ToInt32(command[1]);
-                        LocalPlayer.RpcSendChat($"OK!\nNow Mod Language:{(SupportedLangs)Convert.ToInt32(command[1])}\nConfig file(Mod Default Language)Edited!");
-                    }
-                    break;*/
                 case "/startminplayer":
                     GameStartManager.Instance.MinPlayers = Convert.ToInt32(command[1]);
                     break;
@@ -64,7 +50,7 @@ namespace TownOfThem.Patches
                     LocalPlayer.RpcSetPet(command[1]);
                     break;
                 case "/popup":
-                    MainMenuManagerStartPatch.ShowPopup(command[1]);
+                    HudManager.Instance.ShowPopUp(command[1]);
                     break;
                 case "/pid":
                     string a = "";

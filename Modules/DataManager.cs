@@ -20,7 +20,7 @@ namespace TownOfThem.Modules
                 }
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Main.Log.LogFatal($"Error creating data dir: {e.Message}");
             }

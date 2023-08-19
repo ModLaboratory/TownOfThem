@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using TownOfThem.Modules;
 using UnityEngine;
 
@@ -13,49 +15,49 @@ namespace TownOfThem.Roles.Crew
             get
             {
                 List<PlayerControl> p = new();
-                foreach(var a in SelectRolesPatch.pr)
+
+                try
                 {
-                    if (a.Value == roleID)
-                    {
-                        p.Add(a.Key);
-                    }
+                    p = PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetRole() == RoleID).ToList();
                 }
+                catch
+                {
+                    return new();
+                }
+
                 return p;
             }
         }
         public static PlayerControl target;
-        public static new int roleID
+        public static new RoleId RoleID
         {
-            get
-            {
-                return (int)RoleId.Sheriff;
-            }
-        }
+            get;
+        } = RoleId.Sheriff;
         public static new bool enable
         {
             get
             {
-                return Modules.CustomGameOptions.Sheriff.getBool();
+                return CustomGameOptions.Sheriff.GetBool();
             }
         }
         public static new int maxPlayerCount
         {
             get
             {
-                return (int)Modules.CustomGameOptions.SheriffMaxPlayer.selections[Modules.CustomGameOptions.SheriffMaxPlayer.selection];
+                return (int)CustomGameOptions.SheriffMaxPlayer.GetFloat();
             }
         }
         public static int cd
         {
             get
             {
-                return (int)Modules.CustomGameOptions.SheriffCooldown.selections[Modules.CustomGameOptions.SheriffCooldown.selection];
+                return (int)CustomGameOptions.SheriffCooldown.GetFloat();
             }
         }
         public static int limit {
             get
             {
-                return (int)Modules.CustomGameOptions.SheriffKillLimit.selections[Modules.CustomGameOptions.SheriffKillLimit.selection];
+                return (int)CustomGameOptions.SheriffKillLimit.selections[CustomGameOptions.SheriffKillLimit.selection];
             }
         }
         public override void reset()

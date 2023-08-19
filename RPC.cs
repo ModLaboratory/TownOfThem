@@ -14,7 +14,6 @@ namespace TownOfThem
         ShareModVersion,
         UncheckedMurderPlayer,
         SetRole,
-        AssignRoles,
         ResetVariables,
         UncheckedStartMeeting,
     }
@@ -30,7 +29,7 @@ namespace TownOfThem
                     uint optionId = reader.ReadPackedUInt32();
                     uint selection = reader.ReadPackedUInt32();
                     CustomOption option = CustomOption.options.First(option => option.id == (int)optionId);
-                    option.updateSelection((int)selection);
+                    option.UpdateSelection((int)selection);
                 }
             }
             catch (Exception e)
@@ -44,7 +43,7 @@ namespace TownOfThem
         }
         public static void UncheckedMurderPlayer(byte sourceId, byte targetId, bool showAnimation)
         {
-            if (AmongUsClient.Instance.GameState != InnerNet.InnerNetClient.GameStates.Started) return;
+            if (AmongUsClient.Instance.GameState != InnerNetClient.GameStates.Started) return;
             PlayerControl source = ModHelpers.playerById(sourceId);
             PlayerControl target = ModHelpers.playerById(targetId);
             if (source != null && target != null)
@@ -56,16 +55,21 @@ namespace TownOfThem
         public static void SetRole(byte target, int roleID)
         {
             var targetPC = ModHelpers.playerById(target);
-            switch (roleID)
-            {
-                case (int)RoleId.Sheriff:
-                    Sheriff.players.Add(targetPC);
-                    break;
-            }
+            targetPC.SetRole((RoleId)roleID);
         }
         public static void UncheckedStartMeeting(byte source)
         {
             PlayerControl.LocalPlayer.StartMeeting(ModHelpers.playerById(source).Data);
+        }
+        public static void AssignRole(MessageReader reader)
+        {
+            int count = reader.ReadPackedInt32();
+            for (int a = 0; a < count; a++)
+            {
+                byte assignPlayerID = reader.ReadByte();
+                int assignRoleID = reader.ReadInt32();
+                RoleInfo.PlayerRoles[ModHelpers.playerById(assignPlayerID)] = (RoleId)assignRoleID;
+            }
         }
     }
 
@@ -94,15 +98,7 @@ namespace TownOfThem
                 case (byte)CustomRPC.SetRole:
                     byte roleTarget = reader.ReadByte();
                     int roleID = reader.ReadInt32();
-                    break;
-                case (byte)CustomRPC.AssignRoles:
-                    int count = reader.ReadPackedInt32();
-                    for(int a = 0; a < count; a++)
-                    {
-                        byte assignPlayerID = reader.ReadByte();
-                        int assignRoleID = reader.ReadInt32();
-                        SelectRolesPatch.pr[ModHelpers.playerById(assignPlayerID)] = assignRoleID;
-                    }
+                    RPCProcedure.SetRole(roleTarget, roleID);
                     break;
                 case (byte)CustomRPC.ResetVariables:
                     
@@ -118,39 +114,6 @@ namespace TownOfThem
                     }
                     break;
             }
-        }
-    }
-
-    public static class RPCHelper
-    {
-        public static void RpcSendModVersion(this PlayerControl pc, string version)
-        {
-            try
-            {
-                CustomRpcSender writer = new(pc, CustomRPC.ShareModVersion);
-                writer.Write(pc.NetId).Write(version).EndRpc();
-            }
-            catch
-            {
-                Main.Log.LogError($"Error sending mod version! If you are local playing, please ignore this error.\r\nSender: {pc?.Data?.PlayerName} Version: {version}");
-            }
-            
-        }
-        public static void RpcUncheckedStartMeeting(this PlayerControl pc)
-        {
-            CustomRpcSender writer = new(pc, RpcCalls.StartMeeting);
-            writer.EndRpc();
-        }
-        public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target, bool showAnimation = true)
-        {
-            CustomRpcSender writer = new(source, CustomRPC.UncheckedMurderPlayer);
-            writer.Write(source.PlayerId).Write(target.PlayerId).Write(showAnimation).EndRpc();
-            
-        }
-        public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target)
-        {
-            CustomRpcSender writer = new(source, RpcCalls.MurderPlayer);
-            writer.Write(target.NetId).EndRpc();
         }
     }
     public class CustomRpcSender

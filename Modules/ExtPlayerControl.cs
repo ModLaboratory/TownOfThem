@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TownOfThem.Roles;
-using TownOfThem.Utilities;
 using UnityEngine;
 
 namespace TownOfThem.Modules
@@ -12,7 +11,7 @@ namespace TownOfThem.Modules
         {
             PlayerControl result = null;
             float num = AmongUs.GameOptions.GameOptionsData.KillDistances[Mathf.Clamp(GameOptionsManager.Instance.currentNormalGameOptions.KillDistance, 0, 2)];
-            if (targetingPlayer == null) targetingPlayer = CachedPlayer.LocalPlayer.PlayerControl;
+            if (targetingPlayer == null) targetingPlayer = PlayerControl.LocalPlayer;
             if (targetingPlayer.Data.IsDead) return result;
 
             Vector2 truePosition = targetingPlayer.GetTruePosition();
@@ -52,11 +51,22 @@ namespace TownOfThem.Modules
         }
         public static bool IsImp(this PlayerControl pc)
         {
-            return GetCamp(GetRole(pc)) == Camp.Imp;
+            return GetRole(pc).GetCamp() == Camp.Imp;
         }
         public static RoleId GetRole(this PlayerControl pc)
         {
-            return (RoleId)SelectRolesPatch.pr[pc];
+            var role = RoleId.Unknown;
+            try
+            {
+                role = RoleInfo.PlayerRoles[pc];
+            }
+            catch { }
+            return role;
+
+        }
+        public static void SetRole(this PlayerControl pc, RoleId role)
+        {
+            RoleInfo.PlayerRoles[pc] = role;
         }
         public static Camp GetCamp(this RoleId role)
         {
@@ -69,5 +79,32 @@ namespace TownOfThem.Modules
                 _ => Camp.Crew,
             };
         }
+        public static void RpcSetRole(this PlayerControl pc, RoleId role)
+        {
+            CustomRpcSender sender = new(pc, CustomRPC.SetRole);
+            sender.Write(pc.PlayerId).Write((int)role).EndRpc();
+            pc.SetRole(role);
+        }
+        public static void RpcSendModVersion(this PlayerControl pc, string version)
+        {
+            CustomRpcSender writer = new(pc, CustomRPC.ShareModVersion);
+            writer.Write(pc.NetId).Write(version).EndRpc();
+        }
+        public static void RpcUncheckedStartMeeting(this PlayerControl pc)
+        {
+            CustomRpcSender writer = new(pc, RpcCalls.StartMeeting);
+            writer.EndRpc();
+        }
+        public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target, bool showAnimation = true)
+        {
+            CustomRpcSender writer = new(source, CustomRPC.UncheckedMurderPlayer);
+            writer.Write(source.PlayerId).Write(target.PlayerId).Write(showAnimation).EndRpc();
+
+        }
+        //public static void RpcUncheckedMurderPlayer(this PlayerControl source, PlayerControl target)
+        //{
+        //    CustomRpcSender writer = new(source, RpcCalls.MurderPlayer);
+        //    writer.Write(target.NetId).EndRpc();
+        //}
     }
 }

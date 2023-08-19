@@ -2,7 +2,7 @@
 global using static TownOfThem.Modules.Translation;
 global using TownOfThem.Modules;
 global using HarmonyLib;
-global using TownOfThem.Utilities;
+global using ModHelpers = TownOfThem.Modules.Utils;
 using BepInEx;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
@@ -26,7 +26,6 @@ namespace TownOfThem
         public static bool IsBeta = true;
         internal static new ManualLogSource Log;
         public static Main Instance;
-        public static bool ModDamaged = false;
         public static int optionsPage = 0;
         public const string ModGUID = "cn.JieGe.TownOfThem";
         public const string ModName = "<size=130%><color=#FF8C00>Town Of Them</color></size>";

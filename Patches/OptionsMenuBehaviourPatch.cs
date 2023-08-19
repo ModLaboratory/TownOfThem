@@ -11,11 +11,6 @@ namespace TownOfThem.Patches
         public static void Postfix(OptionsMenuBehaviour __instance)
         {
             CustomOptionsMenuManager.Init(__instance);
-            CreateAllButtons();
-        }
-        public static void CreateAllButtons()
-        {
-            testOpt = new(StringKey.test, () => { return !testOpt.ToggleButton.onState; }, false);
         }
     }
 }

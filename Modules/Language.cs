@@ -52,11 +52,11 @@ namespace TownOfThem.Modules
         Ping,
         SheriffShoot,
         DevModeWarning,
-        FunnyOk,
         BuildTime,
         ExpireTime,
         DeveloperMode,
         totOptions,
+        LobbyBombTimerText,
         test,
     }
 
@@ -228,7 +228,7 @@ namespace TownOfThem.Modules
                 {
                     Log.LogError($"Error loading translation - Unknown exception:\r\nKey: {key}\r\nMore info: {Error.Message}");
                 }
-                return "<ERR_GET_TRSLARTION: " + key.ToString() + ">";
+                return "<ERR_GET_TRSLATION: " + key.ToString() + ">";
             }
             
             //Log.LogInfo("Translation Loaded:" + key + "," + Translations[key]);
@@ -236,7 +236,7 @@ namespace TownOfThem.Modules
         }
         
     }
-    //给国内玩家：请不要随意修改翻译，如生草翻译等！
+
     //For other developers/translators: If you want to add your translation to Town Of Them, please fork this repo and create a new pull request, thanks 
     public static class Language
     {
@@ -259,8 +259,8 @@ namespace TownOfThem.Modules
         public static Dictionary<StringKey, string> English = new Dictionary<StringKey, string>()
         {
             [StringKey.ModInfo1] = "Programming: Jiege  Artist: Xiaolu",
-            [StringKey.totBirthday] = "Happy Birthday To {0}!",
-            [StringKey.totSettings] = "Town Of Them Settings ",
+            [StringKey.totBirthday] = $"Happy Birthday To {Main.ModName}!",
+            [StringKey.totSettings] = $"{Main.ModName} Settings ",
             [StringKey.ImpostorSettings] = "Impostor Roles Settings ",
             [StringKey.NeutralSettings] = "Neutral Roles Settings ",
             [StringKey.CrewmateSettings] = "Crewmate Roles Settings ",
@@ -287,7 +287,7 @@ namespace TownOfThem.Modules
             [StringKey.ckptPage5] = "Page 5 : Crewmate Role Settings",
             [StringKey.ckptPage6] = "Page 6 : Modifier Settings",
             [StringKey.ckptToOtherPages] = "Press TAB or Page Number for more...",
-            [StringKey.cmdHelp] = "Welcome to Among Us Mod---Town Of Them!\nChat command help:\n/help---Show me\n/language---Change language",
+            [StringKey.cmdHelp] = $"Thank you for playing {Main.ModName}!\nChat command help:\n/help---Show me\n/language---Change language",
             [StringKey.DebugMode] = "Debug Mode",
             [StringKey.CantPlayWithoutMod] = "Can't Play With Players Who Don't Have Mod",
             [StringKey.CustomGamemodes] = "Gamemodes",
@@ -296,7 +296,7 @@ namespace TownOfThem.Modules
             [StringKey.PlayerCheckError1] = "has no mod or other mods.",
             [StringKey.PlayerCheckError2] = "has a different version of TownOfThem or other mods.",
             [StringKey.ModExpired] = "The mod was expired. Click OK to quit game.",
-            [StringKey.KickByHacking] = "You were banned by Innersloth.\n\nMaybe there is a BUG what will treat as hacking in this mod or you are hacking.",
+            [StringKey.KickByHacking] = "You were banned by Innersloth.\n\nMaybe there is a BUG in this mod or you are hacking.",
             [StringKey.ExiledText] = "{0} was a {1}.\n{2}\n{3}",
             [StringKey.Ping] = "Ping: {0} ms",
             [StringKey.SheriffShoot] = "Shoot",
@@ -306,12 +306,13 @@ namespace TownOfThem.Modules
             [StringKey.DeveloperMode] = "Developer Mode",
             [StringKey.totOptions] = "TOT Options",
             [StringKey.test] = "TEST",
+            [StringKey.LobbyBombTimerText] = "",
         };
         public static Dictionary<StringKey, string> Chinese = new Dictionary<StringKey, string>()
         {
             [StringKey.ModInfo1] = "程序：杰哥  美术：小鹿",
-            [StringKey.totBirthday] = "生日快乐，{0}！",
-            [StringKey.totSettings] = "他们的小镇设置",
+            [StringKey.totBirthday] = $"生日快乐，{Main.ModName}！",
+            [StringKey.totSettings] = $"{Main.ModName} 设置",
             [StringKey.ImpostorSettings] = "内鬼职业设置",
             [StringKey.NeutralSettings] = "中立职业设置",
             [StringKey.CrewmateSettings] = "船员职业设置",
@@ -338,7 +339,7 @@ namespace TownOfThem.Modules
             [StringKey.ckptPage5] = "第五页：船员职业设置",
             [StringKey.ckptPage6] = "第六页：附加职业设置",
             [StringKey.ckptToOtherPages] = "按下 TAB 键/数字键切换到下一页/指定页……",
-            [StringKey.cmdHelp] = "欢迎游玩Among Us模组——他们的小镇！\n指令教程：\n/help——显示此消息\n/language——切换语言",
+            [StringKey.cmdHelp] = $"欢迎游玩 {Main.ModName}！\n指令教程：\n/help——显示此消息\n/language——切换语言",
             [StringKey.DebugMode] = "调试模式",
             [StringKey.CantPlayWithoutMod] = "无法和原版玩家玩",
             [StringKey.CustomGamemodes] = "游戏模式",
@@ -357,6 +358,7 @@ namespace TownOfThem.Modules
             [StringKey.DeveloperMode] = "开发者模式",
             [StringKey.totOptions] = "TOT 选项",
             [StringKey.test] = "测试",
+            [StringKey.LobbyBombTimerText] = "距离树懒炸房还有",
         };
         
     }

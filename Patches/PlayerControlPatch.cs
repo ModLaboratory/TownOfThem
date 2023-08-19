@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TownOfThem.Roles.Crew;
-using TownOfThem.Utilities;
 using UnityEngine;
 
 namespace TownOfThem.Patches
@@ -24,7 +23,11 @@ namespace TownOfThem.Patches
         
         public static void Postfix(PlayerControl __instance)
         {
-            
+            try
+            {
+                if (PlayerControl.LocalPlayer.GetRole() == Roles.RoleId.Sheriff) Sheriff.SetTarget();
+            }
+            catch { }
         }
     }
 }

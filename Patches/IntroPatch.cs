@@ -1,9 +1,7 @@
-﻿
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using TownOfThem.Modules;
 using TownOfThem.Roles;
-using TownOfThem.Utilities;
 
 namespace TownOfThem.Patches
 {
@@ -15,7 +13,7 @@ namespace TownOfThem.Patches
             switch (CustomGameOptions.gameModes.selection)
             {
                 case 0:
-                    __instance.YouAreText.text = ((RoleId)SelectRolesPatch.pr[PlayerControl.LocalPlayer]).ToString();
+                    __instance.YouAreText.text = PlayerControl.LocalPlayer.GetRole().ToString();
                     break;
                 case 1:
                     __instance.YouAreText.text = PlayerControl.LocalPlayer.Data.PlayerName;
@@ -26,7 +24,7 @@ namespace TownOfThem.Patches
         }
         public static bool Prefix(IntroCutscene __instance)
         {
-            FastDestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(1f, new Action<float>((p) => { SetRoleTexts(__instance); })));
+            DestroyableSingleton<HudManager>.Instance.StartCoroutine(Effects.Lerp(1f, new Action<float>((p) => { SetRoleTexts(__instance); })));
             return true;
         }
     }

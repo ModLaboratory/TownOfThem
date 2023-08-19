@@ -41,7 +41,6 @@ namespace TownOfThem.Modules
             Object.Destroy(popUp.GetComponent<OptionsMenuBehaviour>());
             foreach (var go in popUp.gameObject.GetAllChilds())
             {
-                if (go == null || popUp == null) continue;
                 if (go.name != "Background" && go.name != "CloseButton") Object.Destroy(go);
             }
             popUp.SetActive(false);
@@ -70,14 +69,15 @@ namespace TownOfThem.Modules
             modOptions.Background.color = Main.ModColor;
             var modOptionsButton = modOptions.GetComponent<PassiveButton>();
             modOptionsButton.OnClick = new();
+            Main.Log.LogInfo("Button Action Reseted");
 
             modOptionsButton.OnClick.AddListener((System.Action)(() =>
             {
                 if (!popUp) return;
 
-                if (__instance.transform.parent && __instance.transform.parent == FastDestroyableSingleton<HudManager>.Instance.transform)
+                if (__instance.transform.parent && __instance.transform.parent == DestroyableSingleton<HudManager>.Instance.transform)
                 {
-                    popUp.transform.SetParent(FastDestroyableSingleton<HudManager>.Instance.transform);
+                    popUp.transform.SetParent(DestroyableSingleton<HudManager>.Instance.transform);
                     popUp.transform.localPosition = new Vector3(0, 0, -800f);
                 }
                 else
@@ -85,9 +85,10 @@ namespace TownOfThem.Modules
                     popUp.transform.SetParent(null);
                     Object.DontDestroyOnLoad(popUp);
                 }
-                Open();
-                LoadButtons(__instance);
+                Open(__instance);
+                Main.Log.LogInfo("open");
             }));
+            Main.Log.LogInfo("Button Action Added");
         }
         private static void LoadButtons(OptionsMenuBehaviour __instance)
         {
@@ -133,10 +134,12 @@ namespace TownOfThem.Modules
             passive.OnMouseOut.AddListener((System.Action)(() => btn.Background.color = btn.onState ? Color.green : Palette.ImpostorRed));
             foreach (var spr in btn.gameObject.GetComponentsInChildren<SpriteRenderer>()) spr.size = new Vector2(2.2f, .7f);
         }
-        private static void Open()
+        private static void Open(OptionsMenuBehaviour __instance)
         {
             popUp.SetActive(false);
             popUp.SetActive(true);
+            
+            LoadButtons(__instance);
         }
 
 

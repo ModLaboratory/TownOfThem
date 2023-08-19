@@ -16,18 +16,21 @@ namespace TownOfThem.Roles.Neu
             get
             {
                 List<PlayerControl> p = new();
-                foreach (var a in SelectRolesPatch.pr)
-                {
-                    if (a.Value == roleID)
-                    {
-                        p.Add(a.Key);
-                    }
-                }
+
+                //foreach (var a in RoleInfo.PlayerRoles)
+                //    if (a.Value == (RoleId)roleID)
+                //        p.Add(a.Key);
+
                 return p;
             }
         }
         public override void reset()
         { 
+
+        }
+
+        public static void OnExiled()
+        {
 
         }
 

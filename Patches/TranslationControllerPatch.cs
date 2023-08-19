@@ -32,19 +32,21 @@ namespace TownOfThem.Patches
                 case StringNames.ExileTextSP:
                     if (Jester.players.Contains(player))
                     {
-                        __result = string.Format(GetString(StringKey.ExiledText), player, ModHelpers.cs(Jester.color, GetString(StringKey.Jester)),"JesterExiledText","ImpostorCountInfo");
+                        __result = string.Format(GetString(StringKey.ExiledText), player, ModHelpers.ColorString(Jester.color, GetString(StringKey.Jester)),"JesterExiledText","ImpostorCountInfo");
                     }
                     break;
             }
         }
     }
+    
     [HarmonyPatch(typeof(TranslationController),nameof(TranslationController.SetLanguage))]
     class TranslationControllerSetLanguagePatch
     {
         public static void Postfix([HarmonyArgument(0)] TranslatedImageSet lang)
         {
             SetLangDic(lang.languageID);
-            GameOptionsMenuStartPatch.destroyAllOptions();
+            CustomOption.options.Clear();
+            CustomGameOptions.Load();
         }
     }
 }

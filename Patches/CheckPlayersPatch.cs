@@ -13,6 +13,14 @@ namespace TownOfThem.Patches
         {
             if (!versionSent)
             {
+                try
+                {
+
+                }
+                catch
+                {
+                    Main.Log.LogError("Error sharing mod version! If you are local playing, please ignore this error.");
+                }
                 ShareVersion();
                 versionSent = true;
             }
@@ -39,7 +47,6 @@ namespace TownOfThem.Patches
             string message = "";
             foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
             {
-                //uint cntID = 0;
                 uint netID = pc.NetId;
                 if (pc == null||pc.Data.Disconnected) continue;
                 if (playerVersion.ContainsKey(netID))

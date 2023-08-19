@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TownOfThem.Roles.Crew;
 using UnityEngine;
 
 namespace TownOfThem.Roles
@@ -19,11 +18,15 @@ namespace TownOfThem.Roles
         Imp,
         Unknown,
     }
+    class RoleInfo
+    {
+        public static Dictionary<PlayerControl, RoleId> PlayerRoles = new();
+    }
     public abstract class Role
     {
         public static Color color;
         public static List<PlayerControl> players;
-        public static int roleID;
+        public static RoleId RoleID;
         public static bool enable;
         public static int maxPlayerCount;
         public static Sprite button;

@@ -20,12 +20,12 @@ namespace TownOfThem.Patches
             if (!GameData.Instance) return false;
             if (BattleRoyaleLastPlayerWin()) return false;
             if (JesterWin()) return false;
-            if (CustomGameOptions.DebugMode.getBool()) return false;
+            if (CustomGameOptions.DebugMode.GetBool()) return false;
             return false;
         }
         private static bool BattleRoyaleLastPlayerWin()
         {
-            if (TownOfThem.ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
+            if (ModHelpers.GetAlivePlayerList().Count == 1 && CustomGameOptions.gameModes.selection == 1)
             {
                 GameManager.Instance.RpcEndGame((GameOverReason)CustomGameOverReason.BattleRoyaleLastPlayerWin, false);
                 return true;

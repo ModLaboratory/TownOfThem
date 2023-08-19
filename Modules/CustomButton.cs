@@ -1,7 +1,6 @@
 ﻿using Il2CppSystem.Runtime.ExceptionServices;
 using System;
 using System.Collections.Generic;
-using TownOfThem.Utilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -160,8 +159,8 @@ namespace TownOfThem.Modules
 
         public void Update()
         {
-            var localPlayer = CachedPlayer.LocalPlayer;
-            var moveable = localPlayer.PlayerControl.moveable;
+            var localPlayer = PlayerControl.LocalPlayer;
+            var moveable = localPlayer.moveable;
 
             if (localPlayer.Data == null || MeetingHud.Instance || ExileController.Instance || !HasButton())
             {
@@ -174,7 +173,7 @@ namespace TownOfThem.Modules
             { // This had to be reordered, so that the handcuffs do not stop the underlying timers from running
                 if (HasEffect && isEffectActive)
                     DeputyTimer -= Time.deltaTime;
-                else if (!localPlayer.PlayerControl.inVent && moveable)
+                else if (!localPlayer.inVent && moveable)
                     DeputyTimer -= Time.deltaTime;
             }
 
@@ -224,7 +223,7 @@ namespace TownOfThem.Modules
             {
                 if (HasEffect && isEffectActive)
                     Timer -= Time.deltaTime;
-                else if (!localPlayer.PlayerControl.inVent && moveable)
+                else if (!localPlayer.inVent && moveable)
                     Timer -= Time.deltaTime;
             }
 

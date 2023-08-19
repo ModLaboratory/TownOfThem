@@ -127,7 +127,7 @@ namespace TownOfThem.Patches
             //birthday
             if ((System.DateTime.Now.Month == 12) && (System.DateTime.Now.Day == 21))
             {
-                modInfo.Append(string.Format(GetString(StringKey.totBirthday), IsBeta ? ModName + "<color=#00b4eb> Beta</color>" : ModName));
+                modInfo.Append(GetString(StringKey.totBirthday) + (IsBeta ? ModName + "<color=#00b4eb> Beta</color>" : ModName));
             }
             else
             {
@@ -139,7 +139,7 @@ namespace TownOfThem.Patches
             modInfo.Append("<size=65%>").Append(GetString(StringKey.BuildTime)).Append(BuildTime.ToString("yyyy-MM-dd"));
             if (IsBeta) modInfo.Append("\n").Append(GetString(StringKey.ExpireTime)).Append(ExpireTime.ToString());
             modInfo.Append("</size>\n");
-            if (EnableDevMode.Value) modInfo.Append("<color=#00b4eb>").Append(GetString(StringKey.DeveloperMode)).Append("</color>\n");
+            if (EnableDevMode.Value) modInfo.Append("<color=#00b4eb>").Append(GetString(StringKey.DeveloperMode)).Append("</color>");
         }
         static void Postfix(VersionShower __instance)
         {

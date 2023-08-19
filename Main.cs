@@ -1,5 +1,9 @@
 ﻿global using Hazel;
 global using HarmonyLib;
+global using Postfix = HarmonyLib.HarmonyPostfix;
+global using Prefix = HarmonyLib.HarmonyPrefix;
+global using Patch = HarmonyLib.HarmonyPatch;
+global using Object = UnityEngine.Object;
 using BepInEx;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
@@ -10,7 +14,7 @@ using BepInEx.Unity.IL2CPP;
 using System.Text;
 using UnityEngine;
 
-namespace TownOfThem
+namespace NextTheirTown
 {
     
     [BepInPlugin(ModGUID, "TownOfThem", ModVer)]

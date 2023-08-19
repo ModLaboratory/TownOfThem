@@ -1,8 +1,5 @@
 ﻿global using Hazel;
-global using static TownOfThem.Modules.Translation;
-global using TownOfThem.Modules;
 global using HarmonyLib;
-global using ModHelpers = TownOfThem.Modules.Utils;
 using BepInEx;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
@@ -20,10 +17,6 @@ namespace TownOfThem
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
-
-        public static DateTime ExpireTime = new DateTime(2023, 12, 31, 23, 59, 59);
-        public static DateTime BuildTime = new DateTime(2023, 6, 27);
-        public static bool IsBeta = true;
         internal static new ManualLogSource Log;
         public static Main Instance;
         public static int optionsPage = 0;
@@ -33,21 +26,15 @@ namespace TownOfThem
         public static readonly Color ModColor = new(255, 140, 0);
         public static readonly string GithubLink = "https://github.com/TownOfThemAU/TownOfThem";
         public static readonly string BilibiliLink = "https://space.bilibili.com/483236840";
-        public static ConfigEntry<bool> EnableDevMode;
-
-
-        public static bool IsMeeting = false;
 
 
         public Harmony Harmony { get; } = new Harmony(ModGUID);
         public override void Load()
         {
             Log = base.Log;
-            EnableDevMode = Config.Bind("TownOfThemMod", "EnableDevMode", false, "Enable developer mode");
 
             Log.LogInfo("========== Town Of Them loaded! ==========\r\n========== TOT，启动！ ==========");
 
-            DataManager.Init();
             Harmony.PatchAll();
         }
     }

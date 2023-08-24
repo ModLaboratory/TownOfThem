@@ -33,5 +33,12 @@ namespace NextTheirTown.Modules
         public static int GetLineCount(this string text) => text.Count(c => c == '\n');
 
         public static void Destroy(this Object obj) => Object.Destroy(obj);
+
+        public static string ToColorString(string text,Color color)=> $"<color=#{ToByte(color.r):X2}{ToByte(color.g):X2}{ToByte(color.b):X2}{ToByte(color.a):X2}>{text}</color>";
+        private static byte ToByte(float f)
+        {
+            f = Mathf.Clamp01(f);
+            return (byte)(f * 255);
+        }
     }
 }

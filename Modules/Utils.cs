@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace NextTheirTown.Modules
 {
-    class Utils
+    static class Utils
     {
         public static Sprite LoadSprite(string path, float pixelsPerUnit = 1f)
         {
@@ -29,5 +29,9 @@ namespace NextTheirTown.Modules
             }
             return sprite;
         }
+
+        public static int GetLineCount(this string text) => text.Count(c => c == '\n');
+
+        public static void Destroy(this Object obj) => Object.Destroy(obj);
     }
 }

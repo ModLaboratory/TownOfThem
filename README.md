@@ -1,14 +1,16 @@
 # Town Of Them
 
-## English / Ó¢Óï
+## English / è‹±è¯­
 
 [Origin README File](README_Origin.md)
 
-This mod was merged with [Clash Of Gods](https://github.com/CognifyDev/ClashOfGods), and this repository is no longer update. Please consider to go to star the new mod!
+This mod has been merged with [Clash Of Gods](https://github.com/CognifyDev/ClashOfGods), and this repository will no longer update. Please consider starring the new mod!
 
-The code of this mod is really shit, so I recommend that you'd better not reference or read it.
+My continuation of this mod: [The Other Them](https://github.com/ModLaboratory/TheOtherThem), unimplemented roles and gameplays are and will be implemented! Please also consider starring!
 
-Also, many of mod functions' code are copied from other mods because my abilities of programming were quite bad when I started this project (I was such a noob that time)
+The code of this mod is really shit, so I recommend you that better not reference or read it.
+
+Also, many of mod functions' code is copied from other mods (That's why it's really shit) because my abilities of programming were quite bad when I started this project (I was such a noob at that time).
 
 ### Gameplay
 
@@ -16,16 +18,18 @@ There're no role or gamemode implemented.
 
 -----------------
 
-## Chinese / ÖĞÎÄ
+## Chinese / ä¸­æ–‡
 
-[Ô­READMEÎÄ¼ş](README_Origin.md)
+[åŸREADMEæ–‡ä»¶](README_Origin.md)
 
-´ËÄ£×éÒÑÓë [Clash Of Gods](https://github.com/CognifyDev/ClashOfGods) ºÏ²¢£¬ÇÒ´Ë²Ö¿â²»»áÔÙ¸üĞÂ¡£Çë¿¼ÂÇÈ¥Ö§³ÖĞÂÄ£×é£¬µã¸öStar£¡
+æ­¤æ¨¡ç»„å·²ä¸ [Clash Of Gods](https://github.com/CognifyDev/ClashOfGods) åˆå¹¶ï¼Œä¸”æ­¤ä»“åº“ä¸ä¼šå†æ›´æ–°ã€‚è¯·è€ƒè™‘å»æ”¯æŒæ–°æ¨¡ç»„ï¼Œç‚¹ä¸ªStarï¼
 
-Ä£×éµÄ´úÂëÓĞÒÚµãÀÃ£¨ÌØ±ğÊÇÒÔÇ°Ìá½»µÄ£©£¬×îºÃ±ğÈ¥²Î¿¼»òÒıÓÃ£¬ÒòÎªÎÒµ±Ê±Ì«À¬»øÁË£¬¶¼ÊÇ±ğ´¦½è(fu)¼ø(zhi)µÄ£¡
+æˆ‘å¯¹æœ¬æ¨¡ç»„çš„å»¶ç»­ï¼š[The Other Them](https://github.com/ModLaboratory/TheOtherThem)ï¼Œæœ¬æ¨¡ç»„æœªå®ç°çš„èŒä¸šä¸ç©æ³•ä¼šåœ¨å¹¶å·²ç»åœ¨è¿™é‡Œå®ç°ã€‚å¦‚æœæ„¿æ„ï¼Œè¯·ä¹Ÿç‚¹ä¸ªæ˜Ÿæ”¯æŒä¸€ä¸‹å¼€å‘å·¥ä½œï¼
 
-### ÓÎÏ·Íæ·¨
+æ¨¡ç»„çš„ä»£ç æœ‰äº¿ç‚¹çƒ‚ï¼ˆç‰¹åˆ«æ˜¯ä»¥å‰æäº¤çš„ï¼‰ï¼Œæœ€å¥½åˆ«å»å‚è€ƒæˆ–å¼•ç”¨ï¼Œå› ä¸ºæˆ‘å½“æ—¶å¤ªåƒåœ¾äº†ï¼Œéƒ½æ˜¯åˆ«å¤„å€Ÿ(fu)é‰´(zhi)çš„ï¼
 
-Ò»¸öÖ°ÒµºÍÄ£Ê½¶¼Ã»Ğ´³öÀ´£¡
+### æ¸¸æˆç©æ³•
 
-*~~Õæ¾Í³É¹úÈËÄ£×éÀÃÎ²ÍõÁËßÂ~~*
+ä¸€ä¸ªèŒä¸šå’Œæ¨¡å¼éƒ½æ²¡å†™å‡ºæ¥ï¼
+
+*~~çœŸå°±æˆå›½äººæ¨¡ç»„çƒ‚å°¾ç‹äº†å‘—~~*
